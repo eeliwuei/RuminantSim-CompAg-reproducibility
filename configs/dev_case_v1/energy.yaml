@@ -1,0 +1,117 @@
+# 开发案例 v1：能量处理（R4 第 4 项）——固定 DMI 条件下线性化 NASEM 2021 第 3 章 NEL
+# 状态（合同 §2.3）：implemented；代码 src/ration_reliability/nutrition/energy.py（implemented, unit_passed，
+#   tests/numerical/test_energy_linearization.py，合成手算例）。所有方法使用同一能量行与同一公共评估器。
+# 本文件不含 NASEM 饲料表值；逐原料能量输入（NDF、木质素、淀粉、FA、CP、灰分、RUP、dRUP）在
+#   data/restricted_local/dev_case_v1/ingredient_parameters.csv。页码为印刷页 p.N（PDF 页 = p.N + 20）。
+
+schema: ration_reliability.dev_case/0.1
+case_id: dev_case_v1
+file_role: energy
+stage_status: implemented
+frozen: false
+
+method_id: NASEM2021_ch3_fixedDMI_linear_v1          # = energy.LINEARISATION_ID
+applies_to_all_methods: true                         # M0–M3 施加同一行；评估用同一公共评估器（合同 D05）
+engine_column:
+  nutrient_id: NEL_fixedDMI
+  dimension: energy_density
+  unit: Mcal/kg
+  meaning: "每 kg DM 原料在固定 DMI 下对日粮 NEL 的线性贡献 e_i；不是 NASEM 意义上的饲料 NEL 值（p.22）"
+  derived_from_columns: {NDF: ndf, starch: starch, CP: cp, ash: ash}   # 随机列线性进入 e_i
+  held_at_table_mean: [lignin, FA, RUP_pct_CP, dRUP_pct_RUP, dStarch_base, dFA]
+  held_at_mean_rationale: >-
+    木质素只通过 Eq 3-3a 的消化率进入（非线性），固定在原料均值；FA 在 Table 19-1 中多个开发案例原料无 SD
+    （受限表 TFA 列），不作随机列；RUP/dRUP、Table 3-1 淀粉消化率、FA 消化率 0.73 是原料参数，不在不确定性模型中。
+  how_draws_get_the_column: >-
+    energy.EnergyColumnModel(base_model, lin)（包装任何 UncertaintyModel）或 energy.append_energy_column(draws, lin)；
+    同一情景、同一随机流的成分算出 e_i，所以能量行与其他行看到同一成分状态。名义方法用 lin.nominal_density（线性，均值一致）。
+
+settings:                                             # energy.FixedDMISettings
+  dmi_kg_d: {value_from: "configs/dev_case_v1/animal.yaml#derived_expected.DMI_kg_d", value: null, status: research_scenario_assumption,
+             rationale: "Eq 2-1（代码核对版本）+ BCS 3.0 研究假设；与 SH-DM-PLAN 同一值"}
+  body_weight_kg: {value_from: "configs/animal_profile.yaml#fields.body_weight_kg.value", source: "Table 21-1（p.471）"}
+  starch_ref_pct:
+    value_ref: "restricted_values.yaml#table5_1_starch_max_pct"      # = PN-T4 的界值（Table 5-1，受限）
+    status: research_scenario_assumption
+    rationale: >-
+      Eq 3-5a（p.25）按日粮淀粉调整 NDF 消化率（每高于 26 % 一个百分点降 0.0059），这一项是配方的非线性来源。
+      取 Table 5-1 淀粉上限（PN-T4 的界值，p.63）作参照：在各原料成分等于表均值、情景 DM 供给 D = DMI 时，淀粉不超过该上限的日粮
+      真实 NDF 消化率不低于参照值，线性行不高估 NEL。〔FIX_B 更正，第二轮红队 B〕这一“保守”只在上述参照点成立：成分按抽样随机时，
+      线性行把 Eq 3-3a 的 dNDF_base 固定在原料均值 NDF 与木质素处（Eq 3-9 的浓度分母也固定在 DMI），而完整链按抽到的 NDF 重算
+      Eq 3-3a；抽到的 NDF 低于均值时真实消化率更低，线性行可能高于完整链——即使日粮淀粉 ≤ S_ref、D ≈ DMI。偏差方向是低估能量行
+      违约。开发运行按“淀粉 ≤ S_ref”分组报告残差（reports/dev_case_v1_report.md）。超过上限的情景已违反 PN-T4，已计入联合违约事件。
+      E5 可报告 S_ref = 26（基准条件，p.22）的敏感性；对 Eq 3-3a 按 NDF 做一阶线性化或取不利端是恢复逐情景保守性的可选敏感性方案（未实现）。
+  milk_cp_kg_d:
+    value_ref: "withheld (public copy): computed from the Table 21-1/21-3 (p.471-473) reference-cow inputs with the equations named in this block (Eq 2-1, Eq 3-13...3-20, Eq 7-1...7-8, Eq 20-373...20-389)"
+    value: null
+    derivation: "乳真蛋白 % × 产奶量 ÷ 0.94（输入见 configs/animal_profile.yaml；p.30：乳 CP 按 94 % 真蛋白、6 % NPN）"
+    status: research_scenario_assumption
+    rationale: "Eq 3-10a（p.28）用乳 CP；输入的是真蛋白，按 p.30 的比例换算；若直接用真蛋白，C0 小 ⟨withheld⟩ Mcal/d（敏感性）"
+  body_gain_cp_kg_d: {value: 0.0, source: "p.28：泌乳牛体蛋白增重在 Eq 3-10a 中可忽略"}
+
+chain:                                                # 逐步方程（页码）；均在 energy.py 实现
+  - {step: "ROM 按差值", equation: "Eq 3-1", page: 22, note: "FatFactor 1.06（基础饲料）；无补充 NPN（范围限定）"}
+  - {step: "NDF 基础消化率（木质素式，模型默认）", equation: "Eq 3-3a", page: 24}
+  - {step: "淀粉基础消化率", equation: "Table 3-1", page: 25, note: "干玉米中粉碎、玉米青贮 32–37 % DM 各有表值（二者相同），其余用表中默认值；数值只在受限参数表"}
+  - {step: "FA 基础消化率 0.73；ROM 真消化率 0.96", equation: "正文", page: 25}
+  - {step: "消化 CP = RDP + dRUP", equation: "Eq 3-4", page: 24}
+  - {step: "NDF 消化率按淀粉与 DMI/BW 调整", equation: "Eq 3-5a", page: 25, note: "DMI/BW = ⟨withheld⟩；淀粉取 S_ref"}
+  - {step: "淀粉消化率按 DMI/BW 调整", equation: "Eq 3-5b", page: 26}
+  - {step: "内源粪 CP", equation: "Eq 3-6a", page: 27, note: "MFCP = 11.62 + 0.134·NDF（g/kg DMI），逐原料线性"}
+  - {step: "未消化微生物 CP 16.5 g/kg、内源 ROM 34.3 g/kg DMI", equation: "正文（Table 19-1 DE 的口径）", page: 27,
+     note: "模型本身用 Eq 3-6b（随预测微生物 CP 变化，非线性）；固定 16.5 g/kg 属本线性化的声明假设"}
+  - {step: "DE", equation: "Eq 3-8", page: 27}
+  - {step: "甲烷能", equation: "Eq 3-9", page: 28, note: "FA%、dNDF% 的分母取固定 DMI"}
+  - {step: "尿 N 与尿能", equation: "Eq 3-10a / 3-10b / 3-7b", page: 28}
+  - {step: "ME = DE − GasE − UE", equation: "Eq 3-11", page: 28}
+  - {step: "NEL = 0.66 ME", equation: "Eq 3-12", page: 28}
+
+requirement:                                          # energy.nel_requirement_chapter3
+  value_ref: "withheld (public copy): NASEM 2021 Chapter 3 requirement (Eq 3-13...3-20, p.29-35) at the Table 21-1 reference-cow inputs; C0 = 0.66 x 0.0146 x 160 x milk CP (Eq 3-10a, p.28)"
+  components:
+    maintenance: {equation: "Eq 3-13", page: 29, formula: "0.10 × BW^0.75", value_Mcal_d: null}
+    activity: {value_Mcal_d: 0.0, status: research_scenario_assumption,
+               rationale: "舍饲时维持需要已含正常活动（p.30–31）；挤奶厅距离未设定（原 PUD-P2a-07）；书中 200 m×3 次/日约 0.3 Mcal/d（p.31）作敏感性"}
+    lactation: {equation: "Eq 3-14b × 产奶量", page: 30, value_Mcal_d: null}
+    gestation: {equation: "Eq 3-15a, 3-16a, 3-17a（+3-15b/3-16b/3-17b 复旧项≈0）, 3-18", pages: "31–32", value_Mcal_d: null,
+                note: "犊牛初生重 44 kg（p.31）；Eq 3-18 印刷系数 4.16 为 (0.882/0.14)×0.66 = 4.158 的舍入，按因子乘积计"}
+    frame_gain: {equation: "Eq 3-20a–c, 3-20e", page: 35, value_Mcal_d: null,
+                 note: "EBG/ADG = 0.82（p.33，成年牛 1 kg 体架增重含 0.18 kg 胃肠内容物）；NEL = RE/0.61"}
+    reserves: {equation: "Eq 3-19a", page: 34, value_Mcal_d: null, note: "体储增重（Table 21-1 脚注 a）× 6.3 × 0.89（印刷结果 5.6 为舍入）"}
+  total_Mcal_d: null
+  cross_check: "与 Table 21-1 本列（p.471）的 DMI × NEL 浓度相差 < 0.5 %（该表值受限，见 data/restricted_local/dev_case_v1/restricted_values.yaml）"
+  code_comparison_not_adopted: >-
+    nasem_dairy（commit 9b0b28e）的体储 RE 用 Kr_ME_RE = 0.75、体储 CP 比例取 CPGain_FrmGain，与书 Table 3-2（0.74）和
+    p.34（8.1 % 蛋白）不同；书内一致，故按书（原则见 animal.yaml）。差异约 ⟨withheld⟩ Mcal/d。
+
+constraint:
+  value_ref: "withheld (public copy): NASEM 2021 Chapter 3 requirement (Eq 3-13...3-20, p.29-35) at the Table 21-1 reference-cow inputs; C0 = 0.66 x 0.0146 x 160 x milk CP (Eq 3-10a, p.28)"
+  constraint_id: PN-NEL-FIXEDDMI
+  expression: "Σ_i q_i d_i(θ) e_i(θ) ≥ NEL_req − C0"
+  C0_Mcal_d: null          # 0.66 × 0.0146 × 160 × ⟨withheld⟩
+  bound_Mcal_d: null
+  unit: Mcal/d
+  class: probabilistic_nutrition
+  dm_source: scenario
+  numerical_tolerance: {value: 1.0e-6, unit: Mcal/d, status: research_scenario_assumption, rationale: "与其他营养行同一数值容差"}
+
+applicability:
+  exact_when: "情景 DM 供给 D = DMI_scn、日粮淀粉 = S_ref、成分 = 表均值（单元测试核对线性行与完整链逐位一致）"
+  conservative_when: "仅在各原料成分等于表均值、情景 DM 供给 D = DMI_scn、日粮淀粉 ≤ S_ref 时成立（Eq 3-5a 的方向）；成分随机时不保证（FIX_B 更正：抽到的 NDF 低于均值时线性行可高于完整链，见 starch_ref_pct.rationale）"
+  approximate_when:
+    - "D ≠ DMI_scn：与 DM 成比例的部分精确；Eq 3-9 浓度分母与 DMI/BW 折扣按固定 DMI"
+    - "随机 NDF/淀粉/CP/灰分：线性进入；木质素与 FA 固定于均值"
+    - "未消化微生物 CP 固定 16.5 g/kg DMI（模型用预测微生物 CP）"
+  not_covered: ["补充 NPN（尿素）", "脂肪补充料的专用 FA 消化率（Table 4-1）", "放牧活动", "热应激", "RDP 不足时的消化率下降（p.24 提示）"]
+  scope_statement: "能量行是“在固定 DMI 与声明分布下的模型 NEL 供给”，不预测产奶、采食或能量平衡结果"
+
+diagnostics_for_runs:
+  - id: DIAG-NEL-LINEARISATION-RESIDUAL
+    how: "对每个评估情景用 energy.nonlinear_diet_nel（该情景自身 D、日粮淀粉、逐原料 NDF/木质素）重算 NEL，报告 线性行 − 完整链 的分布；FIX_B 起另按“日粮淀粉 ≤ S_ref”与“|D − DMI| < 0.05 kg”分组报告"
+    role: diagnostic_only（不进入联合违约事件）
+  - id: DIAG-COMPOSITION-CLOSURE
+    how: "energy.composition_closure_report：逐原料统计抽样情景中 CP+NDF+淀粉+EE+灰分 > 100 % DM 与 Eq 3-1 ROM < 0（FA 固定于原料值）的占比；只计数，不裁剪、不丢弃情景（FIX_B，第二轮红队 B）"
+    role: diagnostic_only（独立边际 C0 下可能出现物理上不闭合的成分；线性能量行与完整链都不拒绝负 ROM）
+  - id: DIAG-NEL-HEADROOM
+    how: "在其余约束不变时求线性 NEL 供给的最大值，报告相对需要量的余量"
+    note: "K4 用开发期名义值预检：最大 NEL 只比需要量高约 1.1 %（详见 reports/minimum_case_nutrition_audit.md §6.4）"

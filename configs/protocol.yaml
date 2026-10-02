@@ -1,0 +1,213 @@
+# 未冻结模板。所有 null 必须按真实资料处理；不允许用编造数值填满。
+#
+# 2026-09-24 W3（总负责人合并任务，KST 约 19:50）只填写了“已决定、且不属于合同 01 §10
+# 必须冻结内容”的字段，每处都在行尾或上方注释写明依据：
+#   route / route_status、inputs.actual_engine_entrypoint、inputs.actual_engine_verified（保持 false，写明理由）、
+#   data.source_registry_path、data.empirical_or_summary；legacy 信息只补注释（原值未改）。
+# 其余字段保持模板原值（null / false / 模板数值），尤其是合同 §10 列为冻结内容的：营养标准与约束、价格、
+# 原料子集、切分、相关结构主假设、方法与调参网格、统计单位（independent_unit、cluster_unit）等。
+# 各字段的候选值与待拍板编号见 configs/protocol_candidate_notes.md；用户待决事项见 USER_ACTIONS_20260924.md。
+# 未设置 freeze.is_frozen（保持 false）；status 保持 "planned"。本文件仍是未冻结草案。
+#
+# 2026-09-26 B2（正式运行计划 docs/official_run_v2_plan_20260926.md 第 2 批；DECISIONS D-532、D-533、D-535；
+# BLOCKERS B-126、B-129、B-453）：除 freeze.* 以外的字段全部填写（freeze.unresolved_critical_blockers 按用户指示如实列出；
+# freeze.is_frozen 仍为 false，其余 freeze.* 在唯一一次冻结提交中填写）。依据逐项写在行尾注释。未知或不适用的字段写明
+# “not_applicable / not_verified”及理由，不用编造数值填满。方法与计算设定以 configs/methods.yaml 为准（已与执行代码对齐，
+# tests/unit/test_methods_config_matches_driver.py）。删除 information_value.no_cost_data_report_break_even_only（信息价值
+# 降为次要且 RQ3 不在当前代码上运行，D-532；见 registered_deviations）。本文件不写任何受限值、比值或预留根的数值。
+version: "0.1-draft"
+created_on: "2026-09-24"
+project: "ration_reliability_study"
+status: "planned"
+route: "summary_based_computation" # empirical_research | summary_based_computation | research_software；W3 填写。依据：audit/route_decision.md §0 第 1 条、§9、§11（路线 B，当前采用，未冻结）；DECISIONS.md D-100；B-011 对账后路线不变（D-214）
+route_status: "current_not_frozen" # W3 新增键（模板无此键）：路线是阶段 1 的当前决定，不是 protocol_frozen；复判触发点见 audit/route_decision.md §8
+scientific_results_exist: false
+field_trial_required: false
+submission_action_authorized: false
+public_release_authorized: false
+
+inputs:
+  project_root: "<project root>" # 相对说明：项目根 = 本文件所在 configs/ 的上级目录（本地 git）。CLOSE1（2026-09-25，B-431）：原值是本机实例的绝对路径（W3 核对时与实际项目根一致）；configs/ 属代码清单，按 docs/package_scopes.md §5 闸门 5 的原则在源头去掉本机用户路径，不在打包时改写；代码不读取本字段
+  # 旧投稿包本地只读副本：legacy/submission/<下行文件名>，633,644 B，
+  # sha256 ccb0651541ee48b8e9f2665f1a70a2e4ccfaf8afc13e2b437e7448d1264ec6cc（audit/input_manifest.csv SUB-000）
+  original_submission_zip: "RuminantSim_CompAg_RFEU_Editorial_Manager_Final_Submission_AUTHOR_UPDATED_TITLE_LINE_NUMBERED_CLEAN.zip"
+  # 旧复现仓（public，MIT）：本地干净导出 legacy/RuminantSim-CompAg-reproducibility_c5bf121/（140 个跟踪文件）；
+  # 导出 = GitHub main.zip = 迁移后工作树，三方一致（DECISIONS.md D-002、D-005；audit/legacy_code_map.md §1）
+  legacy_repository: "https://github.com/eeliwuei/RuminantSim-CompAg-reproducibility"
+  legacy_commit: "c5bf121487e70fe6f73cb7f3b34cdda218f62171"
+  # W3 填写。旧资产中不存在“原料表 + 约束 → 配方”的求解器（audit/legacy_code_map.md §0 第 1 条；D-006、D-155），
+  # 所以这里指向新建的求解核心（engine-api/0.1）；方法注册表为 ration_reliability.optimization.REGISTRY。
+  actual_engine_entrypoint: "src/ration_reliability (new engine; methods via ration_reliability.optimization.REGISTRY)"
+  # W3 核定保持 false：新核心为 implemented + unit_passed（387 passed，reports/stage4_5_report.md、W2 复测）、
+  # M0/M2 管线 smoke_passed（smoke-20260924T103019Z-4e1b5138），但没有 independently_checked，
+  # NASEM 营养方程（DMI、Ca/P 需要量）的代码与测试仍为 planned（BLOCKERS B-133），写 true 会夸大。
+  actual_engine_verified: false
+
+data:
+  # W3 填写：阶段 1 来源登记表（94 行 × 33 列，sha256 a18010826015679a3231a930d04642475b8d6c7c53e462d79d4ced39f24b59e3，
+  # reports/stage1_report.md“新增文件”；W1 未改此文件）
+  source_registry_path: "sources/source_registry.csv"
+  # W3 填写：路线 B 下的数据层级。主约束成分没有第一层行级数据，本项目只取得汇总统计
+  # （audit/route_decision.md §0 第 2 条、§9；audit/data_feasibility_report.md §1 第 1 条）
+  empirical_or_summary: "summary"
+  legal_use_verified: false
+  redistribution_verified: false
+  provenance_overlap_audited: false
+  raw_manifest_sha256: "not_applicable_as_a_value_here: raw inputs are restricted summary tables; their sha256 are pinned by the restricted build record (data/restricted_local/dev_case_v1/build_report.json), whose own sha256 enters the reference-problem v2 freeze pin (SPEC_RESTRICTED_FILES)" # B2
+  processed_manifest_sha256: "recorded in the v2 freeze pin and configs/protocol_freeze.json at the freeze commit (B4/B5); not duplicated here to avoid a stale copy" # B2
+  independent_unit: "none: one development case (one cow profile, one inventory, one price); Monte Carlo draws and roots are not empirical units; results are reported per reserved root, never pooled into one n" # B2；D-533；plan §7
+  paired_nutrients_available: false # B2：NASEM Table 19-1 gives marginal means/SDs per cell, no paired (joint) records; correlation C0 is a baseline, not a fact (B-127)
+  observation_error_decomposition_supported: false # B2：variance basis = observed SD incl. sampling and lab (DC-01); batch vs lab components not identified (SD points SD-S2 etc. are declared scenarios)
+
+scope:
+  species: "dairy_cattle"
+  animal_stage: "stable_lactation"
+  animal_profile_file: "configs/dev_case_v1/animal.yaml" # B2：the development case's single profile (stable lactation); general profile notes configs/animal_profile.yaml
+  primary_profile_count: 1
+  max_initial_inventory_scenarios: 3
+  max_initial_price_scenarios: 3
+  target_ingredient_count_range: [15, 25]
+  ingredient_count_is_requirement: false
+  actual_ingredient_count: 8 # B2：dev_case_v1 (8 ingredients, one inventory, one price scenario; D-533)
+  scope_deviation: "8 ingredients vs the 15–25 target range (target_ingredient_count_range; not a requirement): registered scope deviation of the official run (D-533 '8 种原料、一库存、一价格'); results are about this case only" # B2
+  nutrition_standard_and_version: "NASEM (2021) Nutrient Requirements of Dairy Cattle, 8th revised edition (DOI 10.17226/25806); Table 5-1 rows read by the plan-level domain (D-535); energy by the Chapter 3 reference chain (docs/reference_problem_v2.md)" # B2
+  claim_is_complete_nutritional_adequacy: false
+
+units_and_decisions:
+  decision_unit: "kg_as_fed_per_head_per_day"
+  cost_unit: "USD_per_head_per_day" # B2：cost_usd_per_head_d of every driver table (prices: configs/dev_case_v1/prices.yaml, currency USD); public form relative to M0 where a table needs one (B-420; plan §6.7)
+  price_basis: "per_kg_as_fed"
+  decision_information_timing_file: "docs/decision_timing_and_units.md" # B2
+  dry_matter_mode: "uncertain_with_available_information" # B2：DM-uncertain (plan §1 "DM 模式"; D-533): q planned with decision-time d̂, realised DM a random channel of every supply row
+  allow_hidden_dm_recoursing: false
+  offered_dm_is_observed_intake: false
+  assumptions_about_refusal_and_sorting: "offered ration fully consumed: no refusals, sorting, bunk loss or loading error modelled; the same assumption for every method (docs/decision_timing_and_units.md §7 item 2)" # B2
+
+constraints:
+  constraint_file: "configs/dev_case_v1/constraints.yaml (training problem) + configs/dev_case_v1/reference_constraints_v2.csv (reference problem v2: evaluation rows, main-event membership, premise planning row SH-PLAN-T51-DGC-SHARE); docs/reference_problem_v2.md" # B2
+  source_audit_passed: false
+  independent_evaluator_tested: false # B2 unchanged: the reference evaluator is unit/cross-consistency tested (B-442) but not independently checked
+  structural_constraints_never_relaxed: true
+  joint_nutritional_event_defined: true # B2：main event = main_reference_plan_domain (main reference rows of reference_constraints_v2.csv; energy by the reference chain; Table 5-1 rows at the plan-level domain reading, D-535); per-state reading main_reference reported next to it
+  main_event_id: "main_reference_plan_domain" # B2；D-535
+  companion_events_reported: ["main_reference", "main_reference_t51_verdicts_used_out_of_domain", "main_reference_plus_cp_hi", "main_reference_plus_cp_hi_plan_domain", "h0_eleven", "s2_six"] # B2：reported next to the main event, never instead of it
+  numerical_tolerances_file: "configs/dev_case_v1/constraints.yaml (per-row tolerance fields) + configs/methods.yaml solver (feasibility tolerance, mip_rel_gap, time limits)" # B2
+
+uncertainty:
+  model_file: "configs/uncertainty.yaml + reports/sd_scaling_sources.csv (declared SD points; ratios stay in the registry, not here)" # B2
+  primary_distribution: "TN_MM with BETA_MM fallback where TN_MM cannot match; a cell no declared family matches stops the run (research_scenario_assumption; decision still open, B-127)" # B2
+  covariance_source: "C0 independent marginals (baseline, not a fact; C1 pending_user_decision; B-127)" # B2
+  unknown_correlation_sensitivity_required: true
+  sampling_and_lab_error_file: "configs/uncertainty.yaml (measurement model; variance basis observed_incl_sampling_and_lab = NASEM Table 19-1 SDs of commercial lab results, DC-01)" # B2
+  batch_variation_double_count_audited: false
+  sd_points: ["SD-H0", "SD-S2", "SD-SRC14", "SD-12MO", "SD-SRC12"] # B2：five declared SD points, all run (D-533); arrays checked against the registry in B3
+  primary_evaluation_world: "SD-H0" # B2；D-533
+  evaluation_worlds_role: "every ration scored on the test stream of all five SD worlds; the diagonal (own world) + the SD-H0 column form the assumption range; never called a CI" # B2；plan §1
+  u3_outer_parameter_uncertainty: "declared unidentified: no effective sample size is claimed; only assumption ranges across the declared SD points / families / correlation are reported (no sampling interval); B-127 stays open until the user confirms" # B2（用户 B2 指示；B-127）
+
+methods:
+  core: [nominal, calibrated_safety_margin, joint_chance_saa, robust]
+  optional: [rfeu_adapter]
+  shared_evaluator: true
+  mean_nominal_equivalence_audit_required: true
+  safety_margin_development_grid: [0.0, 0.025, 0.05, 0.075, 0.10]
+  robust_uncertainty_set_kind: {M3a: "box", M3b: "budget"} # B2：both from factory moments on primitive (a_ij, d_i), bilinear corners (configs/methods.yaml M3)
+  hyperparameters_selected_on_test: false
+  settings_file: "configs/methods.yaml (aligned to executed code, B-453) + experiments/E1_cost_reliability/official_v2.py OFFICIAL_SETTINGS" # B2
+  screening_rule: {statistic: "cp_upper_le_alpha", confidence: 0.95, stream: "validation", counted_states: "n_V + n_U"} # B2；B-126；D-533
+  m1_without_dm_margin: "sensitivity line, not an entry (never in the comparable set or the coverage denominator)" # B2；plan §6.6
+  primary_training_arm: "MAIN9" # B2；D-533
+  transparency_arms: ["FULL11", "PART6P5"] # B2：transparency ablation on SD-H0 and SD-S2 only
+
+risk_and_outcomes:
+  primary_target_alpha: 0.05
+  secondary_target_alphas: [0.10, 0.01]
+  alphas_are_research_design_not_biological_safety: true
+  endpoint: "joint_model_constraint_violation"
+  cost_at_matched_verified_risk_required: true
+  biological_outcomes_claimed: false
+  membership_statistic: "cp_upper" # B2：one-sided exact Clopper–Pearson upper bound p̄ (c = 0.95) of the main event on the evaluation world's test stream ≤ α (D-533；B-126)
+  target_met_rule: "p̄ ≤ α" # B2
+  unknown_policy: "unknown states count as violations in rate_upper and p̄ (rate pair [r̂⁻, r̂⁺] reported)" # B2；B-126
+  coverage_reported: ["per_entry", "per_distinct_ration"] # B2：members / entries attempted (no-ration entries in the denominator) and distinct member q_hash / distinct attempted q_hash (no-ration entries counted separately)
+  empty_set_report: "per method: rate pair, p̄, target_met, minimum attainable main-event r̂⁺ over the declared grid with its cost (labelled not_a_comparable_cost), frontier diagnostic (m*/N bounds, frontier ration's main-event rates); frontier and diagnostics never enter a set" # B2；per_method_report.csv
+
+splits:
+  split_strategy: "independent Monte Carlo streams per root: opt (training scenarios; N < 1024 uses the prefix), validation (parameter selection), test (membership and reporting); common random numbers across the five SD worlds; three reserved roots, each reported separately (configs/streams_policy.yaml)" # B2
+  manifest_path: "configs/streams_policy.yaml" # B2
+  manifest_sha256: "recorded in configs/protocol_freeze.json at the freeze commit (B4/B5); not duplicated here" # B2
+  fitted_on_training_only: true # B2：optimisation on opt, selection on validation only; nothing is fitted or selected on test (T8.1)
+  protocol_frozen_before_test: false
+  test_previously_seen: true # B2：development test streams (root 1103 and development seeds) of the runs below were seen; the reserved roots were never drawn
+  test_seen_runs: ["pilot-20260924T190634Z-8faf25eb", "pilot-20260924T192615Z-1fc52728", "pilot-20260924T205621Z-93d8654c", "pilot-20260925T055921Z-fb4f75af (px endpoint ablation, reference problem v1)", "smoke runs under results/smoke/ and results/pilot/smoke-* (pipeline checks)", "debug/tiny runs under data/restricted_local/debug/ (pipeline checks, toy size)"] # B2：all on development roots; listed so the official result is read as a first look at reserved roots only
+  seen_before_freeze_decisions: "D-532, D-533, D-535 (story line, decision package, plan-level domain reading) and adjudication A2 were taken after the development results had been seen (disclosed in DECISIONS.md and docs/reference_problem_v2.md)" # B2
+  access_log_path: "DECISIONS.md ('是否已见测试结果' column) + CURRENT_STATE.json + logs/px_runs/ (run logs of the seen development runs)" # B2
+
+computation:
+  default_device: "cpu"
+  optimization_scenario_development_grid: [128, 512, 1024]
+  final_optimization_scenario_count: 1024 # B2：headline N (D-533); ladder {128, 512, 1024}
+  convergence_criterion: "per root, SD point and alpha: M2 selection status equal at N = 512 and 1024, |Δ validation r̂⁺| ≤ 2 MC SE and relative cost change ≤ 1 %; otherwise reported 'not demonstrated' and N is not extended (plan §6.4)" # B2
+  validation_draws: 20000 # B2
+  development_seeds: [1103, 2207, 3301]
+  separate_rng_streams: true
+  conditional_mc_test_initial_draws: 10000
+  final_mc_precision_rule: "fixed: 10,000 test states per evaluation world, exact Clopper–Pearson; no adaptive doubling (configs/methods.yaml draws.test_precision_rule)" # B2
+  empirical_sample_size: "not_applicable: summary-based route; no empirical records are sampled" # B2
+  mc_draws_are_empirical_n: false
+  solver_and_version: "HiGHS through scipy.optimize (linprog / milp); exact versions recorded in every run record (solver_version_string) and pinned by environment.lock.json" # B2
+  tolerance_and_gap_file: "configs/methods.yaml (solver.dev_start_settings, solver.time_limits_s)" # B2
+  reserved_roots_reported: "three reserved roots, reported per root, never pooled (values in configs/streams_policy.yaml; not repeated here)" # B2；D-533
+
+information_value:
+  primary_risk_semantics: "ex_ante_joint"
+  information_actions_file: "configs/assays.yaml (not used by the official run: RQ3 not run on current code, see registered_deviations)" # B2
+  constant_no_information_policy_included: true
+  observation_likelihood_supported: false
+  allow_classical_evsi_claim: false
+  candidate_policy_class: "not_applicable_to_the_official_run: finite library + signal bins (configs/methods.yaml information_value) only for exploratory work; not frozen" # B2
+  signal_bins_frozen: false
+  policy_library_frozen: false
+  gross_vs_net_separate: true
+  panel_cost_source: "none (no real assay cost obtained; information value is secondary/exploratory, D-532)" # B2
+  covered_heads: "not_applicable (RQ3 not run on current code)" # B2
+  covered_days: "not_applicable (RQ3 not run on current code)" # B2
+  inventory_horizon_validated: false
+
+statistics:
+  analysis_plan_file: "docs/official_run_v2_plan_20260926.md (with configs/methods.yaml and docs/reference_problem_v2.md)" # B2
+  primary_contrast: "cost at matched verified reliability within the comparable set; when the set is empty, per-method minimum attainable main-event risk and the frontier diagnostic; matched-cost curve descriptive" # B2（用户指示原文；D-533）
+  cluster_unit: "none: results per reserved root and per SD point; Monte Carlo draws are not units" # B2
+  monte_carlo_vs_sampling_uncertainty_separate: true
+  assumption_ranges_are_confidence_intervals: false
+  infeasible_and_time_limit_reported: true
+  common_feasible_subset_coverage_reported: true
+
+freeze:
+  is_frozen: true # B5（D-542，2026-09-27）：唯一一次冻结提交 = 加入 configs/protocol_freeze.json 与 v2 pin 的提交；此后到运行结束不改任何文件（计划 §7）
+  timestamp: "2026-09-26T16:16:59Z" # B5
+  code_commit_or_hash: "the freeze commit: the commit that adds configs/protocol_freeze.json and experiments/E1_cost_reliability/reference_problem_v2_freeze.json together with this file (parent commit ee3607f50cff; no self-reference: protocol_freeze.json records the parent, require_protocol_frozen() checks HEAD = the freeze commit and a clean tree at run time)" # B5
+  configuration_sha256: "483eab3f7f512bee476a74ac5553cf05866f11d85dbd4f2a6f85865c5d76f8f6 (sha256 of configs/methods.yaml; the full specification digest over SPEC_FILES is the v2 pin, copied into configs/protocol_freeze.json)" # B5
+  data_sha256: "843be65a4b08a42aed866077f1b9e3721aacca56d2b3ec80be84f5843be154cf (sha256 of the restricted build record data/restricted_local/dev_case_v1/build_report.json, hash only; the run replays the Mac-built bytes registered in the v2 pin, B-445)" # B5
+  test_data_sha256: "not_applicable: test draws are generated at run time from the three reserved roots (label rule configs/streams_policy.yaml; root values are never written); the run record keeps the stream identities and draw counts" # B5
+  unresolved_critical_blockers: # B2（用户指示如实列出；其余 freeze.* 字段在冻结提交中填写）
+    - "B-127: primary distribution family / correlation / U3 (declared unidentified here; user confirmation pending)"
+    - "B-454: placement of the SD-S2 ratios in tracked files (a spec-file change; user decision pending)"
+    - "B-445: cross-platform byte reproduction of the restricted build record (px bytes differ; Mac bytes replayed)"
+
+registered_deviations: # B2：registered before the freeze; reported in Methods
+  - "T2.3 realised-share diagnostic: not implemented"
+  - "ration-adjustment-size endpoint: not implemented"
+  - "B-428 first-order energy correction: not implemented"
+  - "RQ3 (information value) not run on the current code; information value exploratory/secondary only (D-532)"
+  - "scope: 8 ingredients, one inventory, one price (vs the 15–25 ingredient target)"
+  - "title changed from the earlier submission (D-531, D-532)"
+
+reporting:
+  result_source_type_required: "official"
+  claim_ledger_required: true
+  negative_results_required: true
+  journal_candidate: "Journal of Applied Animal Research" # B2：D-532 (replaces the earlier candidate "Agriculture")
+  current_journal_indexing_verification_file: "not_verified (no verification file yet; to be checked before submission)" # B2
+  softwarex_status_this_pack: "unverified_official_fetch_403"
+  authors_must_confirm_declarations: true

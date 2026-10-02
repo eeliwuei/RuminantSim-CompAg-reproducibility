@@ -1,0 +1,21 @@
+# requirements-lock.txt -- exact versions of the environment in which ration_reliability_study is developed
+# and tested.  Mirrors the primary environment of environment.lock.json (label 'dev-mac-arm64-cpython3.11.12-20260925', fingerprint c3dfb75926127fe0c5398f43b767c2f5ccfdaecad0768e9c5de182786a95e132).
+# Generated 2026-09-24T15:36:34+00:00 by scripts/check_environment.py --write-lock; versions were read, nothing was installed.
+# Python 3.11.12 (cpython), darwin arm64.  Check the running interpreter with: python scripts/check_environment.py
+# direct dependencies
+numpy==2.4.6
+scipy==1.17.1
+pandas==2.2.3
+PyYAML==6.0.2
+pytest==9.0.3
+# runtime requirements of the direct dependencies
+python-dateutil==2.9.0.post0
+pytz==2024.2
+tzdata==2024.2
+six==1.16.0
+iniconfig==2.3.0
+packaging==26.0
+pluggy==1.6.0
+Pygments==2.18.0
+# optional group 'holder_verification': not imported by src/, experiments/ or tests/.  pip treats the next lines as comments; install these pins by hand only to run the scripts that need them (python scripts/check_environment.py --require-group holder_verification)
+#[optional:holder_verification] PyMuPDF==1.28.0

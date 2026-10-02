@@ -1,0 +1,25 @@
+case_id,world,scenario,n_stochastic_EE_fields,max_EE_offdiagonal_latent_correlation,max_DM_EE_latent_cross_correlation,max_EE_conditional_DM_weight,matrix_readback,scope
+dev_case_v1,SD-H0,C0,6,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v1,SD-H0,C1_Table6_matched,6,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v1,SD-H0,C2_Corn4D_author,6,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v1,SD-S2,C0,6,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v1,SD-S2,C1_Table6_matched,6,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v1,SD-S2,C2_Corn4D_author,6,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v3a,SD-H0,C0,6,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v3a,SD-H0,C1_Table6_matched,6,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v3a,SD-H0,C2_Corn4D_author,6,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v3a,SD-S2,C0,6,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v3a,SD-S2,C1_Table6_matched,6,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v3a,SD-S2,C2_Corn4D_author,6,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v3b,SD-H0,C0,7,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v3b,SD-H0,C1_Table6_matched,7,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v3b,SD-H0,C2_Corn4D_author,7,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v3b,SD-S2,C0,7,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v3b,SD-S2,C1_Table6_matched,7,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v3b,SD-S2,C2_Corn4D_author,7,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v3c,SD-H0,C0,7,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v3c,SD-H0,C1_Table6_matched,7,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v3c,SD-H0,C2_Corn4D_author,7,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v3c,SD-S2,C0,7,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v3c,SD-S2,C1_Table6_matched,7,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula
+dev_case_v3c,SD-S2,C2_Corn4D_author,7,0.0,0.0,0.0,PASS: exact zeros; matrix source is executing-host frozen export,C0/C1/C2 only; generic conditional predictor may depend on EE under a different declared copula

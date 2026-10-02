@@ -1,0 +1,243 @@
+{
+ "schema": "ration_reliability.protocol_freeze/1",
+ "note": "protocol freeze for official run v2 (B5, D-542): matrix per D-539 (roots 0-2, MAIN9 x 5 SD points on all roots, FULL11/PART6P5 on root 0; diagnostics on root 0, SD-H0/SD-S2), N ladder 128/512/1024, workers 8; unresolved blockers B-127/B-454/B-445 listed in protocol.yaml",
+ "frozen_utc": "2026-09-26T16:17:00+00:00",
+ "written_by": "official_v2.write_protocol_freeze (lead-invoked; --write-protocol-freeze)",
+ "code_commit_parent": "ee3607f50cffe4bbcb906e14df35fcd1825aa2d0",
+ "code_commit_rule": "the freeze commit is the commit that adds this file together with configs/protocol.yaml (is_frozen: true) and the v2 pin; require_protocol_frozen() checks HEAD = that commit, a clean work tree and the content digests below (no self-reference: this file and the pin are excluded from the code subset)",
+ "protocol": {
+  "path": "configs/protocol.yaml",
+  "sha256": "c0263b54bc44827bb8831d8a1d73abe382602afe094838baaf289c8531cf4bbd",
+  "freeze_timestamp": "2026-09-26T16:16:59Z"
+ },
+ "spec": {
+  "pin": "experiments/E1_cost_reliability/reference_problem_v2_freeze.json",
+  "pin_sha256": "withheld (public copy): the frozen bytes of this file differ from this tree or are not part of it; the hash would let the removed values be recovered by trial",
+  "digest": "withheld (public copy): the frozen bytes of this file differ from this tree or are not part of it; the hash would let the removed values be recovered by trial",
+  "digest_tag": "reference_problem_v2/spec_fingerprint/v1"
+ },
+ "code_manifest_subset": {
+  "schema": "ration_reliability.protocol_freeze_code_subset/1",
+  "excluded": [
+   "configs/protocol_freeze.json",
+   "experiments/E1_cost_reliability/reference_problem_v2_freeze.json"
+  ],
+  "file_count": 172,
+  "subset_sha256": "withheld (public copy): the frozen bytes of this file differ from this tree or are not part of it; the hash would let the removed values be recovered by trial",
+  "manifest_complete": true
+ },
+ "code_manifest_sha256_at_freeze": "withheld (public copy): the frozen bytes of this file differ from this tree or are not part of it; the hash would let the removed values be recovered by trial",
+ "data_sha256": {
+  "data/restricted_local/dev_case_v1/dev_case_v1_problem.yaml": "4c0011e865eaacf540f8c30c49eb446cfbb27ce295bcc297a7a7fcb123d74f7a",
+  "data/restricted_local/dev_case_v1/uncertainty_cells.csv": "dbe24fce78317c09813d86e4a31dbfa96b1737115f6870779dc1d9757432c588",
+  "data/restricted_local/dev_case_v1/energy_linearisation.json": "fb013da0ac65f943570de3387bcfaab1b4e406091d658340ab7a5c24d8343cf2",
+  "data/restricted_local/dev_case_v1/build_report.json": "843be65a4b08a42aed866077f1b9e3721aacca56d2b3ec80be84f5843be154cf",
+  "data/restricted_local/dev_case_v1/build_dev_case_v1.py": "8ae9c1912ac1d4ea4740462965d2b9803ac04674ecc08fb8722934c1a5def6d0"
+ },
+ "declared": {
+  "sd_points": [
+   "SD-H0",
+   "SD-S2",
+   "SD-SRC14",
+   "SD-12MO",
+   "SD-SRC12"
+  ],
+  "cells": [
+   "SDH0_MAIN9",
+   "SDS2_MAIN9",
+   "SDSRC14_MAIN9",
+   "SD12MO_MAIN9",
+   "SDSRC12_MAIN9",
+   "SDH0_FULL11",
+   "SDS2_FULL11",
+   "SDH0_PART6P5",
+   "SDS2_PART6P5"
+  ],
+  "roots_k": [
+   0,
+   1,
+   2
+  ],
+  "n_reserved_roots": 3,
+  "cells_by_root_k": {
+   "0": [
+    "SDH0_MAIN9",
+    "SDS2_MAIN9",
+    "SDSRC14_MAIN9",
+    "SD12MO_MAIN9",
+    "SDSRC12_MAIN9",
+    "SDH0_FULL11",
+    "SDS2_FULL11",
+    "SDH0_PART6P5",
+    "SDS2_PART6P5"
+   ],
+   "1": [
+    "SDH0_MAIN9",
+    "SDS2_MAIN9",
+    "SDSRC14_MAIN9",
+    "SD12MO_MAIN9",
+    "SDSRC12_MAIN9"
+   ],
+   "2": [
+    "SDH0_MAIN9",
+    "SDS2_MAIN9",
+    "SDSRC14_MAIN9",
+    "SD12MO_MAIN9",
+    "SDSRC12_MAIN9"
+   ]
+  },
+  "diagnostics": {
+   "jobs": [
+    "DIAG-T45",
+    "DIAG-E1"
+   ],
+   "roots_k": [
+    0
+   ],
+   "training_worlds": [
+    "SD-H0",
+    "SD-S2"
+   ]
+  },
+  "jobs": [
+   "root0__SDH0_MAIN9",
+   "root0__SDS2_MAIN9",
+   "root0__SDSRC14_MAIN9",
+   "root0__SD12MO_MAIN9",
+   "root0__SDSRC12_MAIN9",
+   "root0__SDH0_FULL11",
+   "root0__SDS2_FULL11",
+   "root0__SDH0_PART6P5",
+   "root0__SDS2_PART6P5",
+   "root0__diagnostics",
+   "root1__SDH0_MAIN9",
+   "root1__SDS2_MAIN9",
+   "root1__SDSRC14_MAIN9",
+   "root1__SD12MO_MAIN9",
+   "root1__SDSRC12_MAIN9",
+   "root2__SDH0_MAIN9",
+   "root2__SDS2_MAIN9",
+   "root2__SDSRC14_MAIN9",
+   "root2__SD12MO_MAIN9",
+   "root2__SDSRC12_MAIN9"
+  ],
+  "streams": {
+   "opt": 1024,
+   "N_ladder": [
+    128,
+    512,
+    1024
+   ],
+   "N_headline": 1024,
+   "validation": 20000,
+   "test": 10000
+  },
+  "alphas": [
+   0.05,
+   0.1,
+   0.01
+  ],
+  "evaluation_worlds": [
+   "SD-H0",
+   "SD-S2",
+   "SD-SRC14",
+   "SD-12MO",
+   "SD-SRC12"
+  ],
+  "primary_world": "SD-H0",
+  "primary_assumption_id": "v2|SD-H0|TN_MM+BETA_MM|C0|DM-uncertain|plan-domain",
+  "workers": 8,
+  "official_config_sha256": "0a13d58f27c0bd539d114802cdf0b24d23bdf5c0a9695ef14d8e3020ba175891"
+ },
+ "reserved_roots": {
+  "label_rule": "ration_reliability_study/formal_evaluation/root/v1/k={k}",
+  "n": 3,
+  "values": "not written here (derived from the label rule; configs/streams_policy.yaml)",
+  "consistent_with_streams_policy": true,
+  "drawn_before_freeze": false
+ },
+ "access_scope": {
+  "development_roots": [
+   {
+    "root_seed": 1103,
+    "scope": "该根下所有流名、所有子键（不论下面是否逐条列出）"
+   },
+   {
+    "root_seed": 2207,
+    "scope": "该根下所有流名、所有子键"
+   },
+   {
+    "root_seed": 3301,
+    "scope": "该根下所有流名、所有子键"
+   },
+   {
+    "root_seed_range": [
+     1000,
+     1399
+    ],
+    "scope": "区间内每个根的所有流"
+   }
+  ],
+  "development_streams_summary": "项目中已出现的全部 opt / validation / test 流——dev_case_v1 开发运行、两次被取代的 K7 运行、两次评估重放、全部 smoke、 阶段 3 构建与不确定性工厂审计脚本所用的流——都已用于开发诊断；root=1103/test 上 H0、C1、S2 的结果已被查看（D-453 披露）。 它们统归开发资料，今后只能作开发、回归与重放用途。",
+  "seen_runs_declared": [
+   "pilot-20260924T190634Z-8faf25eb",
+   "pilot-20260924T192615Z-1fc52728",
+   "pilot-20260924T205621Z-93d8654c",
+   "pilot-20260925T055921Z-fb4f75af (px endpoint ablation, reference problem v1)",
+   "smoke runs under results/smoke/ and results/pilot/smoke-* (pipeline checks)",
+   "debug/tiny runs under data/restricted_local/debug/ (pipeline checks, toy size)"
+  ],
+  "run_directories_seen": {
+   "results/pilot": [
+    "pilot-20260924T190634Z-8faf25eb",
+    "pilot-20260924T192615Z-1fc52728",
+    "pilot-20260924T205621Z-93d8654c",
+    "pilot-20260925T055921Z-fb4f75af",
+    "smoke-20260924T221654Z-36356850",
+    "smoke-20260924T225711Z-9f74780d"
+   ],
+   "results/smoke": [
+    "smoke-20260924T085518Z-185279b9",
+    "smoke-20260924T085519Z-06864c0b",
+    "smoke-20260924T102326Z-a5b77519",
+    "smoke-20260924T102328Z-6fe872a6",
+    "smoke-20260924T103019Z-4e1b5138",
+    "smoke-20260924T103021Z-fe851c20",
+    "smoke-20260924T190623Z-ece10eb7",
+    "smoke-20260924T190625Z-03ed1cae",
+    "smoke-20260924T221627Z-9533b48b",
+    "smoke-20260924T221629Z-a71c0438",
+    "smoke-20260924T225636Z-56369363",
+    "smoke-20260924T225638Z-f2ec747e"
+   ],
+   "logs/px_runs": [
+    "pilot-20260925T055921Z-fb4f75af"
+   ]
+  },
+  "decisions_after_seeing_results": [
+   "D-453",
+   "D-466",
+   "D-478",
+   "D-489",
+   "D-499",
+   "D-513",
+   "D-514",
+   "D-515",
+   "D-516",
+   "D-519",
+   "D-521",
+   "D-525",
+   "D-528",
+   "D-530",
+   "D-531",
+   "D-532",
+   "D-533",
+   "D-535"
+  ],
+  "seen_before_freeze_decisions": "D-532, D-533, D-535 (story line, decision package, plan-level domain reading) and adjudication A2 were taken after the development results had been seen (disclosed in DECISIONS.md and docs/reference_problem_v2.md)",
+  "access_log_path": "DECISIONS.md ('是否已见测试结果' column) + CURRENT_STATE.json + logs/px_runs/ (run logs of the seen development runs)",
+  "reserved_roots_drawn_before_freeze": false,
+  "reserved_roots_evidence": "no official output directory exists at the freeze (checked by write_protocol_freeze); RandomStreams refuses a reserved root without a token of require_protocol_frozen (streams.py)",
+  "note": "protocol freeze for official run v2 (B5, D-542): matrix per D-539 (roots 0-2, MAIN9 x 5 SD points on all roots, FULL11/PART6P5 on root 0; diagnostics on root 0, SD-H0/SD-S2), N ladder 128/512/1024, workers 8; unresolved blockers B-127/B-454/B-445 listed in protocol.yaml"
+ }
+}

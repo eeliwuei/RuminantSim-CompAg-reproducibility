@@ -1,0 +1,14 @@
+{
+  "status": "pass",
+  "new_draws": 0,
+  "new_rules_selected": false,
+  "protocol_sha256": "92a47d96586ca8f4c08d45a2b36150229f5ea96806459d9788f801afab8cfd19",
+  "analysis_code_sha256": "4c97ba71628f6403a89648018a81bafd0a6c64d3a06d9503639e738d50d16441",
+  "cells": 6,
+  "rates": 60,
+  "pairs": 66,
+  "original_event_saved_row_reconstructed_positions": 1200000,
+  "max_absolute_recomputed_interval_difference": 1.4765966227514582e-14,
+  "scope": "Complete saved row-label/event and independent statistical readback. Not complete independent canonical nutritional reevaluation or full independent selector reconstruction.",
+  "restricted_inputs": "Exact scales, q/needs, states, priors and costs excluded from this candidate scope receipt."
+}

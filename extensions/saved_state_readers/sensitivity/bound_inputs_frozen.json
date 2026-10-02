@@ -1,0 +1,2883 @@
+{
+  "core_manifest_sha256": "65527b679a2158123b95f7f74b0ce983be29bd3f20d3255c54ce7a970e632571",
+  "inputs": [
+    {
+      "path": "input_manifest.csv",
+      "size": 886273,
+      "sha256": "65527b679a2158123b95f7f74b0ce983be29bd3f20d3255c54ce7a970e632571"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot0/DONE.json",
+      "size": 115,
+      "sha256": "2ebfd8a3a6fa9bca9eb53ba6d67a98e6409ae09d78bbc096623d6da7ddce1327"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot0/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "3dba7d08b34b4476966dc05e5020907dd58b4f59b044d32e3b9b263bc964290b"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot0/restricted/Q2_safe_delta_assigned_outcomes.npz",
+      "size": 1587116,
+      "sha256": "df6194758e2d0356c4117062462060532bad6da5ab9ce4fcf12f59bec874838a"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot0/restricted/Q3_delta_assigned_outcomes.npz",
+      "size": 1569059,
+      "sha256": "59b4685ad53e43d995fc5bad595d34c9cd484635b669e15e17ed94cf4a4a0a7b"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot0/restricted/frozen_coverage_policies.json",
+      "size": 201443,
+      "sha256": "f9891172730c83e4a83e1f2c7cf76ca409348ff55469994a967bdee77c4867ec"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot0/restricted/test_states.json",
+      "size": 780,
+      "sha256": "d7b5a53cc171dae48e1206c3531aca1b8380059a66fd2e4184d8b5ba8d0ee0f5"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot0/restricted/test_states.npz",
+      "size": 8223464,
+      "sha256": "6f9131bbb0d38498b7a6d6c88513a35e2a6b076e21138f99fda53996b4bc3957"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot0/summary.json",
+      "size": 2406,
+      "sha256": "741d2e0b13a788fee3d0e7649484569b12b53446321148b5f2fa19ff1246f928"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot1/DONE.json",
+      "size": 115,
+      "sha256": "6316f92623c86327bac9c348320e3920bc08cfd47e014e61a00beae9258c0871"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot1/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "7a00c7598e737a85d186d02056cadc8654f25463ad9e3b112f6edd86aa59f868"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot1/restricted/Q2_safe_delta_assigned_outcomes.npz",
+      "size": 1586415,
+      "sha256": "531fe0c711a4b32104f711fa5e351c3820de1c9f6ff015e86d55602ec18f1a65"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot1/restricted/Q3_delta_assigned_outcomes.npz",
+      "size": 1568736,
+      "sha256": "f4bc6425ace01389554768a97dd26da1fa59259d007fd352ee6a88691e9a1ae3"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot1/restricted/frozen_coverage_policies.json",
+      "size": 201677,
+      "sha256": "4eabb227a9426beb6c95d8cdb2d41056b262ef0885f07ae15ed00f928a0391e4"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot1/restricted/test_states.json",
+      "size": 780,
+      "sha256": "67032b70f35bd00fee4157e33697643f82dadc031a3023d791e681628c4c111c"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot1/restricted/test_states.npz",
+      "size": 8223226,
+      "sha256": "ddd08e56d44fb6ace879a8bb3dc43a9d0b7359c13de36bc196cef96fdf32a183"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot1/summary.json",
+      "size": 2408,
+      "sha256": "85da315732e44eb3c171c6c8511e3538568a94b69118cbbd701ecae5d9df82c7"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot2/DONE.json",
+      "size": 115,
+      "sha256": "4c9b00414f409d5e08346b85e787ed7a9d485071ab6d2028d3baaf8ccc5efa66"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot2/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "1253de38f27ef5e7cf9469df4f462216daae255dd5cfe0e97a0164df6134c837"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot2/restricted/Q2_safe_delta_assigned_outcomes.npz",
+      "size": 1586836,
+      "sha256": "be874fb49c70487300d2ce6008b55777874a823c65c01fe326ad8e4b054458f6"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot2/restricted/Q3_delta_assigned_outcomes.npz",
+      "size": 1567816,
+      "sha256": "69c6f452ef403325942469526d6321a89d98028d48069dc7fcbc00caa6f4f041"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot2/restricted/frozen_coverage_policies.json",
+      "size": 201686,
+      "sha256": "1a7a3321498eadea6bce94429954cb824eaabff7d5996a23b230249399125903"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot2/restricted/test_states.json",
+      "size": 779,
+      "sha256": "a7473386c7a6daef166ea4283581a0ad7c3a525c82cb2857aa2a0961d4ce5996"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot2/restricted/test_states.npz",
+      "size": 8223368,
+      "sha256": "87e5ba8b09d24da385a029f84b60e402ba9a90a4d9bc90b18b60866c1a1b9401"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot2/summary.json",
+      "size": 2405,
+      "sha256": "1c90c8a53d98c12dfef6686dc13cd848d7e504b096206a2b307f55c57f3c792c"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot0/DONE.json",
+      "size": 115,
+      "sha256": "5093f96d45294ae315dfadd6c25c1a0603d373374f9ac47641045773218a0c0d"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot0/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "3dba7d08b34b4476966dc05e5020907dd58b4f59b044d32e3b9b263bc964290b"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot0/restricted/Q2_safe_delta_assigned_outcomes.npz",
+      "size": 1585597,
+      "sha256": "25de4e94e5f9355855eca296651e68567f393261580d01fcc8ee2ed8436d272a"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot0/restricted/Q3_delta_assigned_outcomes.npz",
+      "size": 1568089,
+      "sha256": "9a0f2176dfc82a63b345c91d8c16866b560e4c9633cee863ec1b86f6879fa370"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot0/restricted/frozen_coverage_policies.json",
+      "size": 201443,
+      "sha256": "f9891172730c83e4a83e1f2c7cf76ca409348ff55469994a967bdee77c4867ec"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot0/restricted/test_states.json",
+      "size": 821,
+      "sha256": "6fca2be592f3701221800b22268ee30c6d0ca40269acde0214afbea5945a4849"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot0/restricted/test_states.npz",
+      "size": 8223342,
+      "sha256": "62e8b2ce5028583ee530589431f24f87e284d5fe8b9f32832ec0e7f16ba03124"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot0/summary.json",
+      "size": 2435,
+      "sha256": "5fe2124f89efa54f6d3f48d6f889d15d78a2c14c2ecc46c09631fa3c5bf007f8"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot1/DONE.json",
+      "size": 115,
+      "sha256": "106097679512dfc0d70551f575d82f46e85300376d8338c8f82502023c0c0440"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot1/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "7a00c7598e737a85d186d02056cadc8654f25463ad9e3b112f6edd86aa59f868"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot1/restricted/Q2_safe_delta_assigned_outcomes.npz",
+      "size": 1584827,
+      "sha256": "fa381f79bc4e216a2d7a39d983bed7c9797f727fcbab851f196a77b9177cb9b9"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot1/restricted/Q3_delta_assigned_outcomes.npz",
+      "size": 1567759,
+      "sha256": "d3d4f1ab016b10162a96ed8aca21088b9330c37197f334c8e11783ce5a28e436"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot1/restricted/frozen_coverage_policies.json",
+      "size": 201677,
+      "sha256": "4eabb227a9426beb6c95d8cdb2d41056b262ef0885f07ae15ed00f928a0391e4"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot1/restricted/test_states.json",
+      "size": 821,
+      "sha256": "80b001cce731352ec8a8ed58a96478546af745da24278c19fd7e94cfc2065552"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot1/restricted/test_states.npz",
+      "size": 8223138,
+      "sha256": "37028159a4ea964b176f5bbcad212ade6abf82f95b0377eb1445c82edfda6bca"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot1/summary.json",
+      "size": 2438,
+      "sha256": "50487cd8ca9c7f03863a653e6b9cb399dc5ae40fa92a6bd9722b4c62367ad811"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot2/DONE.json",
+      "size": 115,
+      "sha256": "406e335599c055ab2f49fb9400c412a10274b23862072a85a9080b75a7076bcd"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot2/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "1253de38f27ef5e7cf9469df4f462216daae255dd5cfe0e97a0164df6134c837"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot2/restricted/Q2_safe_delta_assigned_outcomes.npz",
+      "size": 1585962,
+      "sha256": "d02af90e5224d962ab7322b1fb8663b06c3a632cdabc539780d8343b69e58b39"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot2/restricted/Q3_delta_assigned_outcomes.npz",
+      "size": 1566616,
+      "sha256": "d659447cf8cf649a15d36232f21d68346ee45ca6a393b0e70e3191819d2a0594"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot2/restricted/frozen_coverage_policies.json",
+      "size": 201686,
+      "sha256": "1a7a3321498eadea6bce94429954cb824eaabff7d5996a23b230249399125903"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot2/restricted/test_states.json",
+      "size": 822,
+      "sha256": "5678868f6874a5578895ce80ed56484d57ea1a5239bcd46420106757646aaf9a"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot2/restricted/test_states.npz",
+      "size": 8223156,
+      "sha256": "b7fa990fb087543b37dd5b9fd126d3edbc30c05bf7a7eacb7dd4311b3598ef74"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot2/summary.json",
+      "size": 2435,
+      "sha256": "7e94473a3d76078bca1d0e92a3b893c45d69d2c63f7b384b9e58eb9c63410ef1"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot0/DONE.json",
+      "size": 115,
+      "sha256": "ed2b12cea825ed4a2991f104a251945e89ef08c888e53f287045bc6b5e245096"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot0/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "3dba7d08b34b4476966dc05e5020907dd58b4f59b044d32e3b9b263bc964290b"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot0/restricted/Q2_safe_delta_assigned_outcomes.npz",
+      "size": 1585722,
+      "sha256": "bea258ed1a5cc2e78b71c942f5e9df6fdf6257d8711008d9387301b4c7f39de3"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot0/restricted/Q3_delta_assigned_outcomes.npz",
+      "size": 1567802,
+      "sha256": "bb65b7e74ce7f7bc11d74b9656e5dad8ada3a3e8b6a1d0fb35d01e16fb6e3ad6"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot0/restricted/frozen_coverage_policies.json",
+      "size": 201443,
+      "sha256": "f9891172730c83e4a83e1f2c7cf76ca409348ff55469994a967bdee77c4867ec"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot0/restricted/test_states.json",
+      "size": 821,
+      "sha256": "28446a004f1cf7264379005b18c3131457e48ff1e9a2e8967dd5b3a8564611de"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot0/restricted/test_states.npz",
+      "size": 8223003,
+      "sha256": "05eb7775f6e7ec7bc3113538ed71398189008f0ab02442f91fa9eb32e29140d5"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot0/summary.json",
+      "size": 2434,
+      "sha256": "adee38c0848a19880df8283f15def6e69f5593dd9f02272bd09b9fa359362f22"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot1/DONE.json",
+      "size": 115,
+      "sha256": "5802c87d9957124cb816028aa9e6fa51f81814cb78059a8b4e3ed13a5ecc7898"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot1/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "7a00c7598e737a85d186d02056cadc8654f25463ad9e3b112f6edd86aa59f868"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot1/restricted/Q2_safe_delta_assigned_outcomes.npz",
+      "size": 1585387,
+      "sha256": "8a401765723bbb179952c9c5656775c6a183b9a9b1cf454e702a5ac661bf1f57"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot1/restricted/Q3_delta_assigned_outcomes.npz",
+      "size": 1567231,
+      "sha256": "5f4275a92ca309e9a39798cc218d44366d7266d9d37864e4b2d2155d87262056"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot1/restricted/frozen_coverage_policies.json",
+      "size": 201677,
+      "sha256": "4eabb227a9426beb6c95d8cdb2d41056b262ef0885f07ae15ed00f928a0391e4"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot1/restricted/test_states.json",
+      "size": 820,
+      "sha256": "74b6d1ab87a7e12f992ea598fe6c17554a8de87dba3c4d88eb9123db74b623e7"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot1/restricted/test_states.npz",
+      "size": 8223157,
+      "sha256": "8ea45e7600836ddb53d2a094314560af8290e15f2f06b0006edadbe3ac2badc5"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot1/summary.json",
+      "size": 2438,
+      "sha256": "f81898714827002303c89a0fe6a42172d521765fe56ba0703c250beed2a12a28"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot2/DONE.json",
+      "size": 115,
+      "sha256": "f5ea247db42629d02cc9164d27bb558e3b2fb644229b84344115a8584162022a"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot2/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "1253de38f27ef5e7cf9469df4f462216daae255dd5cfe0e97a0164df6134c837"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot2/restricted/Q2_safe_delta_assigned_outcomes.npz",
+      "size": 1585633,
+      "sha256": "fa815c5bb5c70ec77b2710f030dbf1a72c8a7c8e8cd5833fb63b961f7cebbc02"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot2/restricted/Q3_delta_assigned_outcomes.npz",
+      "size": 1566356,
+      "sha256": "0b1021a1bef99efd9dca0f1a00d64996c97337eaa812807d8f962d14271f3dfc"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot2/restricted/frozen_coverage_policies.json",
+      "size": 201686,
+      "sha256": "1a7a3321498eadea6bce94429954cb824eaabff7d5996a23b230249399125903"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot2/restricted/test_states.json",
+      "size": 820,
+      "sha256": "92a7885cf508b369e0ded4948fb7f6f51433071f362217039149568c2cc319d2"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot2/restricted/test_states.npz",
+      "size": 8223111,
+      "sha256": "0c7e540f49f2f8a87a9d097f3a730af6fe2e736df74f4950525117bad7950762"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot2/summary.json",
+      "size": 2437,
+      "sha256": "478ee3a3aab63c4f7c525ca31a8bdeb8c5fb7e023cd00e45d68b0aa30f70bc20"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot0/DONE.json",
+      "size": 115,
+      "sha256": "abb08a23d971d3c7fe542bbae4a3dd91597c367b513c694c2b82a41357b88594"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot0/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "93d96ca88f18bc20c9309cbd978f44b538127d844bc66ffc800d6c0cd3bedfc8"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot0/restricted/Q2_safe_delta_assigned_outcomes.npz",
+      "size": 1581780,
+      "sha256": "b664ec0ca2492d6fa6af4b59370ba9cc7c756deca138bf6c8bf80a94b1c2ccce"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot0/restricted/Q3_delta_assigned_outcomes.npz",
+      "size": 1563005,
+      "sha256": "697882910e87ceba4e4b5ae6663b849b0f4989758abc4c41a241f0ff65733c43"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot0/restricted/frozen_coverage_policies.json",
+      "size": 339424,
+      "sha256": "e8c8e9f163af7bf3155bb2ab7c4792a811d5fa2b274320bef17d0c36746d3ae8"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot0/restricted/test_states.json",
+      "size": 810,
+      "sha256": "7d191e7912d58c91bfb3bd9e3123c96e405191ba6fee96432c3f84a08a52f07b"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot0/restricted/test_states.npz",
+      "size": 9585905,
+      "sha256": "535b3823ab4e07dc353998fd57c9a4ef8c56e10c927f8d67e483aa9a02e0d454"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot0/summary.json",
+      "size": 2452,
+      "sha256": "0bf5f2e80449646d607926e34e4cbeca03c49430c717ea799622c9505092f5b7"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot1/DONE.json",
+      "size": 115,
+      "sha256": "548c3d494aa75739db90642915ddf4b64ddd270cea04fe4814fb8d3e3564d780"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot1/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "52f4e803a4c4c6b857557fa1e217c6930572c431f177f3c7d20c4ad7ca64236f"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot1/restricted/Q2_safe_delta_assigned_outcomes.npz",
+      "size": 1580482,
+      "sha256": "a823818c629df9503d054a054330233083d8d6c15e34368853c920789f3d590b"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot1/restricted/Q3_delta_assigned_outcomes.npz",
+      "size": 1559055,
+      "sha256": "1fc92c8d9292312deae40e02b5361bc66aea69506dc62e8f6d9a7382875fdb54"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot1/restricted/frozen_coverage_policies.json",
+      "size": 339244,
+      "sha256": "4dd79f3f1aa1ebe9f958a77006843b872b51bc97768904db38328eac261b9d5d"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot1/restricted/test_states.json",
+      "size": 811,
+      "sha256": "19f94b8c5d655c7467b9d6b3f0ea18410eab14ef98a525c6ff3d2c3a3461d05a"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot1/restricted/test_states.npz",
+      "size": 9586004,
+      "sha256": "28c86877d70a8e2091110787f1b4a0027320fab9099952abba56ec0829297f65"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot1/summary.json",
+      "size": 2433,
+      "sha256": "278d4f6d1c5e82b603daed0b15483231a0ec12477c19f64d758de331c87291c0"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot2/DONE.json",
+      "size": 115,
+      "sha256": "185769e125946a4c25607cd0b6123dda94ea06dbdc66f9c8f4309af0437f4cc7"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot2/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "051c17ed0e3b4da680088abb5640a38670098f84d7c1ba65ee65e9532adb554c"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot2/restricted/Q2_safe_delta_assigned_outcomes.npz",
+      "size": 1581270,
+      "sha256": "705527be7a899977332a37cf7164f8c8e0122dbcb3db477db77acf6b8c732181"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot2/restricted/Q3_delta_assigned_outcomes.npz",
+      "size": 1560184,
+      "sha256": "a37614f5e36d462bd6d850fe5ef0e8fe861ce9108602df3ee3102924fa61b47c"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot2/restricted/frozen_coverage_policies.json",
+      "size": 339245,
+      "sha256": "e0f8daf2773a7b9c271b840741c84afe7ffe9bb364a35ca76a84e4739676b56e"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot2/restricted/test_states.json",
+      "size": 811,
+      "sha256": "bc7120385697c8fd363bcaf8ee824b530c15ee32881f92e44a16165d7448538b"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot2/restricted/test_states.npz",
+      "size": 9585734,
+      "sha256": "323633dde112634258c283c37bf9b3aef09a2ce30ff7136e61e82b7c15e70651"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot2/summary.json",
+      "size": 2449,
+      "sha256": "8646f8ffd017acd6fccf015210e1c55c5c2482367abfbfaae6355bbf31fc8498"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot0/DONE.json",
+      "size": 115,
+      "sha256": "97dae20945ab8ad2e19e3c1022ae7616d816f6dc9962235e277b35bfae8049c9"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot0/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "93d96ca88f18bc20c9309cbd978f44b538127d844bc66ffc800d6c0cd3bedfc8"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot0/restricted/Q2_safe_delta_assigned_outcomes.npz",
+      "size": 1581279,
+      "sha256": "688246ea278b321bc7597cfa335ba4e3f96b8753d4ed7d78e7cac0c808554dcc"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot0/restricted/Q3_delta_assigned_outcomes.npz",
+      "size": 1563138,
+      "sha256": "69dc3cdc73fa42421f1bbca48e4dd6fdd9dadd951ce5cef03a9162561608a918"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot0/restricted/frozen_coverage_policies.json",
+      "size": 339424,
+      "sha256": "e8c8e9f163af7bf3155bb2ab7c4792a811d5fa2b274320bef17d0c36746d3ae8"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot0/restricted/test_states.json",
+      "size": 853,
+      "sha256": "3ef5f71810907f8a13c2170675b26be8226b1235622b5bfba055ab5261999eba"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot0/restricted/test_states.npz",
+      "size": 9586201,
+      "sha256": "9c3a07168ad0d447bc30329ee16b24be5f496b6b9ab7a522eba6727c8671099c"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot0/summary.json",
+      "size": 2478,
+      "sha256": "bc2bff34641e87e554bf579542470e0394268009cb9d369aff2c73eb8aa7d7b2"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot1/DONE.json",
+      "size": 115,
+      "sha256": "d4d816e8d1da7f99ef42f339340aae7c44e824c0b76a9d4bb80cdec05502cd62"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot1/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "52f4e803a4c4c6b857557fa1e217c6930572c431f177f3c7d20c4ad7ca64236f"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot1/restricted/Q2_safe_delta_assigned_outcomes.npz",
+      "size": 1580069,
+      "sha256": "b7597af0cd051af57783af58c6219740d4e506597c966b8ef4bb8dafcd3ba6e5"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot1/restricted/Q3_delta_assigned_outcomes.npz",
+      "size": 1558639,
+      "sha256": "0dfb48d1b6d4cec08c115999fa27f4e447a314e1787a02c60a925f98e9eef438"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot1/restricted/frozen_coverage_policies.json",
+      "size": 339244,
+      "sha256": "4dd79f3f1aa1ebe9f958a77006843b872b51bc97768904db38328eac261b9d5d"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot1/restricted/test_states.json",
+      "size": 851,
+      "sha256": "85ad350199830df777367f7d3ae78376444e8a8b38dd72a818f8e3d51b5ece08"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot1/restricted/test_states.npz",
+      "size": 9586075,
+      "sha256": "7237c6c0d1c54653ab4a7ddef388196e628b7ef63a5bae4b0d0a438d0bd2b41c"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot1/summary.json",
+      "size": 2464,
+      "sha256": "ce82b22727cd6eb6d866f7477d8c247aa71ab34889e12def95f1e9490a406ba3"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot2/DONE.json",
+      "size": 115,
+      "sha256": "d54995505e99dce33ca2b6c9528647c9b5bbd50daa04b717256e1308f2aa836b"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot2/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "051c17ed0e3b4da680088abb5640a38670098f84d7c1ba65ee65e9532adb554c"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot2/restricted/Q2_safe_delta_assigned_outcomes.npz",
+      "size": 1580782,
+      "sha256": "66b69c6518f7cc82012b2ae41fbd463fccb9a3a79150822cac05c4f23b3c8df8"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot2/restricted/Q3_delta_assigned_outcomes.npz",
+      "size": 1559803,
+      "sha256": "b58f94679cad115637070f55a1aef365a5d9e784074be48c54a19af81709c068"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot2/restricted/frozen_coverage_policies.json",
+      "size": 339245,
+      "sha256": "e0f8daf2773a7b9c271b840741c84afe7ffe9bb364a35ca76a84e4739676b56e"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot2/restricted/test_states.json",
+      "size": 853,
+      "sha256": "ea9fd80dfa4076715e20d0c325417b9431d2807c5ac2fd9a22a9e9f6d43d999a"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot2/restricted/test_states.npz",
+      "size": 9585983,
+      "sha256": "9627d0b8270eafbec685b6fa21f4f3397763ec10e4b2a79596136daa416455c5"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot2/summary.json",
+      "size": 2476,
+      "sha256": "c6804b9d93bc5c6ff6bc782f1bd78c3ba6ff7e5aca2d3c7739f4bd122809c49d"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot0/DONE.json",
+      "size": 115,
+      "sha256": "07f1a27bdc76d1574958a63db468d24a915d153d367a1044ac2120464266170f"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot0/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "93d96ca88f18bc20c9309cbd978f44b538127d844bc66ffc800d6c0cd3bedfc8"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot0/restricted/Q2_safe_delta_assigned_outcomes.npz",
+      "size": 1581258,
+      "sha256": "bd92866caccdf632f9ff4ff6e3543384427cae9c0e5b32b9eea5a1436b59b26a"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot0/restricted/Q3_delta_assigned_outcomes.npz",
+      "size": 1563001,
+      "sha256": "84a8f74c7ad5e48e1f52eb5ef0da155a3d74443beb867fa85ba7ded40216abb3"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot0/restricted/frozen_coverage_policies.json",
+      "size": 339424,
+      "sha256": "e8c8e9f163af7bf3155bb2ab7c4792a811d5fa2b274320bef17d0c36746d3ae8"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot0/restricted/test_states.json",
+      "size": 851,
+      "sha256": "b924ace74b8d0d5df8aa3df222ddf37ce5165c5feb402b1dd8acd9277066e104"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot0/restricted/test_states.npz",
+      "size": 9586297,
+      "sha256": "7932503adcd00f77763764028c52f0cc239b668da5737c18cf144a599707887f"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot0/summary.json",
+      "size": 2476,
+      "sha256": "e503612442fa345b4419abdae70912f20eb20f900fead4ab6ce9838d642a01e0"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot1/DONE.json",
+      "size": 115,
+      "sha256": "ac5adeabbc432118e2bef34d1974a03b20b24d0c8b26e1a185791aaad39166dc"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot1/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "52f4e803a4c4c6b857557fa1e217c6930572c431f177f3c7d20c4ad7ca64236f"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot1/restricted/Q2_safe_delta_assigned_outcomes.npz",
+      "size": 1579897,
+      "sha256": "8731d8a3a7bd5be78bae0ad4c21e622ba52bc391818160ec1ff00a8450d62d60"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot1/restricted/Q3_delta_assigned_outcomes.npz",
+      "size": 1558317,
+      "sha256": "ec6bdc247a1e75fb466b07d6a816da3a6bca9965fb02dc125aba21b0625b96b3"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot1/restricted/frozen_coverage_policies.json",
+      "size": 339244,
+      "sha256": "4dd79f3f1aa1ebe9f958a77006843b872b51bc97768904db38328eac261b9d5d"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot1/restricted/test_states.json",
+      "size": 851,
+      "sha256": "6d0ca910c6961f089a1f2a606d560f1ea73b4c14983b53e2e470444836fc7b33"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot1/restricted/test_states.npz",
+      "size": 9585511,
+      "sha256": "793fc1f5293f4d6a71b5266e3201d3c7f3092b4f7f85bea45f25ca3f8d1eeb8e"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot1/summary.json",
+      "size": 2473,
+      "sha256": "c606b6f53f7ee676af72067c270cce1f1ea8475cab5ce0d4c378fd927b4d7051"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot2/DONE.json",
+      "size": 115,
+      "sha256": "1382fd478d7272593fe42d808085f3404c975d97cedddc206d04a43d6ff5fc72"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot2/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "051c17ed0e3b4da680088abb5640a38670098f84d7c1ba65ee65e9532adb554c"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot2/restricted/Q2_safe_delta_assigned_outcomes.npz",
+      "size": 1580894,
+      "sha256": "cb32534885f49276ef699044c0fae3df655a2bd93521becee0f125c4aa8b0692"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot2/restricted/Q3_delta_assigned_outcomes.npz",
+      "size": 1559752,
+      "sha256": "c5cf176db1e9b43d55419528bc1bffe82daa7410894c597832cfb58835da19c1"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot2/restricted/frozen_coverage_policies.json",
+      "size": 339245,
+      "sha256": "e0f8daf2773a7b9c271b840741c84afe7ffe9bb364a35ca76a84e4739676b56e"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot2/restricted/test_states.json",
+      "size": 851,
+      "sha256": "884af49bdcc712d6296b55c44ca86fd8809781728060f681577ab4dc43fc819e"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot2/restricted/test_states.npz",
+      "size": 9586288,
+      "sha256": "c14f6e8d4fa0921e7600ba95eec8f97e9f36608ec20f4df83ec6c01cd089bf70"
+    },
+    {
+      "path": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot2/summary.json",
+      "size": 2478,
+      "sha256": "361d3bbf80371b37f3c51a4f288d5261415de5a437ba61525408c6ef9c189334"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0/DONE.json",
+      "size": 115,
+      "sha256": "a0d4a6b17971d672bf807046eb60f279714a68364079121755515f011eeaf0d0"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "dea39d5dafbc4313cbbcb0e3152994d66347eb10adbe486fcb21a893f9e10ff9"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0/restricted/Q2_ideal_delta_assigned_outcomes.npz",
+      "size": 1587005,
+      "sha256": "6c942982fcd5a84db8f078797d6dabf8a2357a68088aa601b0be8b629d4c3b96"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0/restricted/Q2_postUA_0p1_assigned_outcomes.npz",
+      "size": 1587160,
+      "sha256": "5d2753e95307d152a0a2ced3f776f3e218999ecebf348c56f846a5c702cbfe8d"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0/restricted/Q2_postUA_0p5_assigned_outcomes.npz",
+      "size": 1587773,
+      "sha256": "fcd4ac049dcea4d628c3f5df45a19f18deac532d18c7456bd94a9ff1672f907e"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0/restricted/Q3_ideal_delta_assigned_outcomes.npz",
+      "size": 1569029,
+      "sha256": "a9a5582bbd1ea7f1a4abe3505e59e4e934d8ec112a3cb1688c3328aa93796c49"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0/restricted/Q3_postUA_0p1_assigned_outcomes.npz",
+      "size": 1569259,
+      "sha256": "d246dd323c94b77e61b94e7f04a20b2216a173126c712e62f9ac22422bc806a5"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0/restricted/Q3_postUA_0p5_assigned_outcomes.npz",
+      "size": 1570134,
+      "sha256": "7231f889d71d8a2a2f5bd5880d5982b2941843cbe48ee0d8c7d9ed31090e1cba"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0/restricted/Q3_postmean_0p1_assigned_outcomes.npz",
+      "size": 1569174,
+      "sha256": "ece67de775e69c003cd13536b99ff06ac3cdb996a262b136134ea05ce5ccd9a9"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0/restricted/Q3_postmean_0p5_assigned_outcomes.npz",
+      "size": 1574129,
+      "sha256": "1794074e3be21e6e8873cb2d90404c7c30077f5787bb061ac360928772deee53"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0/restricted/Q3_raw_noise_0p1_assigned_outcomes.npz",
+      "size": 1569234,
+      "sha256": "3c67c24075f8e836d97eb9d6282ba95ffed5b16c02cff1faf2be27826cb24b52"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0/restricted/Q3_raw_noise_0p5_assigned_outcomes.npz",
+      "size": 1574729,
+      "sha256": "624ab4702dfc4a0170da89e6b50b105d6f4343828d7e35fffd28c9bffde8137d"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0/restricted/frozen_measurement_policies.json",
+      "size": 367197,
+      "sha256": "f95162dd0db71b67712098ff5f36ca574b48bca2c16a04314c9b17b3b1d21d8c"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0/restricted/test_states.json",
+      "size": 780,
+      "sha256": "3adcc74de5f558f09d6f7ad8f4a487ad616f3f6a275a929e1934cde549e226d9"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0/restricted/test_states.npz",
+      "size": 8223122,
+      "sha256": "3bcf0badebee135e660c4e06de202039bc2d8b45d983d5a61ac1be41e90aedcc"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0/summary.json",
+      "size": 11554,
+      "sha256": "064625881fca66a58a750ab9482cf20416071ab149d0ec6fc7e40025393f7e74"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1/DONE.json",
+      "size": 115,
+      "sha256": "f4bd2454035b67dd9c7eedfcae2b997c86c6960ca3c22d2d8396ba4ddf45c8ae"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "0c96c6e42e8fa4fdb7c61317f6c0310146f7356ab3dd664372a99965d677c9bb"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1/restricted/Q2_ideal_delta_assigned_outcomes.npz",
+      "size": 1586172,
+      "sha256": "2f2779b8d7787aed5f9ed98c2ebdcb100153d1abab0baba6f7b117f0b171fcc5"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1/restricted/Q2_postUA_0p1_assigned_outcomes.npz",
+      "size": 1586415,
+      "sha256": "97e0079deb1bb8e0b764ee13a48f6ee6f4f8f4ab2f6805141f33dc6175c9e1cd"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1/restricted/Q2_postUA_0p5_assigned_outcomes.npz",
+      "size": 1587753,
+      "sha256": "9cd6a98019c2f4339d81efb0606159c42975a30c6a026c14242d3c1dade542de"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1/restricted/Q3_ideal_delta_assigned_outcomes.npz",
+      "size": 1568645,
+      "sha256": "49acbc1fe822eb7317d0e2f34e1ecb072b3a8ca6854ab160b1c206c80d00620d"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1/restricted/Q3_postUA_0p1_assigned_outcomes.npz",
+      "size": 1568897,
+      "sha256": "f91c1cb8fe82b7191e5b6eb1ffdb0afbe3a650a4639e30c8f4d02c58dbbb2367"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1/restricted/Q3_postUA_0p5_assigned_outcomes.npz",
+      "size": 1567925,
+      "sha256": "de7b5c2a0f7dfc217f6056cfec42992368eecdef858c26e8a853354cd6e3ce67"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1/restricted/Q3_postmean_0p1_assigned_outcomes.npz",
+      "size": 1568910,
+      "sha256": "1da20ce55e1aebcd1e8442e56fee4310d26c9e1ef1886b0df2bdb996007a357f"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1/restricted/Q3_postmean_0p5_assigned_outcomes.npz",
+      "size": 1574167,
+      "sha256": "bd04129aba601716ad59a00346ffb5bf676111397d6fae05d4f4b85477255f50"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1/restricted/Q3_raw_noise_0p1_assigned_outcomes.npz",
+      "size": 1568893,
+      "sha256": "61294af7aa140bdfdd2fb37666b7bedfb1e9df0f9f437771be7697d22902323e"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1/restricted/Q3_raw_noise_0p5_assigned_outcomes.npz",
+      "size": 1574358,
+      "sha256": "d4bc52cd2832b84315e9b40112a26db69d424eb6633d2db1e961fdb0b88d16c3"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1/restricted/frozen_measurement_policies.json",
+      "size": 365185,
+      "sha256": "3b8427c5d194c49415a3b2da4a7637a1454ff0d1c1ee3900dc0c1b8ed9bb3e7a"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1/restricted/test_states.json",
+      "size": 780,
+      "sha256": "b86da72f1531c665dbdaf620acf6aad3085c6cf6e2bf7a1d1fad6b79e8ac2371"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1/restricted/test_states.npz",
+      "size": 8223586,
+      "sha256": "1bd4a07b31c335dc884aa09c2c09cc31db432ee3c531ddfe0ede57e991bddf4d"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1/summary.json",
+      "size": 11558,
+      "sha256": "3f6f7be533b8c99f5b9286c6f27c88b083990de76f1533c906ab20d85e809c10"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2/DONE.json",
+      "size": 115,
+      "sha256": "fdaca765e214ef39d3a1b08a5d93782a36a1b7d223dedea5b9460a7e45ef7aa0"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "1b88551ef92ac7fd1597a1ded51e6629231a76fc19498dca78c2d04fd2e7e43d"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2/restricted/Q2_ideal_delta_assigned_outcomes.npz",
+      "size": 1586492,
+      "sha256": "73b59455ebe710cb9df7d944f10d5be752a6634dd1fb4d970a410dcf9bfd1f15"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2/restricted/Q2_postUA_0p1_assigned_outcomes.npz",
+      "size": 1587141,
+      "sha256": "54bf8f5f804870d0edaa4ad0755d74c388c05abfe8209a480cdb7f0b3f2a66de"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2/restricted/Q2_postUA_0p5_assigned_outcomes.npz",
+      "size": 1588300,
+      "sha256": "5eae7045ef602c7f8a2694de689a84bc0082509af18e66f84cc11c0798b8e69b"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2/restricted/Q3_ideal_delta_assigned_outcomes.npz",
+      "size": 1567356,
+      "sha256": "12112568432519ee03669ce2b04f5ae418579e8992e23016c1576305546303b2"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2/restricted/Q3_postUA_0p1_assigned_outcomes.npz",
+      "size": 1567761,
+      "sha256": "f6b9e3fdff701dcc4c865f7c257c128a9ce7f09c38671de68d487da4e5f25906"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2/restricted/Q3_postUA_0p5_assigned_outcomes.npz",
+      "size": 1569286,
+      "sha256": "f93e3fbb7dcd6bd1e8c0eceb850232409a939f57878836bd71fdc7fafd123f6a"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2/restricted/Q3_postmean_0p1_assigned_outcomes.npz",
+      "size": 1567591,
+      "sha256": "e716a8d7d84867391fc4ef830ab8102a75f25d93b8ada3119daf8db3ce2110b4"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2/restricted/Q3_postmean_0p5_assigned_outcomes.npz",
+      "size": 1572671,
+      "sha256": "2f777f1262a67ea2f18c592bf8891b2bcb363dc359259742679c9b623e73c981"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2/restricted/Q3_raw_noise_0p1_assigned_outcomes.npz",
+      "size": 1567717,
+      "sha256": "99b8e1e1b4f5289aad69ee6d614019229d5a6a7d6b89b13a81de7881e92a8e45"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2/restricted/Q3_raw_noise_0p5_assigned_outcomes.npz",
+      "size": 1572798,
+      "sha256": "e45169aaca496c55da8dcfec4c5395473c115f598612f41215c5d87da778ac09"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2/restricted/frozen_measurement_policies.json",
+      "size": 363907,
+      "sha256": "ba39fcb296be9b3cb059c72516fa65cb9573e935bdd3d939778550240a025b6f"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2/restricted/test_states.json",
+      "size": 780,
+      "sha256": "4f42e2760bf99981d4fdca3341c1ae18d54fcf6c921099015f0a23af5723f35a"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2/restricted/test_states.npz",
+      "size": 8223280,
+      "sha256": "433cac88931f34d26380c2553825e7d7243acbd42abf9cf9f685152f38c89310"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2/summary.json",
+      "size": 11550,
+      "sha256": "69f54bf9a7d827216e35577576dab558f7fe8d93ea266eba58de11c0b011791b"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0/DONE.json",
+      "size": 115,
+      "sha256": "c064721364e86ef767e361d9e760dac63f405415b22379053f6da0f1259d312a"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "cc9db1621eca4f274de6ae06529d920e78019599afaea8095c74d0cdf8537cf7"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0/restricted/Q2_ideal_delta_assigned_outcomes.npz",
+      "size": 1581482,
+      "sha256": "62025a8b2a71acd652c55f3e73545b7c537507cc7860bdf443e9dc34b9267a0c"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0/restricted/Q2_postUA_0p1_assigned_outcomes.npz",
+      "size": 1582202,
+      "sha256": "071863cf9a09f9d2c2bb74a8c52f477d18b5e96e6fe698da4fd8f277c4fbd5ef"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0/restricted/Q2_postUA_0p5_assigned_outcomes.npz",
+      "size": 1586947,
+      "sha256": "9279c482f96f958e06099850b5389a7d7159b1e3c1d49543e400e3b0d53067fb"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0/restricted/Q3_ideal_delta_assigned_outcomes.npz",
+      "size": 1563223,
+      "sha256": "b2a89b652ad5daec7a45c4b3576be59fe48e04ce8d8fed0fc0b69c427cdaa230"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0/restricted/Q3_postUA_0p1_assigned_outcomes.npz",
+      "size": 1563536,
+      "sha256": "69392f24afc272aa64c3cce4ac02a4c1050d07c2985ca6300336fbafffefd0f2"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0/restricted/Q3_postUA_0p5_assigned_outcomes.npz",
+      "size": 1563877,
+      "sha256": "e918a636eacdc0df3efdf60acb10aefe3d9e2bfea1f189692e5b813f5ecef3ab"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0/restricted/Q3_postmean_0p1_assigned_outcomes.npz",
+      "size": 1563400,
+      "sha256": "74fa5cd260cb6a8ca00c67e3c255e3f760f3311cb2fc08c98ab497c981a9f4ad"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0/restricted/Q3_postmean_0p5_assigned_outcomes.npz",
+      "size": 1568304,
+      "sha256": "3029dfd13d75292f6bb97c8623f06627ffcc4df41e6fb1a0862a4f4bd2d0263a"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0/restricted/Q3_raw_noise_0p1_assigned_outcomes.npz",
+      "size": 1563434,
+      "sha256": "9736a8ffa931be3e85fb07839f4109d7a57784b4b2814dab81725d4557ee9ab9"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0/restricted/Q3_raw_noise_0p5_assigned_outcomes.npz",
+      "size": 1568279,
+      "sha256": "5ae9e6e352c3f82d70f860fe4a142e269c8ced5787b077dd0f7e03c310ecea4f"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0/restricted/frozen_measurement_policies.json",
+      "size": 529115,
+      "sha256": "ab29bab3e25fc72f5c95388ef0a6cd08bed99ad43982b66f6d8837ba871c3a01"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0/restricted/test_states.json",
+      "size": 811,
+      "sha256": "2c69d801fc2fa6748f7674d8c4210e3e3f25dcbfeb238e0f596f4d92146da236"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0/restricted/test_states.npz",
+      "size": 9586075,
+      "sha256": "8362947ca8b3a5d42979e567bc02b8e506d84fc6ec07aac8099758d69e57eca9"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0/summary.json",
+      "size": 11689,
+      "sha256": "dc81fdc4e3c1547c81331987690dcbedc3df00d11ba4c9fc1e465c2bc05f8292"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1/DONE.json",
+      "size": 115,
+      "sha256": "2c8f8787092d314ff8fada19d8f40ca6b363e536e94929e24df3960d1a269a4a"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "b3496b9e8f01a59b6684ddb54842dbc33e8a66619b17a85ecf58eff643747a43"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1/restricted/Q2_ideal_delta_assigned_outcomes.npz",
+      "size": 1580188,
+      "sha256": "875df7b8aa68431f85323b6cc9b1598144d4d49b6a5821f5f487dced9ac63193"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1/restricted/Q2_postUA_0p1_assigned_outcomes.npz",
+      "size": 1581023,
+      "sha256": "80f083282dcf9857a1b0f3e5d43e27b7d38c7f0a2dde03f9aa99508fbb92752c"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1/restricted/Q2_postUA_0p5_assigned_outcomes.npz",
+      "size": 1584009,
+      "sha256": "7c2cd650ca7cb636f8ca0a8172609bb44818220b14addce840535dee21f5b063"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1/restricted/Q3_ideal_delta_assigned_outcomes.npz",
+      "size": 1558702,
+      "sha256": "362318ae07b0662b36370c9f9867ebae0a9cb109e15c8242d493a71acb00ccdc"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1/restricted/Q3_postUA_0p1_assigned_outcomes.npz",
+      "size": 1558792,
+      "sha256": "a0154a296226d88dba98543097f5bec93c70234a7e5ac22621903f745e4a5c78"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1/restricted/Q3_postUA_0p5_assigned_outcomes.npz",
+      "size": 1558322,
+      "sha256": "af970fd6be0169c6a81ccd904a5f82cf7a3d2a57992c8b6ed71c9b2951058f8d"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1/restricted/Q3_postmean_0p1_assigned_outcomes.npz",
+      "size": 1559054,
+      "sha256": "2e8e14cca929e370303f7f86de157aa240891c885d71236c3ccfae1e11cbc0be"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1/restricted/Q3_postmean_0p5_assigned_outcomes.npz",
+      "size": 1562498,
+      "sha256": "ccca1d27c09bfe42cc09b2bea7cc36fc46649ffd09f4017fa214a5a019246410"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1/restricted/Q3_raw_noise_0p1_assigned_outcomes.npz",
+      "size": 1559154,
+      "sha256": "f62cc3e7308b964872e7c19da558906ee3c81b706069cfe199734a8c304c6e88"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1/restricted/Q3_raw_noise_0p5_assigned_outcomes.npz",
+      "size": 1563503,
+      "sha256": "c0b1598c94e3a9bbe9d7061bcfcfb20c8dbf9258a5b9f0aeabf6f4ab3f6ca8c2"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1/restricted/frozen_measurement_policies.json",
+      "size": 531264,
+      "sha256": "262feb7e82adb212d5b4219bf9bb5cd1a401cef7440fb16bdb9ca88143b4efa5"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1/restricted/test_states.json",
+      "size": 809,
+      "sha256": "416ccbac66c28ac4fe0f6a3600a7f44d6099dcd85655c236df41a935e5e0fc2e"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1/restricted/test_states.npz",
+      "size": 9586369,
+      "sha256": "125d0dde24721455565d06d79b20a0423c676d04b58e10bcae05c3665c221ac3"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1/summary.json",
+      "size": 11656,
+      "sha256": "7a201a1193c1aa7934b4e8d6174b971a4ca449d5c2e6d6281b09b09fbf79ea97"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2/DONE.json",
+      "size": 115,
+      "sha256": "3889e5489b37287c860485944bc2ee128994567862440366adc472d5a7433f9b"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2/POLICIES_FROZEN.json",
+      "size": 106,
+      "sha256": "022359cb1ae2a3ad7f913978718b2219885d57fd75811adabfad5179d5226496"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2/restricted/Q2_ideal_delta_assigned_outcomes.npz",
+      "size": 1581448,
+      "sha256": "a91d58d73bdec262c918d576c56801b342c40be2c9e923f78d1b41510963031d"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2/restricted/Q2_postUA_0p1_assigned_outcomes.npz",
+      "size": 1582346,
+      "sha256": "92d460df1226a480e0bb14a0b605d6a1c793a61368dfc9f18fae19f36546ea36"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2/restricted/Q2_postUA_0p5_assigned_outcomes.npz",
+      "size": 1586075,
+      "sha256": "bda2738d5de9c02f1040674cc5cc56e6df21cd62a073241645ae40cec48467f0"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2/restricted/Q3_ideal_delta_assigned_outcomes.npz",
+      "size": 1560040,
+      "sha256": "6bdda84e375b2932ec6b1e1f7a47971f60d9758e4ff67a4ee2de0c2064930ff8"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2/restricted/Q3_postUA_0p1_assigned_outcomes.npz",
+      "size": 1560091,
+      "sha256": "8bf7bb03ea88bb0003461c5ae00f5d662cdca733ee613e08972c0bdf14b9f42e"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2/restricted/Q3_postUA_0p5_assigned_outcomes.npz",
+      "size": 1559997,
+      "sha256": "4f2fdc46643d726ace67de202a4d4a2b267c465d97dd0d07d4d36165b81f0033"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2/restricted/Q3_postmean_0p1_assigned_outcomes.npz",
+      "size": 1560148,
+      "sha256": "daaa6c3e59695b7d2ab118d5d27f4dcea9d7207a977ba94bbd348d988a10b7f0"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2/restricted/Q3_postmean_0p5_assigned_outcomes.npz",
+      "size": 1564709,
+      "sha256": "87915637f53c2cdc56d93b436806493f8794ade1d441d192db7f56d042e2c793"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2/restricted/Q3_raw_noise_0p1_assigned_outcomes.npz",
+      "size": 1560259,
+      "sha256": "b32b88303960c36ebc959f8bccd9f37744eab9a5bbde39bf961ebd53b3265557"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2/restricted/Q3_raw_noise_0p5_assigned_outcomes.npz",
+      "size": 1564867,
+      "sha256": "eb5c1b3d00956be0788c2b3987e633b79b0676001c8a7a4740d186b0a2febdb1"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2/restricted/frozen_measurement_policies.json",
+      "size": 527350,
+      "sha256": "6648a16de68d044cc0167242118d3042b37ff3b1a0dfdb7d26b2f741493c71c0"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2/restricted/test_states.json",
+      "size": 811,
+      "sha256": "8cfd20bc2c4e378315f10b147d2fde23f49b27c44a046142fe3397d3a8da483c"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2/restricted/test_states.npz",
+      "size": 9586226,
+      "sha256": "5948b5458bf2f701367eba3e95d04ccc625b90bbcf38578bfc4d6e2bdc710933"
+    },
+    {
+      "path": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2/summary.json",
+      "size": 11670,
+      "sha256": "9eca9335f953dd0ed929e2ce0048bf5064cfe91fa489c485ff0b6c9de433c21c"
+    },
+    {
+      "path": "study/reproducibility/replay_new_saved_results.py",
+      "size": 7077,
+      "sha256": "0e7c54a29a300e8bf012ae0daa870b777a6fedfabaa881caca281cab3e2d2e70"
+    },
+    {
+      "path": "study/reproducibility/restricted/actual_repo_complete_input_sha256_map.json",
+      "size": 18645,
+      "sha256": "856d1f7f220029da12a3697d02919edd1f971272d3ba81aa4c9aea37aa97514b"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/audit_addendum_registered_streams.py",
+      "size": 7253,
+      "sha256": "f2486273d86abb83905789f7d363ef396c0a77213eef85fb265c88ad84be414f"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/audit_energy_registered_streams.py",
+      "size": 3187,
+      "sha256": "32f1d780f6e67c279366f576a8b2f20662cdbce76180526422e44a009d3ff9f0"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/audit_fast_energy_domain.py",
+      "size": 4520,
+      "sha256": "34a2cbbb3f90876c5571ffa1228b267eb03b73b6d86fd2a91c23cb82197c3f04"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/audit_information_allfail_canonical.py",
+      "size": 7628,
+      "sha256": "c52c1e83cf69d2498a3921fc9f2b3226f4e4f731714a0a649282a3d15559fec8"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/audit_information_fullpool.py",
+      "size": 3919,
+      "sha256": "d270fb0f8a3d73577dd43fd4ad5fbd4bb3360ca57d894c11e465608febc047b4"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/audit_parent_registered_streams.py",
+      "size": 13067,
+      "sha256": "59f4e9ebff18c9766fc19354491cebd3eef5de0a8eb8ed944b0ec735bd051609"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/bind_parent_completed_artifacts.py",
+      "size": 3513,
+      "sha256": "6cce1530592f0b272ca39f47760f8570ae5a6a2628b75161e1c8ec9f2ef0bd38"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/dispatch_energy_certificate.py",
+      "size": 3199,
+      "sha256": "29a6a078e1b62206601ff789a96c6d7b5c1a2cf88132b6c35a82a6458b7c59b5"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/energy_upper.py",
+      "size": 10914,
+      "sha256": "7fc03523e687da637b0afddcdc35ec6c22b2552cee8b2ee5eff731a60e34ed6d"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/reference_energy_math.py",
+      "size": 5485,
+      "sha256": "51ce9608ab6753fb1337391f3518f092ff1610305da498bc096cef196fdaaabd"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/render_certificates_public.py",
+      "size": 13422,
+      "sha256": "1df3d2036ed487b7e1e3beb6cef8bdb4b7a4d98b68078d2fead1cfc298bf6535"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/render_parent_certificate_public.py",
+      "size": 7482,
+      "sha256": "15c8ffcea1aefc918bfa2dc84d26e99604b3c11816c2e5f9d245628d3f127746"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/run_certificate.py",
+      "size": 20223,
+      "sha256": "e4a9f3d87f7428bbeac5383ad37d338049d82a4963540ce7772ed6320f6ee50b"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/run_energy_certificate.py",
+      "size": 1543,
+      "sha256": "30d68b3e8bf8f7685bee90c882a72bb648e2fe7abcc4d742450a44f860f40001"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/test_certificate.py",
+      "size": 3535,
+      "sha256": "4a9904b17c30e3f717ed875773ae48ed5f5302732f72b292ff5e126d762081ee"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/test_energy_upper.py",
+      "size": 5721,
+      "sha256": "40df57633e2b52636f498cde0a32009ca4d8c96a6b0ded37398f4d67a48957de"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/test_energy_upper_tolerance.py",
+      "size": 3663,
+      "sha256": "3ebb35e70849c8988c7e63c99bac12568586179257f58942a8fcd5793bbb23a5"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/test_reference_energy_math.py",
+      "size": 8195,
+      "sha256": "70dfca0fec570b56ca10c7528bacb0c565d08ba0807b7c1aba0c74cb97e259db"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/verify_energy_readback.py",
+      "size": 6393,
+      "sha256": "c07f5be3693e918ca354119e1e0833bfe8fbe27b7e9436d04ac99a77a976f3db"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/verify_final_identity.py",
+      "size": 12304,
+      "sha256": "6abd12c3e5f56afa050600efe977b72a585c49af76fdf30a6b5550894d6efe05"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/verify_parent_certificate_readback.py",
+      "size": 11880,
+      "sha256": "8de9bda292d44aa2e58b02819ea23c23de5d978ecd7c53edf59e28672f617a34"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/certificate/verify_positive_exact_tail.py",
+      "size": 3352,
+      "sha256": "78e3354c7be2d87782877e2612da1b6436d3ecc1dbbc00e5b9ba7fc3b546bb40"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/correlation/common.py",
+      "size": 6658,
+      "sha256": "8b98ebe48aba6e30cae16a06ce04934a04032ff975f6a3bcecdb7c36b96d84d0"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/correlation/copula.py",
+      "size": 7942,
+      "sha256": "1ab7ca0780a255b8fa08a8083da6bd9443560df5dea68b6f85b614ceecc5ed3e"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/correlation/corrstats.py",
+      "size": 2302,
+      "sha256": "5d3c1a65d4a78a61ff86254d2c9842ded5d0037c7afcda333a98423f3125ab46"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/correlation/counting_reference.py",
+      "size": 1253,
+      "sha256": "7199ea008418ff92a3469956052e36b98917ac7dc9ebdf6ab61a649f7562f25e"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/correlation/run_correlation.py",
+      "size": 30803,
+      "sha256": "97e172cb27d90b81280ed385f3c4c2b117c5a49a151c5346dbd873d8d9114474"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/price_reference/dmi_frontier.py",
+      "size": 10856,
+      "sha256": "54a99a729d9ac2264fa9d6ea420e725bc8bd8c3366367116efa54436a0d466bc"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/price_reference/fast_energy.py",
+      "size": 7652,
+      "sha256": "678fdaaeb8e06f1c6d995bac006a134a20925874fbaa8acf9cf49e1d2bdc7dd7"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/price_reference/runner.py",
+      "size": 27358,
+      "sha256": "1d0a1e9828f2e4b2e9de9612c223786894ce0485403d9a2f1104d2fda1367040"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/price_reference/test_runner.py",
+      "size": 6342,
+      "sha256": "ab3ab7143514560c5aef1f703a36de7b54816263b8a51ad7eaa6442b97b840d5"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/recourse/model.py",
+      "size": 10399,
+      "sha256": "a8d4455d3e8da25264f4e0eaeac6b1bff9c022cc872e2ad5dd0d493b1faaf5f2"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/recourse/qualify_contexts.py",
+      "size": 4169,
+      "sha256": "c11112815ee83da219524907c6655cb7e41c7d327ade6964b0bed590196c6581"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/recourse/run_recourse.py",
+      "size": 13678,
+      "sha256": "41c6e76ffbb148f763ca5bff5c99a217c26414db2b9b87af5455794ece880eb3"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/recourse/test_model.py",
+      "size": 8762,
+      "sha256": "7f1a751af26907871b514b6745a45dfa83bd03f3a63b3317956243be7e8eda29"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/source_copula/corrected_energy.py",
+      "size": 3940,
+      "sha256": "e4f2e561710a39d51fe57fdb45ca5afbe6d3fabc3e02672b723d756d0ab1a95d"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/source_copula/extract_evidence.py",
+      "size": 7351,
+      "sha256": "65a0037bb99caab8b0b40d3760f1cdef1ecf41fe54bd6a0985b22e12b4fd9b97"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/source_copula/run_source_copula.py",
+      "size": 8041,
+      "sha256": "e69cd331247575a9848e6525d6efa30de02408acf1fd86b98d0394b1db3c90a6"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/experiments_20261001/source_copula/source_model.py",
+      "size": 10828,
+      "sha256": "cc9a34103ab2c4c8026de94c447a12e65f76b4c9c309e8de4e405f7ca42d3085"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/optimization_round2/action_menu.py",
+      "size": 19711,
+      "sha256": "efa859d8e641bba11e69bc6e0da41e99519f4baed211c95ccf131517c0277917"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/optimization_round2/benchmark_preintegrate.py",
+      "size": 3046,
+      "sha256": "76be6943d9fc8ecff4459566743f8b31645374adb52d988b7c26d378f9774733"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/optimization_round2/conditional_dm.py",
+      "size": 16443,
+      "sha256": "e4a8ddad5cb0e161f42e8095e2904ef3ee43c5f479eba5f15f25b8df66aba1fc"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/optimization_round2/dispatch_round2.py",
+      "size": 2904,
+      "sha256": "c69f24529750d1902c1d4914d4ca055d2fb7ce0d4a96f2273b8c3550de031612"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/optimization_round2/fast_joint.py",
+      "size": 6206,
+      "sha256": "2f1aed1bc2f707348f6c691a4a57d3a866f65d8ea165122ab9964e3e1db41d28"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/optimization_round2/preflight_gate.py",
+      "size": 1210,
+      "sha256": "777cb9450b22c761454a20615dbeff74c3a50591de00498a8226b548c4a03707"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/optimization_round2/preintegrate.py",
+      "size": 14519,
+      "sha256": "f269032276e7d577025b88b24aca1eed53803cb1b7a01fa79743c1b23717eb7f"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/optimization_round2/run_round2.py",
+      "size": 15327,
+      "sha256": "8c6160fb4d056af0f41601f6814beba41c175ef8bbe2dea9f5337af8785464de"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/optimization_round2/sync_completed.py",
+      "size": 812,
+      "sha256": "345654fd23bdcd5ed23ad1d1c0799a72b1e71e76b07281bc476e31d4b426f88b"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/optimization_round2/test_action_menu.py",
+      "size": 9521,
+      "sha256": "4e865e5725f2a5f52f616c1986e03d7ddef87d0adf3e328c580d9a0bd3f8a6f9"
+    },
+    {
+      "path": "study/reproducibility/restricted/helpers/optimization_round2/test_preintegrate.py",
+      "size": 10063,
+      "sha256": "989fe40b33d81bf3db5c0efa983151502e31dda4e6218842b4902d745bdcac1f"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/README.md",
+      "size": 1127,
+      "sha256": "b8f6c6160ca07a094320499b0c80206e0edffd2bb0f3d2b35b847fe347527b26"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/animal_profile.yaml",
+      "size": 20315,
+      "sha256": "e40d2aacb448b2fe948283a5b3c296a720e62297ba9a4e1988a1650f63c2f7c4"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/assays.yaml",
+      "size": 222704,
+      "sha256": "8cfc04988dcbd2f888e7b223eac96a41f2ca254dc5e2b036fac3297b3925be79"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/constraints.yaml",
+      "size": 52487,
+      "sha256": "c48e32cd013dfabe70f314e3d90c1bc886e2a3d708def54c9f0da56e0e476dea"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v1/README.md",
+      "size": 5753,
+      "sha256": "183091c40c0c0903d88588e41be6d1b781ab74c4dce58cea700b9eecad40a995"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v1/animal.yaml",
+      "size": 14082,
+      "sha256": "70cde4f321f49ae7da996afa47682ffc0afc647c3eb7c03693d5228f5e968334"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v1/constraints.yaml",
+      "size": 18630,
+      "sha256": "c4df03f1a88d79636d21ee5f4f0c716e940965a3732f30bb37b6a30a55cb8a73"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v1/energy.yaml",
+      "size": 10236,
+      "sha256": "583aea181cd0ac7ce32a9e47722383bcd8914b087d389bcd5320b56077bb4b08"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v1/inventory.yaml",
+      "size": 13153,
+      "sha256": "1ac0ae555973a311535b1f2c41806afc64334b95a0f4f12b1a975f7b80782632"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v1/prices.yaml",
+      "size": 13538,
+      "sha256": "8c3a5dc699b72edebd95a7d2de361db192db56196e68e76a2a36a939d8bcd511"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v1/reference_constraints.csv",
+      "size": 31195,
+      "sha256": "f0f5535e2003721f195c0cba5885f5cf5fceb64d7c434520bdc248493c096e24"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v1/reference_constraints_v2.csv",
+      "size": 34595,
+      "sha256": "795427bfa707b505edf484c08280c693a6514b8ec53848d25b244e6730b78cfa"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3a/README.md",
+      "size": 2854,
+      "sha256": "3239bd5f2df4b8fdf5adc7e1f6cda7fc6ffb6bf937f5d51b8223194e2d9c01b7"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3a/animal.yaml",
+      "size": 14970,
+      "sha256": "9dfda09435cd4daed5ff051602fa750fb1bd449c3be25437ac6223376fed5137"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3a/constraints.yaml",
+      "size": 18703,
+      "sha256": "77cf903aa0b5b0f81917de4af8d9f452a7314bc88e2bb1375154dfd52c03fc7e"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3a/energy.yaml",
+      "size": 10238,
+      "sha256": "14cdf5476cc63df80d9f1fef707e7af9206b88a7fd719fb1c90e235bb7c0d3bc"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3a/inventory.yaml",
+      "size": 13154,
+      "sha256": "2cf5abaf2fdcd4b03fe187736016e8276bac2b6a8f7c4086800d9c3bf9df63c8"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3a/prices.yaml",
+      "size": 13539,
+      "sha256": "e13561ac273f1094ecf2c438569845af0bf04c5894c976909072298b9bd8dc11"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3a/reference_constraints.csv",
+      "size": 31195,
+      "sha256": "f0f5535e2003721f195c0cba5885f5cf5fceb64d7c434520bdc248493c096e24"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3a/reference_constraints_v2.csv",
+      "size": 34595,
+      "sha256": "795427bfa707b505edf484c08280c693a6514b8ec53848d25b244e6730b78cfa"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3a/reference_constraints_v3a.csv",
+      "size": 35103,
+      "sha256": "cff9e6d4c2e13c1eabe6952816930b7cb75fec6b2acc4910e54e650d1330eaad"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3b/README.md",
+      "size": 5827,
+      "sha256": "8f956c0f05ba2075e53ac50c7fe4f2d7d03768de674c9602511558fbca95ac4a"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3b/animal.yaml",
+      "size": 14218,
+      "sha256": "7845c86b1068f3af0325a1333eadfb5feadeaf7688d5f793105ade35d37fde2d"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3b/constraints.yaml",
+      "size": 20119,
+      "sha256": "0fb5ee982ed5509a241ea1d8e666b03a6a5212350e7fc96ce9c83b5edaac5614"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3b/energy.yaml",
+      "size": 10500,
+      "sha256": "256748d3c580659610ce6b8c423036c9b70be18709a0d3a4c3379c40647ffb18"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3b/inventory.yaml",
+      "size": 16055,
+      "sha256": "8e9a6d0644b437a47c51744bd46cabe5990ed97673dd45374ce589b0beba9a41"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3b/prices.yaml",
+      "size": 16675,
+      "sha256": "9eab162f399e45357a11cf1093697c67b201e87690b15af9a35f4d70bf6dff75"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3b/reference_constraints_v3b.csv",
+      "size": 35790,
+      "sha256": "c0f8f717ea653e0452d626973bbf28a0ba36e03abf683300be5e08e41ce1290c"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3c/README.md",
+      "size": 6639,
+      "sha256": "956c101dc6c1cecd0612c3b17e4d6b599596679dfd868a651269a31159f5f37f"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3c/animal.yaml",
+      "size": 15030,
+      "sha256": "54ec7b11c0f9fd4b9f9f95b5ca0cf09c5b80d9e2ef52c9099f5dc7a6af98c4e9"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3c/constraints.yaml",
+      "size": 20191,
+      "sha256": "d915ae77190cc01e492e84d237a6dbc18f946b983dc1ec932b0c16e104f65fd1"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3c/energy.yaml",
+      "size": 10500,
+      "sha256": "7f0e580fbeccf8032b8e83704750244dc2f196f6efe7759cb136911f6ab231cc"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3c/inventory.yaml",
+      "size": 16055,
+      "sha256": "cb2dba7e9864c14f198d3d8626d7e9adf8e2c7e9c6dd26c3b9049f03e2de1049"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3c/prices.yaml",
+      "size": 16675,
+      "sha256": "d6054d065cbed46e247f8955e5b63dba1918659f4288def6e2777c27804b6087"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/dev_case_v3c/reference_constraints_v3c.csv",
+      "size": 36298,
+      "sha256": "eefb94cf46f60bb4a5e8e30d8f24896d28d0427c086c1a4d4048171c0495820c"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/inventories.yaml",
+      "size": 27207,
+      "sha256": "47f062edd59222ad82752a79d7a8975c413791dc098b494347695cc147e87b20"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/methods.yaml",
+      "size": 28722,
+      "sha256": "483eab3f7f512bee476a74ac5553cf05866f11d85dbd4f2a6f85865c5d76f8f6"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/nutrients.yaml",
+      "size": 23220,
+      "sha256": "5bacd116b38b8bc87c0add568976773003c587079a897be3790a38196d05d646"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/prices.yaml",
+      "size": 13021,
+      "sha256": "7dcf8bcfc988d243ee01201c70ab6be3b8ef4456d6131538f2157085969f5e8b"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/protocol.yaml",
+      "size": 20487,
+      "sha256": "c0263b54bc44827bb8831d8a1d73abe382602afe094838baaf289c8531cf4bbd"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/protocol_candidate_notes.md",
+      "size": 10222,
+      "sha256": "4735cd365210f85060eab36b314e34a4fe485bd07358eb06cdc7aa01a278e2a2"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/protocol_freeze.json",
+      "size": 8092,
+      "sha256": "a874d17f5dc28145843e2f77169dd34c40a696da73d9c79bfa34e82e251002f2"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/protocol_v3.yaml",
+      "size": 22782,
+      "sha256": "d432c9c8e22b611d4dda04ee5e85eec2111e9e71c7d33896e88f6abcc79353aa"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/protocol_v3_freeze.json",
+      "size": 15334,
+      "sha256": "fdec0935143580443afe3bafb606b0e2c9b35c975c24b3e5feb1b8aaaf0b71a3"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/streams_policy.yaml",
+      "size": 11893,
+      "sha256": "975a2f850e98ac8660af18ad48e3327bcbbcc476a5b1aa568482b4b8860e3901"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/configs/uncertainty.yaml",
+      "size": 50615,
+      "sha256": "c4c4510ead2d38db4c0688f394c466e271720e1d25ad2925322c618c75950684"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v1/build_dev_case_v1.py",
+      "size": 3133,
+      "sha256": "8ae9c1912ac1d4ea4740462965d2b9803ac04674ecc08fb8722934c1a5def6d0"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v1/build_identity.json",
+      "size": 14141,
+      "sha256": "376b1dffcd795688bfe64db272d71c9ad7e4b5fbf749658182f4343d31120f63"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v1/build_report.json",
+      "size": 40506,
+      "sha256": "843be65a4b08a42aed866077f1b9e3721aacca56d2b3ec80be84f5843be154cf"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v1/dev_case_v1_problem.yaml",
+      "size": 41490,
+      "sha256": "4c0011e865eaacf540f8c30c49eb446cfbb27ce295bcc297a7a7fcb123d74f7a"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v1/energy_linearisation.json",
+      "size": 20765,
+      "sha256": "fb013da0ac65f943570de3387bcfaab1b4e406091d658340ab7a5c24d8343cf2"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v1/fixb_cp_sup_rdp_scaling.yaml",
+      "size": 1841,
+      "sha256": "59dfdf29215a108fe37c4a88c338d65ad416a678747b4643cd44979ca94910e9"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v1/ingredient_parameters.csv",
+      "size": 19062,
+      "sha256": "8458372d3953946a616626565ea5c5fe47973da7255282f71b064e160e39b679"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v1/nasem_feed_library_extract_9b0b28e.csv",
+      "size": 5648,
+      "sha256": "20d0885c9756a202d9cfdf2a9903cd2f7bd2da3249ff8cb4064d53b63522b0d5"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v1/restricted_values.yaml",
+      "size": 2560,
+      "sha256": "4b62bd5b0387bf1c08e056d99012a01520f4939c2cda64b670a9e746f6b1a533"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v1/uncertainty_cells.csv",
+      "size": 11273,
+      "sha256": "dbe24fce78317c09813d86e4a31dbfa96b1737115f6870779dc1d9757432c588"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3a/build_dev_case_v3a.py",
+      "size": 3134,
+      "sha256": "d0af0af7a61185e6da853ee9d8c2e981a266f27a838058ba451935b81b0d4647"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3a/build_identity.json",
+      "size": 14161,
+      "sha256": "17225066858eea99c3db80b9a764402db28a24c5218ed40306b7947101f843b0"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3a/build_report.json",
+      "size": 40431,
+      "sha256": "ab0ce47cc40fd41c23cbf1eb021f3bc662d51d24523b7a83168b5f55fbf6584b"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3a/dev_case_v3a_problem.yaml",
+      "size": 41639,
+      "sha256": "d59f6fafbd46193288a889f64ca32fd21b0f70bd9f1fffe93875989af2c33bb9"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3a/energy_linearisation.json",
+      "size": 20749,
+      "sha256": "ebc58f51aca39754ab913d09347f98b42547ae12227fc5946bd3c69b67d0aaeb"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3a/ingredient_parameters.csv",
+      "size": 19062,
+      "sha256": "8458372d3953946a616626565ea5c5fe47973da7255282f71b064e160e39b679"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3a/nasem_feed_library_extract_9b0b28e.csv",
+      "size": 5648,
+      "sha256": "20d0885c9756a202d9cfdf2a9903cd2f7bd2da3249ff8cb4064d53b63522b0d5"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3a/restricted_values.yaml",
+      "size": 2560,
+      "sha256": "4b62bd5b0387bf1c08e056d99012a01520f4939c2cda64b670a9e746f6b1a533"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3a/uncertainty_cells.csv",
+      "size": 11273,
+      "sha256": "dbe24fce78317c09813d86e4a31dbfa96b1737115f6870779dc1d9757432c588"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3b/build_dev_case_v3b.py",
+      "size": 3669,
+      "sha256": "68a4e0e6040ecb6aa9a46e11e39f0430b3a286658ecbbf54728c2c2100882406"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3b/build_identity.json",
+      "size": 14161,
+      "sha256": "c1292b461dba27f6f3849d9b5eabacf97e753df2676e1772b36d2095d76a397c"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3b/build_report.json",
+      "size": 45221,
+      "sha256": "f1f3312dec723262d8242a6cb6f8d8a32e9468cc78badf8bb4be3fe013afd065"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3b/dev_case_v3b_problem.yaml",
+      "size": 46538,
+      "sha256": "32d5e9bc75ae47c2a855e6bbfc9eb4fd2e35bf77b12192a486665924ccccee3f"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3b/energy_linearisation.json",
+      "size": 21659,
+      "sha256": "0d524f0491f5914604ea4b37ff13aef56aa4ae9116299ec86d4c67a277095e9f"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3b/ingredient_parameters.csv",
+      "size": 21420,
+      "sha256": "8283aab44a03e123ae8ab8e196a808a80f43b3d303b10c9d2f7918896f1bf956"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3b/nasem_feed_library_extract_9b0b28e.csv",
+      "size": 6106,
+      "sha256": "8820bde15f39497ca45cb6d19e72a1dc9b8e8640ba02d0188c4c4ffd7e3f23f7"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3b/restricted_values.yaml",
+      "size": 2855,
+      "sha256": "df85ca9754b448bfd2f5688fe9fa1fe205a5bd12b8d1e839afe513f890c8b0e2"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3b/uncertainty_cells.csv",
+      "size": 12665,
+      "sha256": "0e555482b522ce46993635adb9efbcede4bd4853f581e39ddd060005a43f2793"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3c/build_dev_case_v3c.py",
+      "size": 3669,
+      "sha256": "6a8e999b8f42f052f1a0f7e874117da0a23c9b7f27bf623e277837e7e8401493"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3c/build_identity.json",
+      "size": 14161,
+      "sha256": "359ff65ac5282b76a3076deb2e4b73a99633d9510f7bc598dd415f06eb5b396e"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3c/build_report.json",
+      "size": 45042,
+      "sha256": "347a40a94c807f4010aa52b732b4f9d74326b5ad36d2680d2dedc344ae5d0736"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3c/dev_case_v3c_problem.yaml",
+      "size": 46529,
+      "sha256": "9d7ee7c3aaef450fb7d2133c9518aabb325a4b142bc9cc8075c1ffc7cf1df835"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3c/energy_linearisation.json",
+      "size": 21637,
+      "sha256": "510c9577fa7e38119462e9db4ab2d6d9ff69370b9ebbc04d85072e3bb7fd58f8"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3c/ingredient_parameters.csv",
+      "size": 21420,
+      "sha256": "8283aab44a03e123ae8ab8e196a808a80f43b3d303b10c9d2f7918896f1bf956"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3c/nasem_feed_library_extract_9b0b28e.csv",
+      "size": 6106,
+      "sha256": "8820bde15f39497ca45cb6d19e72a1dc9b8e8640ba02d0188c4c4ffd7e3f23f7"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3c/restricted_values.yaml",
+      "size": 2855,
+      "sha256": "df85ca9754b448bfd2f5688fe9fa1fe205a5bd12b8d1e839afe513f890c8b0e2"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/dev_case_v3c/uncertainty_cells.csv",
+      "size": 12665,
+      "sha256": "0e555482b522ce46993635adb9efbcede4bd4853f581e39ddd060005a43f2793"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/nasem_t19_1_blayer_reconciled.csv",
+      "size": 276233,
+      "sha256": "3291e8da4fbe63c01e0b50481c384c40bbf04548c52d984b92031c9e511af6e8"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/nasem_t19_1_core.csv",
+      "size": 229872,
+      "sha256": "6c732510b563c5e1f6bbe9c9f82dfd678a9e02763ca6df4ea4b8ee2731bd2fdd"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/official/official-20260926T162636Z-e3665bbe/root0/candidate_rations.csv",
+      "size": 927178,
+      "sha256": "0d53e16af6f033369cd6de5892c2ce5500b2cead5610af9223ee7b4a54adeeb5"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/official/official-20260926T162636Z-e3665bbe/root1/candidate_rations.csv",
+      "size": 496791,
+      "sha256": "188443cf672d469200c182864b24d6de5c8ab9304e998ff10e59e745556d5586"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/official/official-20260926T162636Z-e3665bbe/root2/candidate_rations.csv",
+      "size": 497221,
+      "sha256": "1cbf79d4a189eaff6b46a4b57791cbbfc8f5f6a6fa463588e4e29aed59c7d42f"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/official/official-v3a-20260927T184000Z-8d7138b2/root0/candidate_rations.csv",
+      "size": 1401627,
+      "sha256": "fe8bafc81b2762ba95bfebceac42247c951af4cf7fd3b7660978d87cb3297d03"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/official/official-v3a-20260927T184000Z-8d7138b2/root1/candidate_rations.csv",
+      "size": 1413067,
+      "sha256": "7efd070821a4b4bec996e3acd01727fbb63d9fdbaae8ccb2050eac6ed0705d41"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/official/official-v3a-20260927T184000Z-8d7138b2/root2/candidate_rations.csv",
+      "size": 1417459,
+      "sha256": "bd4880ad6689c77d68202caf31d1b220bcae49a73bf3e0dd57256b318e36117a"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/official/official-v3b-20260927T212028Z-a3536fbd/root0/candidate_rations.csv",
+      "size": 505897,
+      "sha256": "0ddc752bc62d74929891738f1be81d9a93d2d6fb421ef9a273f78c7d6bbbdffe"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/official/official-v3b-20260927T212028Z-a3536fbd/root1/candidate_rations.csv",
+      "size": 505997,
+      "sha256": "709027471a04b26d8a9f3880f4d46cbaa954d4abaf570452f4cba8a846008686"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/official/official-v3b-20260927T212028Z-a3536fbd/root2/candidate_rations.csv",
+      "size": 505997,
+      "sha256": "af98839d1a5cff785765f922bc252007daee68982019fb3bac2569c7accdead1"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/official/official-v3c-20260927T220316Z-5d86b41a/root0/candidate_rations.csv",
+      "size": 1505011,
+      "sha256": "50afb7dc7bdeae0f80f0f43241d6f3a573dc80cf4209eef1a5b6dfc78e48021d"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/official/official-v3c-20260927T220316Z-5d86b41a/root1/candidate_rations.csv",
+      "size": 1517469,
+      "sha256": "ef72cc406d5e2d7dbebefff5906a9511c2341ea3059a95f612fb3a3370bf2b60"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/data/restricted_local/official/official-v3c-20260927T220316Z-5d86b41a/root2/candidate_rations.csv",
+      "size": 1510905,
+      "sha256": "4039e4bf6df8b0a4c7397896abeea492ffd3c6362db0f00210fc06e843fa6fb9"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/environment.lock.json",
+      "size": 13663,
+      "sha256": "affb381c8139adbabf037def6d293e41e2b011d8373cd212b785c4998678b866"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/experiments/E0_verification/replay_dev_case_eval.py",
+      "size": 33022,
+      "sha256": "65c2fce0620524b9bf21d68552353d33a448b91afeb49a5da9ab658afed655fd"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/experiments/E0_verification/run_dev_case_v1.py",
+      "size": 151212,
+      "sha256": "4e8dadd7cefe58c7c17d5f14724bde7705525d0253521fed36ed108b9025f681"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/experiments/E0_verification/run_smoke_current.py",
+      "size": 15022,
+      "sha256": "67dd8156ff49c7436c8f99719d57b568a368de5ae69058e6ed7cc94fbba92d7a"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/experiments/E0_verification/run_smoke_nasem_dryrun.py",
+      "size": 45134,
+      "sha256": "82d916f259e500c3d312a7da09552e52772653f1ef39c17c6a557eef3806e7e2"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/experiments/E0_verification/smoke_pipeline.py",
+      "size": 24624,
+      "sha256": "5ab2d0a94111f08c714ab0943e5e6c65f39f0231fef7cf9f6762f63f3a99a3c5"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/experiments/E1_cost_reliability/official_v2.py",
+      "size": 138201,
+      "sha256": "e20bc6ef9cc9c4aef4feeabe7e4004d49767c90335d445806f22de8577754346"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/experiments/E1_cost_reliability/official_v3.py",
+      "size": 99226,
+      "sha256": "766847d172cac274db2aa48dce56aad190c20c0c3fe106bb56d2710801b72634"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/experiments/E1_cost_reliability/reference_problem_v1_freeze.json",
+      "size": 3009,
+      "sha256": "1b1e3936e05da7cb15851995d17f7f1d7ffbcb27636c72f0f05d7b274f63a2a4"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/experiments/E1_cost_reliability/reference_problem_v2_freeze.json",
+      "size": 3898,
+      "sha256": "559539317e4bd3d4a8373e70e62a23972f6bd0cafe81658bb0cbaba3b403bef8"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/experiments/E1_cost_reliability/reference_problem_v3a_freeze.json",
+      "size": 4152,
+      "sha256": "be7baa152aba7e67ba5acb339f393ee814d1fd8fa0f8784c31742711f98c58af"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/experiments/E1_cost_reliability/reference_problem_v3b_freeze.json",
+      "size": 4165,
+      "sha256": "aa1e9bae5fca12df063c5b5b7fea1783e4468fdb1ee5f4450b8ca5013c5df5f9"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/experiments/E1_cost_reliability/reference_problem_v3c_freeze.json",
+      "size": 4165,
+      "sha256": "230760931622426d3f764befbd8d97fcdc6ec9e5c3e1e2a481b929df99b15154"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/experiments/E1_cost_reliability/run_endpoint_ablation.py",
+      "size": 192110,
+      "sha256": "f399a2a3eac7a719ce78d967c0a90160bbf6cb84ac1c368fe384735f35f6e9ab"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/reports/sd_scaling_sources.csv",
+      "size": 122846,
+      "sha256": "f808110afb7b55ff251f662d38c4e27a3b48893fac83e21f6bc65728ecbd7d3f"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/reports/sd_scaling_sources_dev_case_v3b.csv",
+      "size": 143916,
+      "sha256": "d217519df78490f75b13a5ed1b245bf917904f4b10b33b0dbe484a815cf39117"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/requirements-lock.txt",
+      "size": 1137,
+      "sha256": "f8f7fa68e6bb2bb6ad7704d6eb7cf88617a719f84c6a48f522565b2dc18d1c48"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/scripts/build_dev_case.py",
+      "size": 4264,
+      "sha256": "d0707c53bf22d6e8ac98b4f41b954d69d51be305e934b4bac46e449bea82e5c8"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/__init__.py",
+      "size": 2967,
+      "sha256": "2bb56296ce3bd58040a7fedb240a7daaa9128a0ca99b4dc40edb5f3249c5c15d"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/build/__init__.py",
+      "size": 1221,
+      "sha256": "4577adffbc2bac2cd9f44c4d63a6130d42acce7d96541fd9fecae7aa1571192e"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/build/dev_case.py",
+      "size": 83026,
+      "sha256": "98bf983bbc57b14fddd21c8f73d28d5757b827f892de1ddbc8fc615120e967e7"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/build/preflight.py",
+      "size": 17446,
+      "sha256": "0271fd5424d2ad07a42feeee402860963f0c96cb20dcfa25be5df7aeabf6f293"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/datamodel.py",
+      "size": 36821,
+      "sha256": "289e631b3fc14d33d9d8fc7844a3141ed52b6d1a719e5c61615b09cc16bd5165"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/errors.py",
+      "size": 1182,
+      "sha256": "7794c58e4fa28429ee026676bcab0b0ac7f7d86b091ef151a795b08e0773a605"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/evaluation/__init__.py",
+      "size": 440,
+      "sha256": "de4b70594f6dc39f859a815d1ccee229c40eccd4255dcb71ca2141c877789ab1"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/evaluation/evaluator.py",
+      "size": 12902,
+      "sha256": "76b604c3c633f51f71bcf595a2810a3d86823d4b4fd47c882417f492209c6f8d"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/evaluation/reference.py",
+      "size": 63162,
+      "sha256": "ea46772c7e26f0cb37d6822156010014ca71a6bf1359d758c3d2ec8e91e3b4e4"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/evaluation/stats.py",
+      "size": 3437,
+      "sha256": "b96f453a0f3d2b251285c920fd1e25bf4e371e2c01dc31bce11782d807e32a4e"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/hashing.py",
+      "size": 3604,
+      "sha256": "f0183eaa465c5776a996daa8eb2e2cacef00e7cd178b81a1f7baa33a26e31452"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/information/__init__.py",
+      "size": 14047,
+      "sha256": "f4d2c9bd9bc3b2c0ab1afbfb91247585cf39633d8192e58a84b23cf9516a9bc1"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/information/binning.py",
+      "size": 7982,
+      "sha256": "3d2bb2b9f6daa7dd6885e374d8bc5cae4bb769dd6b5d87cee1bef5cd3c359b17"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/information/economics.py",
+      "size": 58302,
+      "sha256": "525d276167238fa1cd707ae6836a4cadd4cf7e38e2f292f16b85c8c46cd61a11"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/information/evaluation.py",
+      "size": 27356,
+      "sha256": "fe5fc4e88b4d46836c54f4a09585f72f0fdfe2d1ba82d98fb16c20acc65dc190"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/information/library.py",
+      "size": 30174,
+      "sha256": "d2fb5027d686541fcb2d0096d3b3ec17d55b0d9a2818b554c828b42cc3ccb4c6"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/information/likelihood.py",
+      "size": 12527,
+      "sha256": "e224dbfc26cb4d415aa77fb80b588f9ede909a6f53b92300a4614b4baf926c6b"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/information/policy.py",
+      "size": 28674,
+      "sha256": "ce5161a5de9ae7388396e88c608c521ee461550835a3ee6ad28951492c7ec318"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/information/prior.py",
+      "size": 59979,
+      "sha256": "02571585dc130ba8f7b54c402a19c9b33ee475c58ad190d703875a7e25b4517b"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/information/signal.py",
+      "size": 63458,
+      "sha256": "dbdd74699c470dba76051c7be2fd5fe669ba57ea07e0ec6efdac029b466183e7"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/information/strategies.py",
+      "size": 43519,
+      "sha256": "82b2dd20cf7de6d17bdc6232e0e4da6719de0c9ba0b96979eff3488e74d66094"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/information/value.py",
+      "size": 112879,
+      "sha256": "fb3ab6062212fe17c05aa19525635b531c8b5fab33382976fdadcd4b08ad2a80"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/io/__init__.py",
+      "size": 1267,
+      "sha256": "f68e344a9c4f31eaefcc022e066847cf2e96d214935427e2bb2a9e0a0fc9c621"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/io/config.py",
+      "size": 36917,
+      "sha256": "159b47407b2860d4e3d5fca3047e18b93c72c9d7644008bd00c808455f659c10"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/io/run_record.py",
+      "size": 64502,
+      "sha256": "5316bf8af8ff16b0de757f50d5c963678aef71883d4b90ac48570e0d99b1be4c"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/normalization/__init__.py",
+      "size": 177,
+      "sha256": "02bb189cca639c54c6f96c42f4d97ef872e84bd7355365c01c658e6f522f76d4"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/normalization/units.py",
+      "size": 11690,
+      "sha256": "679f82c80383b46b10df4ba726ca8cbebaf6f86cb7cabd7c36b7c1c2654e6fea"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/nutrition/__init__.py",
+      "size": 760,
+      "sha256": "f558270e57e0c6174b543020ea9af8c2d75df6e893cef1e8c78f0a5323c0ad0e"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/nutrition/constraints.py",
+      "size": 22267,
+      "sha256": "bec2b83b2606c2b548411f0cb1d52224107df2ed4add503384964bb526081c02"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/nutrition/domain.py",
+      "size": 36772,
+      "sha256": "3ca97218c69e95ddbf2630ddddda65d684534a555b70cf69d7d9554f68f8e6c1"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/nutrition/energy.py",
+      "size": 64512,
+      "sha256": "58e7a80a4fcb66dcbd7d02d1943ea7df199ea1eef3fa51870ff2883c5617f216"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/nutrition/energy_reference.py",
+      "size": 29799,
+      "sha256": "093a914c8ac93c460048c1ad0d12a09f4fd4e4da9717d68890f5b0a7636b1711"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/nutrition/requirements.py",
+      "size": 73145,
+      "sha256": "81504b722a4c745f112bc538c6670349958d2e69a2d32e2ade49fa4586232a19"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/nutrition/supply.py",
+      "size": 2957,
+      "sha256": "3bca841febc574a296137e83b45ba3f4e86afdacb16552f29d8089817f73607b"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/optimization/__init__.py",
+      "size": 5434,
+      "sha256": "5ca977b98dc0cf367a8ec4000276a62939aff8011ba43955d743ca9057720190"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/optimization/chance_saa.py",
+      "size": 44337,
+      "sha256": "8be67929c7f454b1e5441fb7de70f39c2cccdb463192f05cf684cc5f290f4e18"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/optimization/highs.py",
+      "size": 10136,
+      "sha256": "4ff5904aa42f3e2580e5689f1e3ef6a646e394bb3f920edf8f57aee5e861dc93"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/optimization/lp_builder.py",
+      "size": 3611,
+      "sha256": "b38696569f91aa4b5e2ef8b18f0d880765efceec511610085c2ffb4e5b0c05b2"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/optimization/m0_nominal.py",
+      "size": 8930,
+      "sha256": "c33ffdb96677827e2c980bacfbe380d43c41a395c2fd92f029da455062590135"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/optimization/robust.py",
+      "size": 61855,
+      "sha256": "1de774c388874b71c1000f29d572b01782d756f602927586adae19b38469df0c"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/optimization/safety_margin.py",
+      "size": 36059,
+      "sha256": "4520dba37deefffd09930957071949ad4c990bbf0baf406b686ccc96d03bbbc0"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/reporting/__init__.py",
+      "size": 189,
+      "sha256": "d8b8ac4a36248f76d4c5ccd6cb918c073f5514d4dd431fad0fe40b3e649f2d8c"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/uncertainty/__init__.py",
+      "size": 3488,
+      "sha256": "9853579a8f5b7a0315b853948e39426f60b11f5d75a2dca5210b8fd13f13974e"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/uncertainty/base.py",
+      "size": 5888,
+      "sha256": "bcdea985ef51db0ce9ecb3309abd0db985ed4ccfa505a8f162b390d1051082d2"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/uncertainty/correlation.py",
+      "size": 33448,
+      "sha256": "09b192f86545e77a5b614f201c97a382dec9aa0ce3f412f326e544f528cdf5c4"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/uncertainty/distributions.py",
+      "size": 28004,
+      "sha256": "a676156d2482fff21e73eb233880150aa731045cb14f0c56c2b5a5869f34a45d"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/uncertainty/factory.py",
+      "size": 53661,
+      "sha256": "5d90c9917a6178ff97d71118249c1f3023e75668742f02df777efdef2a2a35a4"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/uncertainty/information_states.py",
+      "size": 35256,
+      "sha256": "9fb08ad453c19339c2eb919405535a441e2b28a20da5844b35cdc4a0731fa015"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/uncertainty/models.py",
+      "size": 7446,
+      "sha256": "17233e7aed5ceafd5c681b80f6f12eddd6438fff69458cf9392980acb46f5c9d"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/uncertainty/scaling.py",
+      "size": 8625,
+      "sha256": "306533dcfcffbc37856a0e34ccb537de98ebb9bc2d06112bcde47de4947c6c12"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/uncertainty/spec.py",
+      "size": 36366,
+      "sha256": "e670b00d811a3a09c5b049dac529f5cec452c2331f028a3d5df440e45e01109b"
+    },
+    {
+      "path": "study/reproducibility/restricted/runtime_repo/src/ration_reliability/uncertainty/streams.py",
+      "size": 11635,
+      "sha256": "3ec101efa82b7f827e83c265994b55c584919674efa20ec8620dceab4d86c93a"
+    }
+  ],
+  "policy_cells": [
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr0",
+      "policy": "Q2_safe_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr0",
+      "policy": "Q3_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr1",
+      "policy": "Q2_safe_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr1",
+      "policy": "Q3_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr2",
+      "policy": "Q2_safe_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3a/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr2",
+      "policy": "Q3_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot0",
+      "identity": "dev_case_v3a__SD-H0__C1_Table6_matched__trainr0",
+      "policy": "Q2_safe_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot0",
+      "identity": "dev_case_v3a__SD-H0__C1_Table6_matched__trainr0",
+      "policy": "Q3_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot1",
+      "identity": "dev_case_v3a__SD-H0__C1_Table6_matched__trainr1",
+      "policy": "Q2_safe_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot1",
+      "identity": "dev_case_v3a__SD-H0__C1_Table6_matched__trainr1",
+      "policy": "Q3_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot2",
+      "identity": "dev_case_v3a__SD-H0__C1_Table6_matched__trainr2",
+      "policy": "Q2_safe_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3a/SD-H0/C1_Table6_matched/trainroot2",
+      "identity": "dev_case_v3a__SD-H0__C1_Table6_matched__trainr2",
+      "policy": "Q3_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot0",
+      "identity": "dev_case_v3a__SD-H0__C2_Corn4D_author__trainr0",
+      "policy": "Q2_safe_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot0",
+      "identity": "dev_case_v3a__SD-H0__C2_Corn4D_author__trainr0",
+      "policy": "Q3_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot1",
+      "identity": "dev_case_v3a__SD-H0__C2_Corn4D_author__trainr1",
+      "policy": "Q2_safe_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot1",
+      "identity": "dev_case_v3a__SD-H0__C2_Corn4D_author__trainr1",
+      "policy": "Q3_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot2",
+      "identity": "dev_case_v3a__SD-H0__C2_Corn4D_author__trainr2",
+      "policy": "Q2_safe_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3a/SD-H0/C2_Corn4D_author/trainroot2",
+      "identity": "dev_case_v3a__SD-H0__C2_Corn4D_author__trainr2",
+      "policy": "Q3_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr0",
+      "policy": "Q2_safe_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr0",
+      "policy": "Q3_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr1",
+      "policy": "Q2_safe_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr1",
+      "policy": "Q3_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr2",
+      "policy": "Q2_safe_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3c/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr2",
+      "policy": "Q3_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot0",
+      "identity": "dev_case_v3c__SD-H0__C1_Table6_matched__trainr0",
+      "policy": "Q2_safe_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot0",
+      "identity": "dev_case_v3c__SD-H0__C1_Table6_matched__trainr0",
+      "policy": "Q3_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot1",
+      "identity": "dev_case_v3c__SD-H0__C1_Table6_matched__trainr1",
+      "policy": "Q2_safe_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot1",
+      "identity": "dev_case_v3c__SD-H0__C1_Table6_matched__trainr1",
+      "policy": "Q3_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot2",
+      "identity": "dev_case_v3c__SD-H0__C1_Table6_matched__trainr2",
+      "policy": "Q2_safe_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3c/SD-H0/C1_Table6_matched/trainroot2",
+      "identity": "dev_case_v3c__SD-H0__C1_Table6_matched__trainr2",
+      "policy": "Q3_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot0",
+      "identity": "dev_case_v3c__SD-H0__C2_Corn4D_author__trainr0",
+      "policy": "Q2_safe_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot0",
+      "identity": "dev_case_v3c__SD-H0__C2_Corn4D_author__trainr0",
+      "policy": "Q3_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot1",
+      "identity": "dev_case_v3c__SD-H0__C2_Corn4D_author__trainr1",
+      "policy": "Q2_safe_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot1",
+      "identity": "dev_case_v3c__SD-H0__C2_Corn4D_author__trainr1",
+      "policy": "Q3_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot2",
+      "identity": "dev_case_v3c__SD-H0__C2_Corn4D_author__trainr2",
+      "policy": "Q2_safe_delta"
+    },
+    {
+      "family": "coverage_formal",
+      "cell": "study/coverage_formal/dev_case_v3c/SD-H0/C2_Corn4D_author/trainroot2",
+      "identity": "dev_case_v3c__SD-H0__C2_Corn4D_author__trainr2",
+      "policy": "Q3_delta"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr0",
+      "policy": "Q3_ideal_delta"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr0",
+      "policy": "Q3_raw_noise_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr0",
+      "policy": "Q3_raw_noise_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr0",
+      "policy": "Q3_postmean_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr0",
+      "policy": "Q3_postmean_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr0",
+      "policy": "Q3_postUA_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr0",
+      "policy": "Q3_postUA_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr0",
+      "policy": "Q2_ideal_delta"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr0",
+      "policy": "Q2_postUA_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr0",
+      "policy": "Q2_postUA_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr1",
+      "policy": "Q3_ideal_delta"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr1",
+      "policy": "Q3_raw_noise_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr1",
+      "policy": "Q3_raw_noise_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr1",
+      "policy": "Q3_postmean_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr1",
+      "policy": "Q3_postmean_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr1",
+      "policy": "Q3_postUA_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr1",
+      "policy": "Q3_postUA_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr1",
+      "policy": "Q2_ideal_delta"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr1",
+      "policy": "Q2_postUA_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr1",
+      "policy": "Q2_postUA_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr2",
+      "policy": "Q3_ideal_delta"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr2",
+      "policy": "Q3_raw_noise_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr2",
+      "policy": "Q3_raw_noise_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr2",
+      "policy": "Q3_postmean_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr2",
+      "policy": "Q3_postmean_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr2",
+      "policy": "Q3_postUA_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr2",
+      "policy": "Q3_postUA_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr2",
+      "policy": "Q2_ideal_delta"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr2",
+      "policy": "Q2_postUA_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3a/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3a__SD-H0__C0__trainr2",
+      "policy": "Q2_postUA_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr0",
+      "policy": "Q3_ideal_delta"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr0",
+      "policy": "Q3_raw_noise_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr0",
+      "policy": "Q3_raw_noise_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr0",
+      "policy": "Q3_postmean_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr0",
+      "policy": "Q3_postmean_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr0",
+      "policy": "Q3_postUA_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr0",
+      "policy": "Q3_postUA_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr0",
+      "policy": "Q2_ideal_delta"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr0",
+      "policy": "Q2_postUA_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot0",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr0",
+      "policy": "Q2_postUA_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr1",
+      "policy": "Q3_ideal_delta"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr1",
+      "policy": "Q3_raw_noise_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr1",
+      "policy": "Q3_raw_noise_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr1",
+      "policy": "Q3_postmean_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr1",
+      "policy": "Q3_postmean_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr1",
+      "policy": "Q3_postUA_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr1",
+      "policy": "Q3_postUA_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr1",
+      "policy": "Q2_ideal_delta"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr1",
+      "policy": "Q2_postUA_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot1",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr1",
+      "policy": "Q2_postUA_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr2",
+      "policy": "Q3_ideal_delta"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr2",
+      "policy": "Q3_raw_noise_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr2",
+      "policy": "Q3_raw_noise_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr2",
+      "policy": "Q3_postmean_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr2",
+      "policy": "Q3_postmean_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr2",
+      "policy": "Q3_postUA_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr2",
+      "policy": "Q3_postUA_0p5"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr2",
+      "policy": "Q2_ideal_delta"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr2",
+      "policy": "Q2_postUA_0p1"
+    },
+    {
+      "family": "measurement_formal",
+      "cell": "study/measurement_formal/dev_case_v3c/SD-H0/C0/trainroot2",
+      "identity": "dev_case_v3c__SD-H0__C0__trainr2",
+      "policy": "Q2_postUA_0p5"
+    }
+  ]
+}

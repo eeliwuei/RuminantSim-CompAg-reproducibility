@@ -1,0 +1,802 @@
+# 约束登记（constraint registry）——未冻结草案
+# 生成：P2b_constraints_units 子任务，2026-09-24
+# 状态（合同 §2.3）：implemented（文件已起草）；未被代码读取，未 unit_passed / smoke_passed；未冻结。
+#
+# 字段契约：合同 01 §6.2 + templates/evidence_contract.yaml 的 constraint_record_required：
+#   constraint_id, expression, unit, lower_or_upper, threshold_or_formula, source_locator, animal_stage,
+#   standard_version, constraint_class, numerical_tolerance, claim_scope
+# 本项目追加字段：status（sourced | pending_user_decision | research_scenario_assumption）、name_zh、
+#   failure_category、quantity_type（measured_analyte_based | model_quantity | structural）、dm_source、
+#   linearized_row（合同 T2 的 D 乘法线性化形式）、engine_mapping（对应 src/ration_reliability 的
+#   ConstraintSpec 语法：kind / terms / sense / bound）、joint_event_candidate、open_decisions。
+#
+# 规则：
+#   - 没有来源的阈值写 null，并标 pending_user_decision 或 research_scenario_assumption（写明理由）。
+#   - 浓度约束一律写成 D 乘法线性形式：L·D(q,θ) − N(q,θ) ≤ 0（下限），N(q,θ) − U·D(q,θ) ≤ 0（上限），
+#     D、N 都用该情景自身的 d_i(θ) 与 a_ij(θ)（合同 T2、验收 C07）。
+#   - structural_hard 约束不受机会约束/风险预算放松（合同 T3、验收 C09）；只用决策时可得的 d̂。
+#   - “缺资料”是 data_quality_flag（configs/nutrients.yaml），不是营养违约。
+#   - p.N 为 NASEM 2021 印刷页码。model_audit = reports/model_audit.md（P2a）。
+
+schema_version: "0.1-draft"
+file_role: "constraint_registry"
+created_on: "2026-09-24"
+created_by: "P2b_constraints_units (subagent)"
+stage_status: "implemented"
+frozen: false
+
+record_fields_required:
+  - constraint_id
+  - expression
+  - unit
+  - lower_or_upper
+  - threshold_or_formula
+  - source_locator
+  - animal_stage
+  - standard_version
+  - constraint_class
+  - numerical_tolerance
+  - claim_scope
+record_fields_project:
+  - status
+  - name_zh
+  - failure_category
+  - quantity_type
+  - dm_source
+  - linearized_row
+  - engine_mapping
+  - joint_event_candidate
+  - open_decisions
+
+# ---------------------------------------------------------------------------
+# 全局定义
+# ---------------------------------------------------------------------------
+globals:
+  animal_stage: "stable_lactation；参考牛 HOL_MULTI_DIM200_NASEM21T21_v0（configs/animal_profile.yaml；选择待 PUD-P2a-01）"
+  standard_version: "NASEM 2021, 8th rev. ed., DOI 10.17226/25806（本地 PDF sha256 e03e9415…a95d49e）"
+  symbols:
+    q_i: "原物质投料量，kg as-fed/head/d（决策变量）"
+    d_hat_i: "决策时可得的 DM 比例估计（t0 参考均值，或 t2 合法检测结果）"
+    d_i_theta: "情景 θ 下真实 DM 比例（评估用，决策时不可见）"
+    a_ij_theta: "情景 θ 下成分 j 含量，%DM"
+    D_hat: "D̂(q) = Σ_i q_i d̂_i，计划 DM 供给，kg DM/head/d"
+    D: "D(q,θ) = Σ_i q_i d_i(θ)，实际 DM 供给，kg DM/head/d"
+    N_j: "N_j(q,θ) = Σ_i q_i d_i(θ) a_ij(θ)/100，kg/head/d（a 以 %DM 计）"
+    DMI_scn: "情景 DMI（Eq 2-1），见 SH-DM-PLAN"
+  decision_units_doc: "docs/decision_timing_and_units.md"
+  registry_crosswalk:
+    NASEM_2021: "SRC-C-NASEM21-T19（全书同一本地 PDF）"
+    NYT_2025_draft: "SRC-E-NYT2025-DRAFT"
+    NANP_Modeling_DB: "SRC-L-NANPMDB"
+    de_Ondarza_2023: "SRC-O-DEONDARZA2023"
+    nasem_dairy_pkg: "SRC-M-NASEMDAIRY-PKG"
+    registry_file: "sources/source_registry.csv"
+  violation_semantics: >-
+    某情景下约束 k 违约 ⇔ 以自然单位计的缺口（下限：K − 值；上限：值 − K）大于 numerical_tolerance。
+    浓度约束的“值”= N/D（该情景自身的 D）；吸收量约束的“值”= g/head/d。
+    缺口幅度按自然单位分别报告，不同单位的缺口不相加（合同 T3）。
+  numerical_tolerance_policy:
+    value_default: 1.0e-6
+    unit: "与各约束 unit 相同"
+    status: "research_scenario_assumption"
+    rationale: "纯数值容差（防止求解器舍入误判为违约），不是营养允许偏差；开发起点，冻结前确认（合同 T3“冻结容差”）"
+  constraint_classes:
+    structural_hard: "库存、非负、合法添加量、计划 DM 供给等可执行性条件；不得被机会约束开关放松"
+    probabilistic_nutrition: "本研究明确研究的随机营养约束；候选进入联合违约事件 I(q,θ)"
+    diagnostic_only: "辅助指标；不得混入主要违约率"
+  failure_categories:
+    I_nutrient_supply: "营养供给不足或超出（CP、Ca、P）"
+    II_carbohydrate_rumen_proxy: "碳水/瘤胃健康代理规格（fNDF、NDF、淀粉、EE）"
+    III_data_missing: "原料资料缺失（data_quality_flag，不是营养违约）"
+    S_structural: "结构/可执行性"
+    DM_supply: "DM 供给偏离（诊断）"
+    failure_category_source: "数据可行性审计 §0 Q2-5、§5.2；专家意见第五节 1"
+
+# ---------------------------------------------------------------------------
+# 联合违约事件（主要终点的定义）——待冻结
+# ---------------------------------------------------------------------------
+joint_event:
+  definition: "I(q,θ) = 1{至少一条成员约束的缺口 > 冻结容差}；r(q) = P_θ[I(q,θ)=1]（合同 T3）"
+  members: null
+  status: "pending_user_decision"
+  decision_id: "D-09"
+  options:
+    a: "A 层全部 probabilistic_nutrition：PN-CP-LO、PN-CP-HI、PN-CA-ABS、PN-P-ABS、PN-T1…PN-T5、PN-EE-HI"
+    b: "同 a，但上限类（PN-CP-HI、PN-EE-HI）单独报告，不进联合事件"
+    c: "I 类（营养供给）与 II 类（碳水/瘤胃代理）分别定义联合事件，指定其一为主要终点"
+  constraint_on_membership: "成员只能是阈值已确认（status 不为 pending）的 probabilistic_nutrition 约束；阈值为 null 的约束不能进入正式运行（src 校验规则：pending 值在 pilot/official 模式报错）"
+  dev_start_proposal: >-
+    开发起点（仅供 smoke，不冻结）：成员 = 阈值已有来源的 PN-T1…PN-T5 + PN-CA-ABS + PN-P-ABS（按推荐选项）；
+    CP、EE 在 D-03 定案前不进入任何非 smoke 运行。
+  dev_start_proposal_scope: >-
+    仅限 smoke。PN-CA-ABS、PN-P-ABS 的 status 仍为 pending_user_decision（PUD-P2a-01/-03/-05），与上面的
+    constraint_on_membership 冲突，因此这个成员集合不得延续到 pilot 或 official：
+    (1) smoke 输入必须标 dataset_status: synthetic_test_only（validator 在 pilot/official 模式拒绝 synthetic 输入，
+        tests/unit/test_config_validator_t9.py::test_synthetic_rejected_in_pilot_and_official 已覆盖）；
+    (2) 任何问题配置构建器不得把 status=pending_user_decision 的约束改标为 research_scenario_assumption 后送入
+        pilot/official；必须以 status: pending_user_decision、value: null 送给 validator，由其拒绝
+        （validator 拒绝 pending 值已由 test_pending_value_must_be_null_and_blocks_pilot 覆盖；
+        “构建器改标”这条路径尚无测试 → planned，已记入 audit/_parts/FIX_docs_record.md 交引擎负责人）；
+    (3) 进入 pilot 前须由用户对 PUD-P2a-01/-03/-05 拍板，使两条约束的状态不再是 pending。
+  structural_separate: "structural_hard 约束单独检查，不计入 r(q)；违反结构约束的方案记为不可执行，不参与风险比较"
+  data_quality_separate: "data_quality_flag 单独计数（nutrients.yaml），不计入 r(q)"
+
+# ---------------------------------------------------------------------------
+# 约束
+# ---------------------------------------------------------------------------
+constraints:
+
+  # ======================= structural_hard ===============================
+
+  - constraint_id: "SH-NONNEG"
+    name_zh: "投料量非负"
+    constraint_class: "structural_hard"
+    status: "sourced"
+    failure_category: "S_structural"
+    quantity_type: "structural"
+    expression: "q_i ≥ 0，对全部可用原料 i"
+    linearized_row: "−q_i ≤ 0"
+    unit: "kg as-fed/head/d"
+    lower_or_upper: "lower"
+    threshold_or_formula: {value: 0.0, unit: "kg as-fed/head/d"}
+    source_locator: "定义性约束：合同 02 T2（q_i 为原物质投料量）"
+    animal_stage: "not_applicable"
+    standard_version: "not_applicable"
+    numerical_tolerance: {value: 1.0e-9, unit: "kg as-fed/head/d", status: "research_scenario_assumption", rationale: "求解器舍入；超出即判 invalid，不裁剪后冒充可行"}
+    claim_scope: "可执行性条件，无营养含义"
+    dm_source: "not_applicable"
+    engine_mapping: {kind: "as_fed", note: "由变量下界实现（lp_builder 变量界）"}
+    joint_event_candidate: false
+
+  - constraint_id: "SH-DM-PLAN"
+    name_zh: "计划 DM 供给（Σ 结构约束）"
+    constraint_class: "structural_hard"
+    status: "research_scenario_assumption"
+    status_reason: >-
+      方程有来源（Eq 2-1，p.12）；输入 BCS = 3.0 是研究情景假设；参考牛选择待 PUD-P2a-01；
+      Eq 2-1 与 Eq 20-21 的括号差异待 nasem_dairy 代码核对（B-P2a-01）。
+    failure_category: "S_structural"
+    quantity_type: "structural"
+    expression: "D̂(q) = Σ_i q_i · d̂_i = DMI_scn（内部 DM 形式：Σ_i x_i = DMI_scn，q_i = x_i / d̂_i）"
+    linearized_row: "Σ_i q_i d̂_i − DMI_scn = 0"
+    unit: "kg DM/head/d"
+    lower_or_upper: "equality"
+    threshold_or_formula:
+      main:
+        value_ref: "withheld (public copy): Eq 2-1 (p.12) evaluated at the Table 21-1 (p.471) reference-cow inputs of configs/animal_profile.yaml fields.*; holder value in build_report.json"
+        value: null
+        unit: "kg DM/head/d"
+        derivation: "Eq 2-1 手算（model_audit §3.3；animal_profile.yaml dry_matter_intake.computed_value_kg_d）"
+      sensitivity_scenarios_E5:
+        - {id: "DMI_minus10", value: null, unit: "kg DM/head/d", derivation: "main × 0.9", value_ref: "withheld (public copy): Eq 2-1 (p.12) evaluated at the Table 21-1 (p.471) reference-cow inputs of configs/animal_profile.yaml fields.*; holder value in build_report.json"}
+        - {id: "DMI_plus10", value: null, unit: "kg DM/head/d", derivation: "main × 1.1", value_ref: "withheld (public copy): Eq 2-1 (p.12) evaluated at the Table 21-1 (p.471) reference-cow inputs of configs/animal_profile.yaml fields.*; holder value in build_report.json"}
+      sensitivity_status: "research_scenario_assumption（±10% 是 P2a 设定的敏感性幅度，不是 NASEM 给出的误差带）"
+      dmi_equation_version_pending:
+        status: "pending_user_decision"
+        decision_ids: ["PUD-P2a-06（nasem_dairy 代码核对）", "PUD-P2a-08（统一取舍原则）"]
+        alternative_value: {id: "DMI_eq20_21_literal", value: null, unit: "kg DM/head/d", derivation: "Eq 20-21 印刷括号字面式（p.423；model_audit §3.4）", value_ref: "withheld (public copy): computed from the Table 21-1/21-3 (p.471-473) reference-cow inputs with the equations named in this block (Eq 2-1, Eq 3-13...3-20, Eq 7-1...7-8, Eq 20-373...20-389)"}
+        rule_until_resolved: >-
+          代码核对前，凡用到 DMI_scn 的结果同时报告 Eq 2-1（⟨withheld⟩）与 Eq 20-21 字面式（⟨withheld⟩）两个版本（红队发现：
+          只有字面式能复现 Table 21-1 头胎两列，model_audit §3.5）。smoke 暂用 ⟨withheld⟩，只代表开发起点，不代表已定案。
+    source_locator: "NASEM 2021 Eq 2-1（p.12）；p.13（BCS 斜率佐证）；model_audit §3；configs/animal_profile.yaml"
+    animal_stage: "stable_lactation（多胎荷斯坦 700 kg，DIM 200，产奶 ⟨withheld⟩ kg/d）"
+    standard_version: "NASEM 2021（Eq 2-1，仅动物因素）"
+    numerical_tolerance: {value: 1.0e-6, unit: "kg DM/head/d", status: "research_scenario_assumption", rationale: "等式的数值容差"}
+    claim_scope: >-
+      这是供给模型：计划投喂的 DM 等于情景 DMI，不是观测采食量。假定全部采食、无剩料、无挑食，对所有方法一致
+      （合同 §6.3、验收 C04）。DMI 固定为情景值，不随配方变化（数据可行性审计 §5.1）。
+    dm_source: "decision_estimate"
+    engine_mapping: {kind: "supply", terms: {"DM": 1.0}, sense: "eq", bound: null, unit: "kg/d", dm_source: "decision_estimate"}
+    joint_event_candidate: false
+    notes:
+      - "实际 DM 供给 D(q,θ) 随 d_i(θ) 偏离 DMI_scn；不要求每个情景满足等式（合同 T2），偏离程度由 DIAG-DM-REAL 报告"
+      - "E5 的 ±10% 情景是整套问题换一个 DMI_scn 重解，不是允许优化器在区间内自选 DM 供给（否则优化器会压低供给以省钱）"
+      - "当 t2 取得某原料 DM 检测结果时，只对已检测原料更新 d̂_i（合同 T1）"
+    open_decisions: ["PUD-P2a-01", "PUD-P2a-02", "B-P2a-01", "PUD-P2a-06", "PUD-P2a-08"]
+
+  - constraint_id: "SH-INCL"
+    name_zh: "原料添加量上下限（计划 DM 占比）"
+    constraint_class: "structural_hard"
+    status: "pending_user_decision"
+    status_reason: "逐原料上下限没有带出处的数值（数据可行性审计 §5.2；route_decision §3；D-04）"
+    failure_category: "S_structural"
+    quantity_type: "structural"
+    expression: "l_i ≤ q_i d̂_i / D̂(q) ≤ u_i；因 D̂ = DMI_scn（SH-DM-PLAN），等价于 l_i·DMI_scn ≤ q_i d̂_i ≤ u_i·DMI_scn"
+    linearized_row: "l_i·DMI_scn − q_i d̂_i ≤ 0；q_i d̂_i − u_i·DMI_scn ≤ 0"
+    unit: "fraction of planned DM"
+    lower_or_upper: "both"
+    threshold_or_formula:
+      per_ingredient: null
+      note: "逐原料 l_i、u_i 全部为 null；原料清单见 configs/inventories.yaml ingredient_catalog"
+      candidate_sources:
+        - {source: "NANP Modeling DB 'Dietary Ingredients' 表中稳定泌乳期处理的原料添加比例分布", access: "需用户注册登录（P0-4）", status: "blocked"}
+        - {source: "de Ondarza et al. 2023 数据集（doi:10.26207/hcjx-8w62）", limitation: "只有日粮层面营养与粗料比例，无逐原料添加量；In Copyright，仅内部分析", status: "pending_user_decision"}
+        - {source: "专家判断", requirement: "记录判断人与日期；未获得时不得写“已审阅”（合同 §6.2）", status: "pending_user_decision"}
+        - {source: "CYRP 原料上下限", limitation: "按肉牛定，不适用奶牛，只能作参考起点（数据可行性审计 §6）", status: "not_applicable"}
+      nasem_text_observations_not_limits:
+        - "日粮 DM 近 30% 为酒糟时出现显著乳脂下降，莫能菌素加重（p.332，引 Morris et al. 2018b）——是试验观察，不是添加上限"
+        - "泌乳牛采食含 10% 与 15% DM 全棉籽的日粮 60 d 后乳中检出棉酚（p.340，引 Wang et al. 2012）——是试验观察，不是添加上限"
+      design_note: >-
+        主约束集里没有 Na 约束、也没有能量约束：若食盐、小苏打、脂肪粉没有下限，最低成本解会把它们设为 0。
+        它们的下限或固定添加量须随 D-04 一并决定（见 open_questions Q-06）。
+    source_locator: null
+    animal_stage: "stable_lactation"
+    standard_version: "not_applicable（不是 NASEM 条款）"
+    numerical_tolerance: {value: 1.0e-6, unit: "fraction of planned DM", status: "research_scenario_assumption", rationale: "数值容差"}
+    claim_scope: "可执行性/配方规格；上下限来源决定其解释。实际 DM 占比 q_i d_i(θ)/D(q,θ) 随 θ 变化，由 DIAG-INCL-REAL 报告（合同 T2.3）"
+    dm_source: "decision_estimate"
+    engine_mapping: {kind: "concentration", terms_template: {"DM:<ingredient>": 1.0}, sense: "ge / le", bound: null, unit: "fraction", dm_source: "decision_estimate"}
+    joint_event_candidate: false
+    open_decisions: ["D-04", "P0-4"]
+
+  - constraint_id: "SH-INV"
+    name_zh: "批次库存覆盖"
+    constraint_class: "structural_hard"
+    status: "pending_user_decision"
+    status_reason: "批次库存 B_i、覆盖头数 H、使用天数 T 均无来源（configs/inventories.yaml）"
+    failure_category: "S_structural"
+    quantity_type: "structural"
+    expression: "H · T · q_i ≤ B_i（B_i 为 kg as-fed 库存）"
+    linearized_row: "q_i − B_i/(H·T) ≤ 0"
+    unit: "kg as-fed/head/d"
+    lower_or_upper: "upper"
+    threshold_or_formula: {formula: "B_i / (H·T)", B_i: null, H: null, T: null}
+    source_locator: "合同 02 T2.3；合同 01 §12.5"
+    animal_stage: "not_applicable"
+    standard_version: "not_applicable"
+    numerical_tolerance: {value: 1.0e-6, unit: "kg as-fed/head/d", status: "research_scenario_assumption", rationale: "数值容差"}
+    claim_scope: "可执行性。T 或 q 因检测/换方改变时须重新核验覆盖，不能套用固定乘数（合同 §12.5）"
+    dm_source: "not_applicable"
+    engine_mapping: {kind: "as_fed", terms_template: {"AF:<ingredient>": 1.0}, sense: "le", bound: "B_i/(H·T)", unit: "kg/d"}
+    joint_event_candidate: false
+    notes: "主分析若不设库存约束，须在 protocol 中明写“库存不受限（B_i = ∞）”作为研究情景，而不是默认省略"
+    open_decisions: ["INV-B", "INV-H", "INV-T"]
+
+  - constraint_id: "CAND-T51-PRECOND"
+    name_zh: "候选：干粉碎玉米为主要淀粉源（Table 5-1 前提的操作化）"
+    constraint_class: "structural_hard"
+    status: "pending_user_decision"
+    status_reason: "是否采用、以及“主要”=占日粮淀粉 ≥50% 的操作化都待定（B-P2a-04 选项 a）"
+    failure_category: "S_structural"
+    quantity_type: "structural"
+    expression: "Σ_{i∈干粉碎玉米} x_i · S̄_i ≥ θ_share · Σ_i x_i · S̄_i（S̄_i = t0 参考淀粉均值；x_i = q_i d̂_i）"
+    linearized_row: "Σ_i q_i d̂_i S̄_i (θ_share − 1{i∈干粉碎玉米}) ≤ 0"
+    unit: "fraction of dietary starch"
+    lower_or_upper: "lower"
+    threshold_or_formula:
+      theta_share: {value: 0.5, status: "research_scenario_assumption", rationale: "对 NASEM “predominant starch source” 的操作化（model_audit §9.6 选项 a）；原文没有数值"}
+    source_locator: "NASEM 2021 Table 5-1 标题前提（p.63）；p.63–64 对快速发酵淀粉源的定性提示；model_audit §9.6"
+    animal_stage: "stable_lactation（TMR）"
+    standard_version: "NASEM 2021（前提条件的操作化，非 NASEM 条款）"
+    numerical_tolerance: {value: 1.0e-6, unit: "fraction", status: "research_scenario_assumption", rationale: "数值容差"}
+    claim_scope: "只保证配方层面满足 Table 5-1 的淀粉来源前提；不评估淀粉发酵速率"
+    dm_source: "decision_estimate"
+    engine_mapping: {kind: "concentration", note: "需要“按 t0 参考均值计算的结构约束”；现有 compile 规则禁止 structural_hard 含成分项，采用此选项须扩展引擎并加测试"}
+    joint_event_candidate: false
+    alternatives: "B-P2a-04 选项 (b) 照用 Table 5-1 并写入局限；选项 (c) 收紧 T1–T5（研究假设）；库存层面的替代实现见 inventories.yaml INV-2"
+    open_decisions: ["B-P2a-04"]
+
+  # ======================= probabilistic_nutrition：I 类 ===================
+
+  - constraint_id: "PN-CP-LO"
+    name_zh: "粗蛋白浓度下限（配方规格）"
+    constraint_class: "probabilistic_nutrition"
+    status: "pending_user_decision"
+    status_reason: "NASEM 2021 不设泌乳牛 CP 需要量（MP 体系）；下限的来源与数值待定（B-P2a-02 / D-03）"
+    failure_category: "I_nutrient_supply"
+    quantity_type: "measured_analyte_based"
+    expression: "CP_diet(q,θ) = N_CP(q,θ) / D(q,θ) ≥ L_CP"
+    linearized_row: "Σ_i q_i d_i(θ) · (L_CP − CP_i(θ)) ≤ 0（CP_i 与 L_CP 均以 %DM 计）"
+    unit: "%DM"
+    lower_or_upper: "lower"
+    threshold_or_formula:
+      value: null
+      candidates:
+        - {id: "C-1", note: "NASEM Table 21-1 经产 700 kg DIM 200 列的 CP 参考浓度（p.471）；由 MP 按预期 MP/CP 比推算的参考值（p.470），依赖表中 DMI ⟨withheld⟩；只能作下限候选", locator: "p.470–471；model_audit §10.2"}
+        - {id: "C-4", note: "NY/T《奶牛营养需要量》2025 征求意见稿表 6（泌乳中期/后期区间）；征求意见稿，另一体系；区间是否为上下限属解读", locator: "model_audit §10.2；本地 PDF 第 13 页（路径见 audit/_parts/P2a_log_additions.md §2）"}
+        - {id: "C-6", note: "企业/牧场规格书（本地未找到带出处者；旧稿 CP 15.8 无出处，已弃用）", locator: "S8 §1"}
+      numeric_values_not_copied_here: "候选数值见 model_audit §10.2；本文件不替用户选定"
+    source_locator: null
+    animal_stage: "stable_lactation"
+    standard_version: null
+    numerical_tolerance: {value: 1.0e-6, unit: "%DM", status: "research_scenario_assumption", rationale: "数值容差"}
+    claim_scope: "CP 配方规格满足；不等于 MP 或可代谢 EAA 充足（合同 §2.1、验收 C03）"
+    dm_source: "scenario"
+    engine_mapping: {kind: "concentration", terms: {"CP": 1.0}, sense: "ge", bound: null, unit: "%", basis: "DM"}
+    joint_event_candidate: true
+    open_decisions: ["D-03", "B-P2a-02", "D-01"]
+
+  - constraint_id: "PN-CP-HI"
+    name_zh: "粗蛋白浓度上限（配方规格）"
+    constraint_class: "probabilistic_nutrition"
+    status: "pending_user_decision"
+    status_reason: "是否设上限、数值与来源都待定；NASEM 只有定性说法（超过合理安全余量的 RDP 应尽量减少，p.96）"
+    failure_category: "I_nutrient_supply"
+    quantity_type: "measured_analyte_based"
+    expression: "CP_diet(q,θ) ≤ U_CP"
+    linearized_row: "Σ_i q_i d_i(θ) · (CP_i(θ) − U_CP) ≤ 0"
+    unit: "%DM"
+    lower_or_upper: "upper"
+    threshold_or_formula:
+      value: null
+      candidates:
+        - {id: "C-3", note: "NASEM 第 6 章定性说法，无数值", locator: "p.96；model_audit §10.2"}
+        - {id: "C-4", note: "NY/T 2025 征求意见稿表 6 区间上端（解读）", locator: "model_audit §10.2"}
+    source_locator: null
+    animal_stage: "stable_lactation"
+    standard_version: null
+    numerical_tolerance: {value: 1.0e-6, unit: "%DM", status: "research_scenario_assumption", rationale: "数值容差"}
+    claim_scope: "CP 配方规格上限；不评估氮排放或健康"
+    dm_source: "scenario"
+    engine_mapping: {kind: "concentration", terms: {"CP": 1.0}, sense: "le", bound: null, unit: "%", basis: "DM"}
+    joint_event_candidate: "pending（D-09 选项 b 把上限移出联合事件）"
+    open_decisions: ["D-03", "D-09", "B-P2a-02"]
+
+  - constraint_id: "PN-CA-ABS"
+    name_zh: "吸收钙供给 ≥ 析因需要（吸收量形式）"
+    constraint_class: "probabilistic_nutrition"
+    status: "pending_user_decision"
+    status_reason: >-
+      形式与方程有来源；右端项数值由有来源的参考牛输入推导，但三项选择待定：参考牛（PUD-P2a-01）、
+      生长项选项 A/B（PUD-P2a-03 / B-P2a-05）、维持项用实际 D 还是固定 DMI（PUD-P2a-05 / B-P2a-06）。
+      下列 recommended_default 按 P2a 推荐（A + 实际 D）给出，均为推导值、非拍数。
+    failure_category: "I_nutrient_supply"
+    quantity_type: "model_quantity"
+    expression: "Ca_abs(q,θ) − 0.9·D(q,θ) ≥ Ca_lact + Ca_growth + Ca_gest（维持项按实际 DM 供给计）"
+    linearized_row: "R_Ca − Σ_i q_i d_i(θ) · (10 · Ca_i(θ) · AC_Ca,i − 0.9) ≤ 0（Ca_i 为 %DM，AC 固定，单位 g/head/d）"
+    unit: "g/head/d"
+    lower_or_upper: "lower"
+    threshold_or_formula:
+      recommended_default:
+        option: "A_growth_included + maintenance_on_actual_D"
+        R_Ca: {value: null, unit: "g/head/d", derivation: "Ca_lact ⟨withheld⟩ + Ca_growth ⟨withheld⟩ + Ca_gest 0（model_audit §4.1、NV-19）", value_ref: "withheld (public copy): computed from the Table 21-1/21-3 (p.471-473) reference-cow inputs with the equations named in this block (Eq 2-1, Eq 3-13...3-20, Eq 7-1...7-8, Eq 20-373...20-389)"}
+      alternatives:
+        - {option: "B_growth_zero + maintenance_on_actual_D", R_Ca: null, unit: "g/head/d", value_ref: "withheld (public copy): computed from the Table 21-1/21-3 (p.471-473) reference-cow inputs with the equations named in this block (Eq 2-1, Eq 3-13...3-20, Eq 7-1...7-8, Eq 20-373...20-389)"}
+        - {option: "A + maintenance_on_fixed_DMI", form: "Σ_i q_i d_i(θ)·10·Ca_i(θ)·AC_Ca,i ≥ ⟨withheld⟩ g/d", note: "维持项固定为 0.9 × ⟨withheld⟩"}
+        - {option: "B + maintenance_on_fixed_DMI", form: "同上，右端 ⟨withheld⟩ g/d"}
+        - {option: "A + maintenance_on_fixed_DMI（DMI 取 Eq 20-21 字面式 ⟨withheld⟩）", form: "右端 ⟨withheld⟩ g/d", derivation: "0.9 × ⟨withheld⟩ + ⟨withheld⟩ + ⟨withheld⟩"}
+        - {option: "B + maintenance_on_fixed_DMI（DMI 取 Eq 20-21 字面式）", form: "右端 ⟨withheld⟩ g/d"}
+      dmi_version_note: "推荐选项（维持项按实际 D）下 R_Ca 与 DMI 方程版本无关；DMI 版本只通过 SH-DM-PLAN 的计划 DM 供给影响 D（PUD-P2a-06/-08）"
+      absorption_coefficients:
+        source: "Ca 按原料类别给定：Table 7-1（p.109）与正文（p.108–109）；矿物原料见 Table 19-3（p.408–413）"
+        values_location: "逐原料 AC 不写入本文件（NASEM 版权）；存放于 data/restricted_local/（planned：ac_ca_p_by_ingredient.csv，由原料清单任务建立）；类别值见 model_audit §4.2"
+        treatment: "固定模型参数，不随机；AC 不确定性属第 4 类模型不确定性，只作敏感性（model_audit §4.2）"
+    source_locator: "NASEM 2021 Eq 7-1/20-373（p.106/454）、Eq 7-2/20-374、Eq 7-4/20-376（p.106–107/455）、Eq 20-378（p.455）；Table 7-1（p.109）；model_audit §4、§6.2"
+    animal_stage: "stable_lactation（妊娠 ⟨withheld⟩ d < 190 d，妊娠项取 0；model_audit §4.1）"
+    standard_version: "NASEM 2021 析因法（吸收量）"
+    numerical_tolerance: {value: 1.0e-6, unit: "g/head/d", status: "research_scenario_assumption", rationale: "数值容差"}
+    claim_scope: >-
+      在固定 AC 与参考牛下，吸收 Ca 供给是否达到 NASEM 需要（相当于 EAR、群体平均，p.5）；
+      不含牛间需要量差异；非齐次约束，DM 偏低时供给绝对量下降（model_audit §6.2）；不代表骨骼、繁殖或健康结果。
+    dm_source: "scenario"
+    engine_mapping: {kind: "supply", terms: {"C:AC_Ca:Ca": 1.0, "DM": -0.0009}, sense: "ge", bound: null, unit: "g/d", note: "a 以 fraction 计时 DM 系数为 −0.0009 kg Ca/kg DM；C:AC_Ca:Ca 为具名系数项，每种原料须在 IngredientRecord.coefficients 给出 AC_Ca（值在 restricted_local，planned），缺失即编译错误。2026-09-24 按红队发现由 G:ac_ca:Ca 改正（ENGINE_API.md §3.1/§3.4、datamodel.py ConstraintSpec 文档、tests/unit/test_constraint_compile.py 均用 C: 语法）"}
+    joint_event_candidate: true
+    display_only: "%DM 形式（假定日粮平均 AC）只作展示，不作约束（model_audit §6.3、D-P2a-04）"
+    open_decisions: ["PUD-P2a-01", "PUD-P2a-03", "PUD-P2a-05"]
+
+  - constraint_id: "PN-P-ABS"
+    name_zh: "吸收磷供给 ≥ 析因需要（吸收量形式）"
+    constraint_class: "probabilistic_nutrition"
+    status: "pending_user_decision"
+    status_reason: >-
+      同 PN-CA-ABS 的三项选择；另有 P 泌乳常数 0.48/0.49（PUD-P2a-04）；基础饲料 P AC 暂用默认值
+      （research_scenario_assumption，待 nasem_dairy 饲料库，PUD-P2a-06）。
+    failure_category: "I_nutrient_supply"
+    quantity_type: "model_quantity"
+    expression: "P_abs(q,θ) − 1.0·D(q,θ) ≥ P_urinary + P_lact + P_growth + P_gest（粪内源维持项按实际 DM 供给计）"
+    linearized_row: "R_P − Σ_i q_i d_i(θ) · (10 · P_i(θ) · AC_P,i − 1.0) ≤ 0（单位 g/head/d）"
+    unit: "g/head/d"
+    lower_or_upper: "lower"
+    threshold_or_formula:
+      recommended_default:
+        option: "A_growth_included + maintenance_on_actual_D + milk_P_constant_0.48"
+        R_P: {value: null, unit: "g/head/d", derivation: "P_urinary ⟨withheld⟩ + P_lact ⟨withheld⟩ + P_growth ⟨withheld⟩ + P_gest 0（model_audit §5.1、NV-19）", value_ref: "withheld (public copy): computed from the Table 21-1/21-3 (p.471-473) reference-cow inputs with the equations named in this block (Eq 2-1, Eq 3-13...3-20, Eq 7-1...7-8, Eq 20-373...20-389)"}
+      alternatives:
+        - {option: "B + actual_D + 0.48", R_P: null, unit: "g/head/d", value_ref: "withheld (public copy): computed from the Table 21-1/21-3 (p.471-473) reference-cow inputs with the equations named in this block (Eq 2-1, Eq 3-13...3-20, Eq 7-1...7-8, Eq 20-373...20-389)"}
+        - {option: "A + actual_D + 0.49（Eq 7-8b）", R_P: null, unit: "g/head/d", derivation: "⟨withheld⟩ + ⟨withheld⟩ + ⟨withheld⟩", value_ref: "withheld (public copy): computed from the Table 21-1/21-3 (p.471-473) reference-cow inputs with the equations named in this block (Eq 2-1, Eq 3-13...3-20, Eq 7-1...7-8, Eq 20-373...20-389)"}
+        - {option: "A + fixed_DMI + 0.48", form: "Σ_i q_i d_i(θ)·10·P_i(θ)·AC_P,i ≥ ⟨withheld⟩ g/d"}
+        - {option: "B + fixed_DMI + 0.48", form: "右端 ⟨withheld⟩ g/d"}
+        - {option: "A + fixed_DMI（Eq 20-21 字面式 ⟨withheld⟩）+ 0.48", form: "右端 ⟨withheld⟩ g/d", derivation: "⟨withheld⟩ + ⟨withheld⟩ + ⟨withheld⟩ + ⟨withheld⟩"}
+        - {option: "B + fixed_DMI（Eq 20-21 字面式）+ 0.48", form: "右端 ⟨withheld⟩ g/d"}
+      dmi_version_note: "同 PN-CA-ABS：推荐选项下 R_P 与 DMI 方程版本无关"
+      absorption_coefficients:
+        source: "矿物 P 源：Table 19-3（p.408–413）；基础饲料：无机/有机 P 分部计算，无分部时默认值（p.113）"
+        basal_feed_default_status: "research_scenario_assumption"
+        values_location: "同 PN-CA-ABS（restricted_local，planned）"
+    source_locator: "NASEM 2021 Eq 7-5b/20-384–386（p.112/455）、Eq 20-389（p.456）、Eq 7-6/20-387（p.112/455）、Eq 20-391（p.456）；p.113（AC）；model_audit §5、§6.2"
+    animal_stage: "stable_lactation（妊娠 < 190 d，妊娠项取 0）"
+    standard_version: "NASEM 2021 析因法（吸收量）"
+    numerical_tolerance: {value: 1.0e-6, unit: "g/head/d", status: "research_scenario_assumption", rationale: "数值容差"}
+    claim_scope: "同 PN-CA-ABS；NASEM 的 P AC 是最大吸收率，过量时高估吸收但不影响“达到需要所需的量”（p.113）"
+    dm_source: "scenario"
+    engine_mapping: {kind: "supply", terms: {"C:AC_P:P": 1.0, "DM": -0.001}, sense: "ge", bound: null, unit: "g/d", note: "DM 系数 −0.001 kg P/kg DM（粪内源 1.0 g/kg DM）；尿 P 0.0006·BW 已在 R_P 内。C:AC_P:P 具名系数项，同 PN-CA-ABS；2026-09-24 由 G:ac_p:P 改正"}
+    joint_event_candidate: true
+    open_decisions: ["PUD-P2a-01", "PUD-P2a-03", "PUD-P2a-04", "PUD-P2a-05", "PUD-P2a-06"]
+
+  # ======================= probabilistic_nutrition：II 类（Table 5-1） =====
+  # 5 条线性不等式由 NASEM 2021 Table 5-1（p.63）及同页文字规则推出（model_audit §9.2–9.3，D-P2a-07）。
+  # fNDF_i = (1 − Fd_Conc_i/100)·NDF_i（Eq 20-29，p.424）；forage_flag 见 inventories.yaml。
+  # 适用前提：TMR、粗饲料粒度适宜、干粉碎玉米为主要淀粉源（p.63）；含压片玉米/大麦时前提不严格成立（B-P2a-04）。
+  # NDF、fNDF、淀粉在 NASEM 中是“建议值”，不是“需要量”（数据可行性审计 §5.2 措辞要求）。
+
+  - constraint_id: "PN-T1"
+    name_zh: "粗饲料 NDF 最低值"
+    constraint_class: "probabilistic_nutrition"
+    status: "sourced"
+    applicability_status: "pending_user_decision（B-P2a-04 淀粉源前提；D-07 全棉籽是否计入 fNDF）"
+    failure_category: "II_carbohydrate_rumen_proxy"
+    quantity_type: "measured_analyte_based"
+    expression: "fNDF_diet(q,θ) ≥ ⟨withheld⟩"
+    linearized_row: "Σ_i q_i d_i(θ) · (⟨withheld⟩ − fNDF_i(θ)) ≤ 0"
+    unit: "%DM"
+    lower_or_upper: "lower"
+    threshold_or_formula: {value: null, unit: "%DM"}
+    source_locator: "NASEM 2021 Table 5-1（p.63，最低 fNDF 列最小值）；model_audit §9.2 T1"
+    animal_stage: "lactating cows fed TMR（p.63）"
+    standard_version: "NASEM 2021 Table 5-1"
+    numerical_tolerance: {value: 1.0e-6, unit: "%DM", status: "research_scenario_assumption", rationale: "数值容差"}
+    claim_scope: "NASEM 化学纤维建议值的满足；不代表 peNDF 或瘤胃健康效果"
+    dm_source: "scenario"
+    engine_mapping: {kind: "concentration", terms: {"G:forage:NDF": 1.0}, sense: "ge", bound: null, unit: "%", basis: "DM"}
+    joint_event_candidate: true
+    unit_tests: "model_audit §9.5 B10（违反）；B05（取等号）"
+
+  - constraint_id: "PN-T2"
+    name_zh: "总 NDF 最低值（fNDF ≥ ⟨withheld⟩ 时起作用）"
+    constraint_class: "probabilistic_nutrition"
+    status: "sourced"
+    applicability_status: "pending_user_decision（同 PN-T1）"
+    failure_category: "II_carbohydrate_rumen_proxy"
+    quantity_type: "measured_analyte_based"
+    expression: "NDF_diet(q,θ) ≥ ⟨withheld⟩"
+    linearized_row: "Σ_i q_i d_i(θ) · (⟨withheld⟩ − NDF_i(θ)) ≤ 0"
+    unit: "%DM"
+    lower_or_upper: "lower"
+    threshold_or_formula: {value: null, unit: "%DM"}
+    source_locator: "NASEM 2021 Table 5-1 第 1 行（p.63；总 NDF 最低 ⟨withheld⟩% 沿用 NRC 2001）；model_audit §9.2 T2"
+    animal_stage: "lactating cows fed TMR（p.63）"
+    standard_version: "NASEM 2021 Table 5-1"
+    numerical_tolerance: {value: 1.0e-6, unit: "%DM", status: "research_scenario_assumption", rationale: "数值容差"}
+    claim_scope: "同 PN-T1"
+    dm_source: "scenario"
+    engine_mapping: {kind: "concentration", terms: {"NDF": 1.0}, sense: "ge", bound: null, unit: "%", basis: "DM"}
+    joint_event_candidate: true
+    unit_tests: "model_audit §9.5 B14（违反）；B01、B08（满足）"
+
+  - constraint_id: "PN-T3"
+    name_zh: "总 NDF 随 fNDF 调整的下限（fNDF ≤ ⟨withheld⟩ 时起作用）"
+    constraint_class: "probabilistic_nutrition"
+    status: "sourced"
+    applicability_status: "pending_user_decision（同 PN-T1）"
+    failure_category: "II_carbohydrate_rumen_proxy"
+    quantity_type: "measured_analyte_based"
+    expression: "NDF_diet(q,θ) + 2·fNDF_diet(q,θ) ≥ ⟨withheld⟩"
+    linearized_row: "Σ_i q_i d_i(θ) · (⟨withheld⟩ − NDF_i(θ) − 2·fNDF_i(θ)) ≤ 0"
+    unit: "%DM"
+    lower_or_upper: "lower"
+    threshold_or_formula: {value: null, unit: "%DM", derivation: "N_min(k) = ⟨withheld⟩ + 2·(⟨withheld⟩ − k) = ⟨withheld⟩ − 2k，取 k = min(fNDF, ⟨withheld⟩)（model_audit §9.2）"}
+    source_locator: "NASEM 2021 Table 5-1 五行与 p.63 文字规则（fNDF 每低于 ⟨withheld⟩ 一个百分点，总 NDF 下限升 2 个百分点）；model_audit §9.2 T3、§9.3（凸包等价）"
+    animal_stage: "lactating cows fed TMR（p.63）"
+    standard_version: "NASEM 2021 Table 5-1（连续读法；推导属本项目，D-P2a-07）"
+    numerical_tolerance: {value: 1.0e-6, unit: "%DM", status: "research_scenario_assumption", rationale: "数值容差"}
+    claim_scope: "同 PN-T1；连续读法（非阶梯读法），区分测试点见 model_audit §9.5 B07、B15"
+    dm_source: "scenario"
+    engine_mapping: {kind: "concentration", terms: {"NDF": 1.0, "G:forage:NDF": 2.0}, sense: "ge", bound: null, unit: "%", basis: "DM"}
+    joint_event_candidate: true
+    unit_tests: "model_audit §9.5 B11（违反）；B06、B07（满足）"
+
+  - constraint_id: "PN-T4"
+    name_zh: "淀粉最高值（fNDF ≥ ⟨withheld⟩ 时起作用，不向上外推）"
+    constraint_class: "probabilistic_nutrition"
+    status: "sourced"
+    applicability_status: "pending_user_decision（同 PN-T1）"
+    failure_category: "II_carbohydrate_rumen_proxy"
+    quantity_type: "measured_analyte_based"
+    expression: "starch_diet(q,θ) ≤ ⟨withheld⟩"
+    linearized_row: "Σ_i q_i d_i(θ) · (starch_i(θ) − ⟨withheld⟩) ≤ 0"
+    unit: "%DM"
+    lower_or_upper: "upper"
+    threshold_or_formula: {value: null, unit: "%DM"}
+    source_locator: "NASEM 2021 Table 5-1 第 1 行（p.63）；model_audit §9.2 T4"
+    animal_stage: "lactating cows fed TMR（p.63）"
+    standard_version: "NASEM 2021 Table 5-1"
+    numerical_tolerance: {value: 1.0e-6, unit: "%DM", status: "research_scenario_assumption", rationale: "数值容差"}
+    claim_scope: "同 PN-T1；前提是干粉碎玉米为主要淀粉源（p.63），含快速发酵淀粉源时依据变弱（p.63–64）"
+    dm_source: "scenario"
+    engine_mapping: {kind: "concentration", terms: {"starch": 1.0}, sense: "le", bound: null, unit: "%", basis: "DM"}
+    joint_event_candidate: true
+    unit_tests: "model_audit §9.5 B09（违反）"
+
+  - constraint_id: "PN-T5"
+    name_zh: "淀粉随 fNDF 调整的上限（fNDF ≤ ⟨withheld⟩ 时起作用）"
+    constraint_class: "probabilistic_nutrition"
+    status: "sourced"
+    applicability_status: "pending_user_decision（同 PN-T1）"
+    failure_category: "II_carbohydrate_rumen_proxy"
+    quantity_type: "measured_analyte_based"
+    expression: "starch_diet(q,θ) ≤ 2·fNDF_diet(q,θ) − ⟨withheld⟩"
+    linearized_row: "Σ_i q_i d_i(θ) · (starch_i(θ) − 2·fNDF_i(θ) + ⟨withheld⟩) ≤ 0"
+    unit: "%DM"
+    lower_or_upper: "upper"
+    threshold_or_formula: {value: null, unit: "%DM", form: "starch − 2·fNDF ≤ ⟨withheld⟩", derivation: "S_max(k) = ⟨withheld⟩ − 2·(⟨withheld⟩ − k) = 2k − ⟨withheld⟩（model_audit §9.2）"}
+    source_locator: "NASEM 2021 Table 5-1 五行与 p.63 文字规则（fNDF 每低于 ⟨withheld⟩ 一个百分点，淀粉上限降 2 个百分点）；model_audit §9.2 T5、§9.3"
+    animal_stage: "lactating cows fed TMR（p.63）"
+    standard_version: "NASEM 2021 Table 5-1（连续读法；推导属本项目，D-P2a-07）"
+    numerical_tolerance: {value: 1.0e-6, unit: "%DM", status: "research_scenario_assumption", rationale: "数值容差"}
+    claim_scope: "同 PN-T4"
+    dm_source: "scenario"
+    engine_mapping: {kind: "concentration", terms: {"starch": 1.0, "G:forage:NDF": -2.0}, sense: "le", bound: null, unit: "%", basis: "DM"}
+    joint_event_candidate: true
+    unit_tests: "model_audit §9.5 B12、B13（违反）"
+
+  # ======================= probabilistic_nutrition：II 类（脂肪） ==========
+
+  - constraint_id: "PN-EE-HI"
+    name_zh: "脂肪浓度上限（EE 或 FA 口径待定）"
+    constraint_class: "probabilistic_nutrition"
+    status: "pending_user_decision"
+    status_reason: "口径（EE/FA）、数值、FA 口径下的 EE→FA 换算来源三件事都待定（B-P2a-03 / D-03）"
+    failure_category: "II_carbohydrate_rumen_proxy"
+    quantity_type: "measured_analyte_based"
+    expression: "EE_diet(q,θ) ≤ U_EE（或 FA_diet(q,θ) ≤ U_FA）"
+    linearized_row: "Σ_i q_i d_i(θ) · (EE_i(θ) − U_EE) ≤ 0"
+    unit: "%DM"
+    lower_or_upper: "upper"
+    threshold_or_formula:
+      value: null
+      basis_choice: null
+      candidates:
+        - {id: "E-1", basis: "FA", note: "NASEM：一般不推荐日粮总 FA 超过 7%（p.41）；泌乳早期低于 5% 较稳妥（p.52，本画像 DIM 200 不属早期）", caveat: "FA 口径；多数原料 TFA 无 N/SD（p.362），做随机约束需换算规则"}
+        - {id: "E-2", basis: "EE", note: "NY/T 2025 征求意见稿表 6 粗脂肪上限（泌乳中期/后期不同）", locator: "model_audit §10.3", caveat: "征求意见稿；另一体系"}
+        - {id: "E-3", basis: "EE", note: "业界规格：本地无带出处者；旧稿 fat ≤ 6 无出处，不可用"}
+    source_locator: null
+    animal_stage: "stable_lactation"
+    standard_version: null
+    numerical_tolerance: {value: 1.0e-6, unit: "%DM", status: "research_scenario_assumption", rationale: "数值容差"}
+    claim_scope: "脂肪上限规格；不评估瘤胃发酵或乳脂效果"
+    dm_source: "scenario"
+    engine_mapping: {kind: "concentration", terms: {"EE": 1.0}, sense: "le", bound: null, unit: "%", basis: "DM"}
+    joint_event_candidate: "pending（D-09）"
+    open_decisions: ["B-P2a-03", "D-03", "D-05"]
+
+  # ======================= 候选：能量（A 层目前没有） =======================
+
+  - constraint_id: "CAND-ENERGY"
+    name_zh: "候选：能量供给约束（A 层目前缺失）"
+    constraint_class: "probabilistic_nutrition"
+    status: "pending_user_decision"
+    status_reason: >-
+      A 层没有任何能量约束，NEL 只在 B 层事后评价（数据可行性审计 §5.1–5.2）。
+      没有能量约束时，最低成本解可能大量使用低能量、低价的高纤维副产品，
+      使“成本—可靠性”比较落在营养上不现实的配方上。须在冻结前决定。
+    failure_category: "I_nutrient_supply"
+    quantity_type: "model_quantity"
+    expression: null
+    linearized_row: null
+    unit: "Mcal/head/d"
+    lower_or_upper: "lower"
+    threshold_or_formula:
+      value: null
+      options:
+        - {id: "EN-0", description: "A 层不设能量约束；B 层用 nasem_dairy 评价 NEL，把“NEL 供给 < 需要”作为方法间比较的诊断", consequence: "RQ2 成本结论须限定为“在不含能量约束的规格集下”"}
+        - {id: "EN-1", description: "线性能量代理：用 Table 19-1 DE base（计算值，按标准化假设，p.362）构造 Σ x_i·DE_base_i ≥ 需要换算值", consequence: "需要量映射（NEL→DE base）没有 NASEM 直接依据，须标 research_scenario_assumption"}
+        - {id: "EN-2", description: "在固定 DMI 下对 NASEM NEL 做逐次线性化（类似迭代 LP，Li et al. 2022 J Dairy Sci 105:2180）", consequence: "需要 nasem_dairy（P1-7）；非线性残差需核验"}
+        - {id: "EN-3", description: "用 B 层 NEL 作为可行性过滤器（先解 A 层，再剔除 NEL 不足解并重解）", consequence: "改变了行动空间，需对所有方法一致"}
+    source_locator: "数据可行性审计 §5.1–5.2；NASEM 2021 p.362（能量是日粮层面量）；S7 A13（Li et al. 2022）"
+    animal_stage: "stable_lactation"
+    standard_version: "NASEM 2021（如采用 EN-2/EN-3）"
+    numerical_tolerance: {value: null, unit: "Mcal/head/d", status: "pending_user_decision", rationale: "随选项定"}
+    claim_scope: "待定"
+    dm_source: "scenario"
+    engine_mapping: null
+    joint_event_candidate: "pending"
+    open_decisions: ["Q-01（本文件 open_questions）", "P1-7"]
+
+  # ======================= diagnostic_only ================================
+
+  - constraint_id: "DIAG-DM-REAL"
+    name_zh: "实际 DM 供给偏离带（Eq 2-1 ±10% 情景）"
+    constraint_class: "diagnostic_only"
+    status: "research_scenario_assumption"
+    status_reason: "±10% 借用 P2a 的 DMI 敏感性幅度，不是有来源的允许偏差；是否升级为 probabilistic_nutrition 待 D-09"
+    failure_category: "DM_supply"
+    quantity_type: "model_quantity"
+    expression: "0.9·DMI_scn ≤ D(q,θ) ≤ 1.1·DMI_scn"
+    linearized_row: "0.9·DMI_scn − Σ_i q_i d_i(θ) ≤ 0；Σ_i q_i d_i(θ) − 1.1·DMI_scn ≤ 0"
+    unit: "kg DM/head/d"
+    lower_or_upper: "both"
+    threshold_or_formula: {lower: null, upper: null, unit: "kg DM/head/d", derivation: "DMI_scn ⟨withheld⟩ × 0.9 / × 1.1"}
+    source_locator: "configs/animal_profile.yaml dry_matter_intake.sensitivity_plus_minus_10pct_kg_d；合同 02 T2（DM 变动时用区间，不要求精确等式）"
+    animal_stage: "stable_lactation"
+    standard_version: "NASEM 2021 Eq 2-1（中心值）"
+    numerical_tolerance: {value: 1.0e-6, unit: "kg DM/head/d", status: "research_scenario_assumption", rationale: "数值容差"}
+    claim_scope: "只描述按鲜重投料时实际 DM 供给偏离计划的程度（供给模型）；不是采食量，也不是动物反应"
+    dm_source: "scenario"
+    engine_mapping: {kind: "supply", terms: {"DM": 1.0}, sense: "ge / le", bound: [null, null], unit: "kg/d"}
+    joint_event_candidate: "pending（D-09）"
+
+  - constraint_id: "DIAG-INCL-REAL"
+    name_zh: "实际 DM 添加比例（随机 DM 下）"
+    constraint_class: "diagnostic_only"
+    status: "pending_user_decision"
+    status_reason: "比较对象 l_i、u_i 待 D-04"
+    failure_category: "S_structural"
+    quantity_type: "model_quantity"
+    expression: "share_i(q,θ) = q_i d_i(θ) / D(q,θ)，与 SH-INCL 的 l_i、u_i 比较"
+    linearized_row: "l_i·D(q,θ) − q_i d_i(θ) ≤ 0；q_i d_i(θ) − u_i·D(q,θ) ≤ 0"
+    unit: "fraction of actual DM"
+    lower_or_upper: "both"
+    threshold_or_formula: {per_ingredient: null}
+    source_locator: "合同 02 T2.3（随机 DM 下不能用名义添加比例检查实际配方）"
+    animal_stage: "stable_lactation"
+    standard_version: "not_applicable"
+    numerical_tolerance: {value: 1.0e-6, unit: "fraction", status: "research_scenario_assumption", rationale: "数值容差"}
+    claim_scope: "报告实际配比偏离；结构约束本身只在决策时（d̂）检查"
+    dm_source: "scenario"
+    engine_mapping: {kind: "concentration", terms_template: {"DM:<ingredient>": 1.0}, dm_source: "scenario"}
+    joint_event_candidate: false
+
+  - constraint_id: "DIAG-CA-MTL"
+    name_zh: "Ca 最大耐受水平"
+    constraint_class: "diagnostic_only"
+    status: "sourced"
+    failure_category: "I_nutrient_supply"
+    quantity_type: "measured_analyte_based"
+    expression: "Ca_diet(q,θ) ≤ 1.5"
+    linearized_row: "Σ_i q_i d_i(θ) · (Ca_i(θ) − 1.5) ≤ 0"
+    unit: "%DM"
+    lower_or_upper: "upper"
+    threshold_or_formula: {value: 1.5, unit: "%DM"}
+    source_locator: "NASEM 2021 p.110（反刍动物 Ca MTL 1.5% 日粮 DM，引 NRC 2005）；model_audit §7 第 5 条"
+    animal_stage: "ruminants（通用）"
+    standard_version: "NASEM 2021 引 NRC 2005"
+    numerical_tolerance: {value: 1.0e-6, unit: "%DM", status: "research_scenario_assumption", rationale: "数值容差"}
+    claim_scope: "诊断；NASEM 同页指出过量 Ca 一般不伴随特定毒性"
+    dm_source: "scenario"
+    engine_mapping: {kind: "concentration", terms: {"Ca": 1.0}, sense: "le", bound: 1.5, unit: "%", basis: "DM"}
+    joint_event_candidate: false
+
+  - constraint_id: "DIAG-CAP-RATIO"
+    name_zh: "Ca:P 比"
+    constraint_class: "diagnostic_only"
+    status: "sourced"
+    failure_category: "I_nutrient_supply"
+    quantity_type: "measured_analyte_based"
+    expression: "1 ≤ Ca_diet/P_diet ≤ 7（只报告越界）"
+    linearized_row: "Σ_i q_i d_i(θ)·(P_i − Ca_i) ≤ 0；Σ_i q_i d_i(θ)·(Ca_i − 7·P_i) ≤ 0"
+    unit: "ratio"
+    lower_or_upper: "both"
+    threshold_or_formula: {lower: 1.0, upper: 7.0, unit: "ratio"}
+    source_locator: "NASEM 2021 p.110（比例不关键，除非 >7:1 或 <1:1；模型不按比例调整 AC）"
+    animal_stage: "lactating cows"
+    standard_version: "NASEM 2021"
+    numerical_tolerance: {value: 1.0e-6, unit: "ratio", status: "research_scenario_assumption", rationale: "数值容差"}
+    claim_scope: "诊断"
+    dm_source: "scenario"
+    engine_mapping: null
+    joint_event_candidate: false
+
+  - constraint_id: "DIAG-FA-7"
+    name_zh: "日粮总脂肪酸 7% 参考线"
+    constraint_class: "diagnostic_only"
+    status: "sourced"
+    failure_category: "II_carbohydrate_rumen_proxy"
+    quantity_type: "measured_analyte_based"
+    expression: "FA_diet(q, t0 均值) ≤ 7（按 TFA 均值计算；多数原料 TFA 无 SD，不做随机评估）"
+    linearized_row: "Σ_i q_i d̄_i · (TFA_i − 7) ≤ 0"
+    unit: "%DM"
+    lower_or_upper: "upper"
+    threshold_or_formula: {value: 7.0, unit: "%DM"}
+    source_locator: "NASEM 2021 p.41（不推荐总 FA >7%）；p.362（TFA 估算值无 N/SD）"
+    animal_stage: "lactating cows"
+    standard_version: "NASEM 2021"
+    numerical_tolerance: {value: 1.0e-6, unit: "%DM", status: "research_scenario_assumption", rationale: "数值容差"}
+    claim_scope: "诊断；若 D-03 选 FA 口径，本条升级为 PN-EE-HI 的实现并删除本条"
+    dm_source: "decision_estimate"
+    engine_mapping: {kind: "concentration", terms: {"TFA": 1.0}, sense: "le", bound: 7.0, unit: "%", basis: "DM"}
+    joint_event_candidate: false
+
+  - constraint_id: "DIAG-ASH-ROM"
+    name_zh: "日粮灰分与 ROM 质量核对"
+    constraint_class: "diagnostic_only"
+    status: "sourced"
+    failure_category: "III_data_missing"
+    quantity_type: "measured_analyte_based"
+    expression: "报告 ash_diet；ROM_diet = 100 − (ash + FA + CP + NDF + starch)，ROM < 0 记 DQF-ROM-NEGATIVE"
+    linearized_row: null
+    unit: "%DM"
+    lower_or_upper: "not_applicable"
+    threshold_or_formula: {value: null, note: "无阈值，只报告"}
+    source_locator: "NASEM 2021 p.361（ROM 定义；负 ROM 保留）；数据可行性审计 §0 Q3（灰分用于质量守恒）"
+    animal_stage: "not_applicable"
+    standard_version: "NASEM 2021"
+    numerical_tolerance: {value: null, unit: "%DM", status: "not_applicable", rationale: "无阈值"}
+    claim_scope: "数据一致性诊断，不是营养违约"
+    dm_source: "scenario"
+    engine_mapping: null
+    joint_event_candidate: false
+
+  - constraint_id: "DIAG-MG-K-NA"
+    name_zh: "吸收 Mg、Na、K 平衡（事后汇总）"
+    constraint_class: "diagnostic_only"
+    status: "sourced"
+    failure_category: "I_nutrient_supply"
+    quantity_type: "model_quantity"
+    expression: "按第 7 章方程计算需要与吸收供给（Mg AC 依日粮 K 非线性）"
+    linearized_row: null
+    unit: "g/head/d"
+    lower_or_upper: "lower"
+    threshold_or_formula: {formula: "Mg：Eq 7-9 至 7-12（p.116）；Na：Eq 7-14 至 7-17（p.121）；K：Eq 7-22 至 7-25（p.127）；Mg AC：Eq 20-395（p.456）"}
+    source_locator: "model_audit §7；D-P2a-08"
+    animal_stage: "stable_lactation"
+    standard_version: "NASEM 2021"
+    numerical_tolerance: {value: 1.0e-6, unit: "g/head/d", status: "research_scenario_assumption", rationale: "数值容差"}
+    claim_scope: "诊断；主要由确定性矿物原料决定，不进联合事件"
+    dm_source: "scenario"
+    engine_mapping: null
+    joint_event_candidate: false
+
+  - constraint_id: "DIAG-T51-STARCH-SOURCE"
+    name_zh: "干粉碎玉米提供的淀粉占比（Table 5-1 前提核对）"
+    constraint_class: "diagnostic_only"
+    status: "sourced"
+    failure_category: "II_carbohydrate_rumen_proxy"
+    quantity_type: "measured_analyte_based"
+    expression: "share_corn_starch(q,θ) = Σ_{i∈干粉碎玉米} q_i d_i starch_i / Σ_i q_i d_i starch_i（只报告）"
+    linearized_row: null
+    unit: "fraction of dietary starch"
+    lower_or_upper: "not_applicable"
+    threshold_or_formula: {value: null, note: "若采用 CAND-T51-PRECOND 则与其阈值比较"}
+    source_locator: "NASEM 2021 Table 5-1 前提（p.63）"
+    animal_stage: "lactating cows fed TMR"
+    standard_version: "NASEM 2021"
+    numerical_tolerance: {value: null, unit: "fraction", status: "not_applicable", rationale: "只报告"}
+    claim_scope: "说明 Table 5-1 前提在所得配方上是否成立"
+    dm_source: "scenario"
+    engine_mapping: null
+    joint_event_candidate: false
+
+  - constraint_id: "DIAG-NEL-B"
+    name_zh: "B 层 NEL 供需（事后评价）"
+    constraint_class: "diagnostic_only"
+    status: "pending_user_decision"
+    status_reason: "nasem_dairy 1.0.2 未安装（P1-7 / PUD-P2a-06），安装位置为正式实验服务器（D-13）"
+    failure_category: "I_nutrient_supply"
+    quantity_type: "model_quantity"
+    expression: "NEL_supply(q, θ 均值或情景) 与 NEL 需要比较，由 nasem_dairy 计算"
+    linearized_row: null
+    unit: "Mcal/head/d"
+    lower_or_upper: "lower"
+    threshold_or_formula: {formula: "nasem_dairy 1.0.2（固定版本）"}
+    source_locator: "数据可行性审计 §5.1–5.2"
+    animal_stage: "stable_lactation"
+    standard_version: "NASEM 2021 / nasem_dairy 1.0.2"
+    numerical_tolerance: {value: null, unit: "Mcal/head/d", status: "pending_user_decision", rationale: "随评价器定"}
+    claim_scope: "B 层次要结果；非线性，不进 A 层联合事件"
+    dm_source: "scenario"
+    engine_mapping: null
+    joint_event_candidate: false
+
+# ---------------------------------------------------------------------------
+# 需要写成单元测试的检查（交给实现任务；全部 planned）
+# ---------------------------------------------------------------------------
+unit_test_requirements:
+  - "Table 5-1 边界点 B01–B15（model_audit §9.5）逐点满足/违反与预期一致"
+  - "D 乘法形式与比值形式在 D > 0 时判定一致；D = 0 时返回 invalid_input，不静默通过"
+  - "全体 d_i 乘同一常数时 PN-T1…T5 判定不变（齐次）；PN-CA-ABS、PN-P-ABS 随之变化（非齐次）"
+  - "structural_hard 只用 d̂；以 d(θ) 替换 d̂ 应改变 PN 类结果但不改变 SH 类判定（防泄漏）"
+  - "阈值为 null 的约束在 pilot/official 模式被 validator 拒绝"
+  - "缺失成分（DQF-MISSING）不被当作 0 计入供给"
+
+# ---------------------------------------------------------------------------
+# 本文件范围内的未决问题
+# ---------------------------------------------------------------------------
+open_questions:
+  - {id: "Q-01", item: "A 层是否加能量约束（CAND-ENERGY 的 EN-0…EN-3）", why: "不加时最低成本配方可能能量不现实，影响 RQ2 解释"}
+  - {id: "Q-02", item: "联合事件成员（D-09）", why: "主要终点定义"}
+  - {id: "Q-03", item: "CP 下/上限、脂肪上限的口径与数值（D-03、B-P2a-02、B-P2a-03）", why: "3 条 PN 约束无阈值"}
+  - {id: "Q-04", item: "Ca、P 右端项选项（PUD-P2a-03、-04、-05）", why: "默认值按 P2a 推荐给出，未拍板"}
+  - {id: "Q-05", item: "Table 5-1 淀粉源前提的处理（B-P2a-04：CAND-T51-PRECOND / 照用并写局限 / 收紧 / INV-2）", why: "II 类约束的适用性"}
+  - {id: "Q-06", item: "食盐、小苏打、脂肪粉、预混料的添加规则（D-04、B-P3A-2）", why: "主约束集不含 Na 与能量，没有下限时它们会被优化为 0"}
+  - {id: "Q-07", item: "数值容差 1e-6（自然单位）是否冻结", why: "合同 T3 要求冻结容差"}
+  - {id: "Q-08", item: "DIAG-DM-REAL 是否升级为 probabilistic_nutrition", why: "DM 通道是否单独构成违约"}

@@ -1,0 +1,145 @@
+# 开发案例 v1：参考牛与营养模型版本（R4，第二轮整改，K4_nutrition_case）
+# 状态（合同 §2.3）：implemented。只用于开发案例 dev_case_v1，不是 protocol_frozen，不进入正式结果。
+# 数值规则：参考牛的 Table 21-1/21-3 输入不在本文件复制，用 value_from 指向已被跟踪的 configs/animal_profile.yaml；
+#           本文件只写方程系数、正文值、研究假设与由方程推导的值；NASEM 表值（Table 19-x、AC 等）只在 data/restricted_local/dev_case_v1/。
+# 页码：印刷页 p.N（本地 PDF 页 = 印刷页 + 20）。
+
+schema: ration_reliability.dev_case/0.1
+case_id: dev_case_v1
+file_role: animal
+stage_status: implemented
+frozen: false
+
+reference_cow:
+  profile_id: HOL_MULTI_DIM200_NASEM21T21_v0
+  status: research_scenario_assumption
+  rationale: >-
+    开发案例只需一个参考牛（合同 T6）。选 NASEM 2021 Table 21-1（p.471）经产（Mature）荷斯坦中泌乳期最晚的一列
+    （列标识与各输入值见已被跟踪的 configs/animal_profile.yaml，本文件不复制）：书中自带示例牛，除 BCS 外输入均有页码，
+    处于稳定泌乳期，已妊娠（天数见 Table 21-1 脚注 a）。选择本身是研究设定（原 PUD-P2a-01 的开发期取值），
+    不声称它代表任何牧场。
+  value_resolution: >-
+    value_from = "<被跟踪文件>#<键路径>"，由 ration_reliability.nutrition.requirements.resolve_value_refs 解析
+    （拒绝指向 data/restricted_local 的 value_from；受限值只能写 value_ref，由调用方提供），再交给
+    requirements_from_config（调用层只接受已解析的 value）。构建脚本与 tests/numerical/test_energy_linearization.py
+    走同一解析函数（K4c，2026-09-25）。
+  inputs:                       # Table 21-1/21-3 的数值不在此复制：value_from 指向已被跟踪的 configs/animal_profile.yaml（B-318 待定）
+    breed: {value: Holstein, source: "Table 21-1 标题（p.471）；Eq 2-1 只用荷斯坦数据（p.13）"}
+    parity_eq2_1: {value: 1, unit: "1", source: "Table 21-1 Mature 列 = 经产；Eq 2-1 Parity 取 0–1（p.12）；代码 An_Parity_rl − 1"}
+    body_weight: {value_from: "configs/animal_profile.yaml#fields.body_weight_kg.value", unit: kg, source: "Table 21-1（p.471）"}
+    mature_body_weight: {value_from: "configs/animal_profile.yaml#fields.mature_body_weight_kg.value", unit: kg, source: "p.32"}
+    body_condition_score:
+      value: 3.0
+      unit: "1"
+      status: research_scenario_assumption
+      rationale: "Table 21-1 未列 BCS；Eq 2-1 建模数据均值 3.03（p.12）；模型以 BCS 3.0 标准化（p.444）"
+    days_in_milk: {value_from: "configs/animal_profile.yaml#fields.days_in_milk.value", unit: d, source: "Table 21-1（p.471）"}
+    milk_yield: {value_from: "configs/animal_profile.yaml#fields.milk_yield_kg_d.value", unit: kg/d, source: "Table 21-1（p.471）", role: "固定情景输入，不是预测"}
+    milk_fat: {value_from: "configs/animal_profile.yaml#fields.milk_fat_pct.value", unit: "%", source: "Table 21-1（p.471）"}
+    milk_true_protein: {value_from: "configs/animal_profile.yaml#fields.milk_true_protein_pct.value", unit: "%", source: "Table 21-3（p.473），按真蛋白解读（animal_profile basis_note）"}
+    milk_lactose: {value: 4.85, unit: "%", source: "未测时默认 0.0485 kg/kg（p.30，正文值）"}
+    days_pregnant: {value_from: "configs/animal_profile.yaml#fields.pregnancy.days_pregnant.value", unit: d, source: "Table 21-1 脚注 a（p.471）"}
+    calf_birth_weight: {value: 44, unit: kg, source: "经产荷斯坦犊牛初生重（p.31，正文值）"}
+    frame_gain: {value_from: "configs/animal_profile.yaml#fields.body_weight_change.frame_gain_kg_d.value", unit: kg/d, source: "Table 21-1 脚注 a（p.471）"}
+    reserves_gain: {value_from: "configs/animal_profile.yaml#fields.body_weight_change.reserves_gain_kg_d.value", unit: kg/d, source: "Table 21-1 脚注 a（p.471）"}
+    body_weight_gain_for_minerals: {value_from: "configs/animal_profile.yaml#fields.body_weight_change.An_BWgain_kg_d.value", unit: kg/d,
+                                    source: "Frm_Gain + Rsrv_Gain（Eq 20-247，p.444；代码 calculate_Body_Gain）"}
+    housing: {value: "舍饲 TMR，热中性，非放牧", status: research_scenario_assumption,
+              rationale: "Eq 2-1 数据条件（p.12）；维持需要已含舍饲正常活动（p.30–31）；NASEM 不对热应激调整维持（p.31）"}
+
+# ---------------------------------------------------------------------------------------------
+# 版本裁决（R4 第 2 项）：先只读核对 nasem_dairy 源码，再对照书内原文
+# ---------------------------------------------------------------------------------------------
+version_adjudication:
+  code_checked:
+    repository: "https://github.com/CNM-University-of-Guelph/NASEM-Model-Python"
+    commit: "9b0b28ef9a6013ac278bde72e58e01395c2ac6dc"
+    commit_date: "2025-05-30T15:57:05Z（main 分支头；GitHub API 于 2026-09-25 两次读取，头仍为此 commit）"
+    release_equivalence: >-
+      PyPI nasem-dairy 1.0.2 上传于 2025-03-20T20:04:13Z；标签 v1.0.2 = commit f602a7aa7e3e71c12cbec86440ed37e4e6577733
+      （2025-03-20T20:02:38Z）。GitHub compare API（v1.0.2...9b0b28e，K4c 于 2026-09-25 读取）：ahead 11、behind 0、
+      28 个变更文件全部是文档/构建配置（docs/、.readthedocs.yml、README.md、.gitignore），src/ 下 0 个文件变更。
+      因此下列源码核对同样适用于项目登记的 nasem_dairy==1.0.2（只读核对了本案例用到的函数；未安装、未运行该包，B-109 中用该包做 B 层事后评价的部分仍未做）。
+    access: "WebFetch 只读（raw.githubusercontent.com、github.com blob 页、api.github.com）；未克隆、未下载到项目、未安装包"
+    files:   # 行号 = 该 commit 的文件行号（1 起），核对方法见 line_numbers_method
+      - "src/nasem_dairy/nasem_equations/dry_matter_intake.py :: calculate_Dt_DMIn_Lact1 — def L254，式 L309–L313，return L314（L253 注释 # DMIn_eqn == 8）；分派 calculate_Dt_DMIn 中 elif DMIn_eqn == 8 于 L532–L534"
+      - "src/nasem_dairy/nasem_equations/micronutrient_requirement.py :: calculate_Fe_Ca_m L26–L31（0.9 × An_DMIn，L30）；calculate_An_Ca_g L34–L44（L42）；calculate_An_Ca_y L47–L59（常数 0.0245，L53–L54，无妊娠日条件）；calculate_An_Ca_l L62–L79（Mlk_NP_g 非缺失时 (0.295 + 0.239 × Trg_MilkTPp) × Trg_MilkProd，L71–L74）；calculate_Ur_P_m L131–L136（L135）；calculate_Fe_P_m L139–L147（An_Parity_rl ≠ 0 时 1.0 × An_DMIn，L143–L146）；calculate_An_P_g L158–L168（L166）；calculate_An_P_y L171–L182（L175–L181，无妊娠日条件）；calculate_An_P_l L185–L193（(0.48 + 0.13 × MlkNP_Milk × 100) × Trg_MilkProd，L192）"
+      - "同文件 “An_GestDay > 190” 只出现在 L305（Mg）、L393（Na）、L481（Cl）、L588（K）、L708（Cu，elif）、L811（Fe）、L898（Mn）、L1001（Zn）；Ca、P 妊娠函数中没有"
+      - "src/nasem_dairy/nasem_equations/body_composition.py :: calculate_Body_Gain（Body_Gain = Frm_Gain + Rsrv_Gain；只核对内容，行号未核，见 line_numbers_method）"
+      - "src/nasem_dairy/nasem_equations/milk.py :: calculate_MlkNP_Milk（MlkNP_Milk = Mlk_NP_g / 1000 / Mlk_Prod）、calculate_Mlk_NP_g（mPrt_eqn == 0 时 Mlk_NP_g = Trg_Mlk_NP_g）（只核对内容，行号未核）"
+      - "src/nasem_dairy/nasem_equations/energy_requirement.py :: calculate_Km_ME_NE、calculate_Kr_ME_RE（泌乳且体储增重 > 0 时 0.75）、calculate_Rsrv_NEgain（只作对照；只核对内容，行号未核）"
+      - "src/nasem_dairy/data/feed_library/NASEM_feed_library.csv（12 行原文存 data/restricted_local/dev_case_v1/，受限；K4c 用 WebFetch 逐字读出 NRC16F48、NRC16F93 两行，88 列与摘录逐格相同）"
+    line_numbers_method: >-
+      WebFetch 的摘要模型直接报的行号不可靠（K4 两次得到 341–345 与 387–391；K4c 再问得到 L171、L433 等，均与文件结构矛盾；
+      387–392 实为函数说明里引用的 R 脚本行号）。K4c 改用可核验的方法：分段逐字转录整个文件，按两个空行拼接，
+      重建文件的总行数与非空行数必须等于 GitHub 页面摘要——dry_matter_intake.py 631 行（541 loc），
+      micronutrient_requirement.py 1574 行（1270 loc），两者完全一致；上列行号取自重建文件。字节数不作核对
+      （写入工具会去掉行尾空白）。body_composition.py（729 行）的转录出现跳段，未重建，故只给函数级定位。
+    r_script: "original_R_script/NRC Dairy 2020 Model Fn - 2022_09_02.R：DMI 三行与 Python 一致；文件过大被截断，矿物部分未能在 R 中核对"
+  principle: >-
+    书内正文与第 20 章模型方程一致时按书；二者不一致时，以固定版本软件实现（上列 commit）裁决，并对所有此类分歧一律适用
+    （统一原 PUD-P2a-08 的取舍原则）。这是技术裁决，不是请用户在书内公式之间投票。
+  decisions:
+    dmi_equation:
+      chosen: dmi_eq2_1
+      value_basis: "Eq 2-1（p.12）"
+      evidence: >-
+        代码 calculate_Dt_DMIn_Lact1：(3.7 + 5.7(P−1) + 0.305 MilkE + 0.022 BW + (−0.689 − 1.87(P−1)) × BCS) ×
+        (1 − (0.212 + 0.136(P−1)) exp(−0.053 DIM))，BCS 乘整个括号，即 Eq 2-1 写法；R 原脚本同。
+        与 p.13 的 BCS 斜率（0.70 / 2.6 kg/d）一致。Eq 20-21（p.423）印刷括号为排版错误。
+      refutes: "model_audit §3.5 “软件用 Eq 20-21 字面式”的推断被代码否定"
+      also_resolves: "DMI 方程编号：代码注释 DMIn_eqn == 8 为泌乳牛动物因素式（与输入列表 p.416–417 一致；Eq 20-23 的“9”指饲粮因素式 Lact2）"
+      resolved_decisions: ["PUD-P2a-06（代码核对，DMI 部分）", "PUD-P2a-08"]
+    mineral_growth_term:
+      chosen: A_An_BWgain
+      evidence: "代码 calculate_An_Ca_g / calculate_An_P_g 以 Body_Gain（= Frm_Gain + Rsrv_Gain）驱动；书中第 7 章针对生长牛（p.106、p.112）与模型式 Eq 20-374/20-387 不一致 → 按原则取软件"
+      resolved_decisions: ["PUD-P2a-03"]
+    gestation_rule:
+      chosen: literal_equation
+      ca_constant: "Eq 20-375"
+      evidence: >-
+        代码 calculate_An_Ca_y（常数 0.0245）与 calculate_An_P_y 在任何妊娠日都按式计算，文件内没有 190 d 条件
+        （文件中的 “GestDay > 190” 只出现在其他元素的函数中）。正文规则（p.106–107、p.112）与模型式 Eq 20-375/20-388 不一致 → 按原则取软件。
+      effect_on_this_cow: "本牛妊娠日（Table 21-1 脚注 a）在 190 d 之前：Ca ⟨withheld⟩ g/d，P ⟨withheld⟩ g/d（对下限约束是保守方向）"
+      resolved_decisions: ["PUD-P2a-06（妊娠部分）"]
+    milk_p_constant:
+      chosen: "Eq 20-389"
+      evidence: "代码 calculate_An_P_l：(0.48 + 0.13 × MlkNP_Milk × 100) × Trg_MilkProd；书中算例 p.113（3.1 % 时 0.88 g/kg）同样支持 0.48；Eq 7-8b 的 0.49 为印刷不一致"
+      milk_protein_input: "代码中 MlkNP_Milk = Mlk_NP_g / 1000 / Mlk_Prod（milk.py），mPrt_eqn = 0（按目标乳蛋白）时 Mlk_NP_g = Trg_Mlk_NP_g；本案例产奶与乳蛋白都是固定情景输入（相当于 mProd_eqn = 0、mPrt_eqn = 0），故用目标乳真蛋白 %。若改用模型预测乳蛋白，P 泌乳项会随日粮变化，不在本案例范围（K4c 核对）"
+      resolved_decisions: ["PUD-P2a-04"]
+    maintenance_basis:
+      chosen: actual_D
+      evidence: "代码 calculate_Fe_Ca_m = 0.9 × An_DMIn、calculate_Fe_P_m = 1.0 × An_DMIn，随动物实际 DMI 变化；本研究假定供给全部采食，故维持项按该情景实际 DM 供给 D(q,θ)"
+      resolved_decisions: ["PUD-P2a-05"]
+    milk_ca:
+      evidence: "代码 calculate_An_Ca_l：Mlk_NP_g 非缺失时 (0.295 + 0.239 × Trg_MilkTPp) × Trg_MilkProd（缺失时退回按品种乳 Ca 含量 × 产奶），乳蛋白以百分数输入，与 Eq 7-4 / 书中算例一致（model_audit §11 第 6 条）；泌乳牛 Mlk_NP_g 在模型中总有值，本案例走前一分支"
+  sensitivity_not_adopted:
+    - "正文原则（TXT）：生长项 0 + 妊娠 190 d 规则 → Ca 右端 ⟨withheld⟩ g/d，P 右端 ⟨withheld⟩ g/d（只作 E5 敏感性）"
+    - "Eq 7-8b 常数 0.49 → P 右端 ⟨withheld⟩ g/d"
+
+# 调用层（src/ration_reliability/nutrition/requirements.py::requirement_version_from_config）读取的机器字段
+requirement_version:
+  dmi_function: dmi_eq2_1
+  growth_option: A_An_BWgain
+  gestation_rule: literal_equation
+  ca_gestation_equation: "Eq 20-375"
+  milk_p_equation: "Eq 20-389"
+  maintenance_basis: actual_D
+  decisions_resolved: [PUD-P2a-01, PUD-P2a-03, PUD-P2a-04, PUD-P2a-05, PUD-P2a-06, PUD-P2a-08]
+  decisions_resolved_note: >-
+    PUD-P2a-01（参考牛）在本开发案例中按 reference_cow 取值，属研究设定（research_scenario_assumption），不是“已由用户拍板”；
+    其余为上方 version_adjudication 的技术裁决。PUD-P2a-02（BCS）在 actual_D 口径下不进入 Ca/P 右端，只经 DMI 进入 SH-DM-PLAN。
+  row_status: research_scenario_assumption
+  row_status_rationale: "方程与输入有页码、版本经代码裁决；参考牛与 BCS 为开发案例研究设定"
+
+# 期望的推导值（手算与 G1 代码一致；构建脚本以 1e-6 容差复核）
+derived_expected:
+  value_ref: "withheld (public copy): computed from the Table 21-1/21-3 (p.471-473) reference-cow inputs with the equations named in this block (Eq 2-1, Eq 3-13...3-20, Eq 7-1...7-8, Eq 20-373...20-389)"
+  milk_NEL_concentration_Mcal_per_kg: null
+  MilkE_Mcal_d: null
+  DMI_kg_d: null
+  Ca_absorbed_requirement_g_d: null          # ⟨withheld⟩ + ⟨withheld⟩ + ⟨withheld⟩ + ⟨withheld⟩
+  P_absorbed_requirement_g_d: null           # ⟨withheld⟩ + ⟨withheld⟩ + ⟨withheld⟩ + ⟨withheld⟩
+  Ca_row_bound_actual_D_g_d: null            # ⟨withheld⟩ + ⟨withheld⟩ + ⟨withheld⟩
+  P_row_bound_actual_D_g_d: null             # ⟨withheld⟩ + ⟨withheld⟩ + ⟨withheld⟩ + ⟨withheld⟩
+  tolerance: 1.0e-6

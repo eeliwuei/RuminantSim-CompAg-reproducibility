@@ -1,0 +1,2 @@
+policy,comparator,cells,improved,worse,includes_zero,observed_difference_min,observed_difference_max
+historical_C2_expanded_delta,historical_C2_expanded_static,12,12,0,0,-0.0514,-0.032

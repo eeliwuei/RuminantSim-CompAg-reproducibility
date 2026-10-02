@@ -1,0 +1,208 @@
+# SYNTHETIC TEST DATA ONLY -- NOT REAL FEED, PRICE OR NUTRITION DATA.
+# Written by agent P4a_engine_core on 2026-09-24 for engine unit/integration tests.
+# Every number below was invented to exercise code paths (units, constraint grammar, LP, evaluator).
+# None of them is taken from NASEM, NANP, Dairy One, Feedipedia or any other source, none is a
+# nutrient requirement or recommendation, and none may enter any pilot/official result or manuscript.
+# Currency "XXX" (ISO 4217 code for "no currency") marks the prices as fictitious.
+schema: ration_reliability.problem/0.1
+problem_id: engine_toy_problem_v1
+dataset_status: synthetic_test_only
+is_synthetic: true
+description: >
+  Five invented ingredients, six invented nutrient columns and invented thresholds used only to
+  test the P4a engine core. Not a ration recommendation.
+sources:
+  - source_id: SYN-P4A-001
+    title: "P4a engine core synthetic test values (invented, no external source)"
+    is_synthetic: true
+    license_status: not_applicable_synthetic
+    owner: "ration_reliability_study (agent P4a)"
+    accessed_at: "2026-09-24"
+nutrients:
+  - {nutrient_id: CP, dimension: mass_fraction, name: "crude protein (synthetic column)"}
+  - {nutrient_id: NDF, dimension: mass_fraction, name: "NDF (synthetic column)"}
+  - {nutrient_id: starch, dimension: mass_fraction, name: "starch (synthetic column)"}
+  - {nutrient_id: EE, dimension: mass_fraction, name: "ether extract (synthetic column)"}
+  - {nutrient_id: Ca, dimension: mass_fraction, name: "calcium (synthetic column)"}
+  - {nutrient_id: ENERGY_SYN, dimension: energy_density, name: "synthetic energy column (not NEL)"}
+ingredients:
+  - ingredient_id: syn_forage_wet
+    name_en: "synthetic wet forage"
+    name_zh: "合成湿粗饲料（测试用）"
+    original_label: "SYN-FORAGE-WET"
+    category: forage
+    group_weights: {forage: 1.0}
+    is_stochastic: true
+    dm_estimate: {value: 35.0, unit: "%", basis: as_fed, status: synthetic_test_only, source_id: SYN-P4A-001}
+    composition:
+      CP: {value: 8.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      NDF: {value: 45.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      starch: {value: 30.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      EE: {value: 30.0, unit: "g/kg", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      Ca: {value: 2.5, unit: "g/kg", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      ENERGY_SYN: {value: 1.40, unit: "Mcal/kg", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+  - ingredient_id: syn_forage_dry
+    name_en: "synthetic dry forage"
+    category: forage
+    group_weights: {forage: 1.0}
+    is_stochastic: true
+    dm_estimate: {value: 0.88, unit: fraction, basis: as_fed, status: synthetic_test_only, source_id: SYN-P4A-001}
+    composition:
+      CP: {value: 18.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      NDF: {value: 42.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      starch: {value: 2.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      EE: {value: 2.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      Ca: {value: 1.2, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      ENERGY_SYN: {value: 5.44, unit: "MJ/kg", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+  - ingredient_id: syn_grain
+    name_en: "synthetic grain"
+    category: energy_concentrate
+    is_stochastic: true
+    dm_estimate: {value: 0.88, unit: fraction, basis: as_fed, status: synthetic_test_only, source_id: SYN-P4A-001}
+    composition:
+      CP: {value: 9.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      NDF: {value: 10.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      starch: {value: 70.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      EE: {value: 4.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      Ca: {value: 0.3, unit: "g/kg", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      ENERGY_SYN: {value: 2.00, unit: "Mcal/kg", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+  - ingredient_id: syn_protein_meal
+    name_en: "synthetic protein meal"
+    category: protein_concentrate
+    is_stochastic: true
+    dm_estimate: {value: 0.89, unit: fraction, basis: as_fed, status: synthetic_test_only, source_id: SYN-P4A-001}
+    composition:
+      CP: {value: 48.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      NDF: {value: 12.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      starch: {value: 2.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      EE: {value: 2.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      Ca: {value: 0.4, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      ENERGY_SYN: {value: 1.90, unit: "Mcal/kg", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+  - ingredient_id: syn_mineral
+    name_en: "synthetic mineral (deterministic input)"
+    category: mineral
+    is_stochastic: false
+    dm_estimate: {value: 0.99, unit: fraction, basis: as_fed, status: synthetic_test_only, source_id: SYN-P4A-001}
+    composition:
+      CP: {value: 0.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      NDF: {value: 0.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      starch: {value: 0.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      EE: {value: 0.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      Ca: {value: 35.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+      ENERGY_SYN: {value: 0.0, unit: "Mcal/kg", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+constraints:
+  - constraint_id: dm_offer
+    name: "planned DM offered equals synthetic intake"
+    kind: supply
+    terms: {DM: 1.0}
+    sense: eq
+    bound: {value: 20.0, unit: "kg/d", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+    constraint_class: structural_hard
+    dm_source: decision_estimate
+    numerical_tolerance: 1.0e-6
+  - constraint_id: cp_min
+    kind: concentration
+    terms: {CP: 1.0}
+    sense: ge
+    bound: {value: 16.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+    constraint_class: probabilistic_nutrition
+    numerical_tolerance: 1.0e-6
+  - constraint_id: cp_max
+    kind: concentration
+    terms: {CP: 1.0}
+    sense: le
+    bound: {value: 19.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+    constraint_class: probabilistic_nutrition
+    numerical_tolerance: 1.0e-6
+  - constraint_id: ndf_min
+    kind: concentration
+    terms: {NDF: 1.0}
+    sense: ge
+    bound: {value: 28.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+    constraint_class: probabilistic_nutrition
+    numerical_tolerance: 1.0e-6
+  - constraint_id: ndf_plus_2fndf
+    name: "NDF + 2 forage-NDF >= K (Table-5-1 *form*, synthetic K)"
+    kind: concentration
+    terms: {NDF: 1.0, "G:forage:NDF": 2.0}
+    sense: ge
+    bound: {value: 60.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+    constraint_class: probabilistic_nutrition
+    numerical_tolerance: 1.0e-6
+  - constraint_id: starch_max
+    kind: concentration
+    terms: {starch: 1.0}
+    sense: le
+    bound: {value: 28.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+    constraint_class: probabilistic_nutrition
+    numerical_tolerance: 1.0e-6
+  - constraint_id: starch_vs_fndf
+    name: "starch <= 2 forage-NDF - K2 (form only, synthetic K2)"
+    kind: concentration
+    terms: {starch: 1.0, "G:forage:NDF": -2.0}
+    sense: le
+    bound: {value: -5.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+    constraint_class: probabilistic_nutrition
+    numerical_tolerance: 1.0e-6
+  - constraint_id: ee_max
+    kind: concentration
+    terms: {EE: 1.0}
+    sense: le
+    bound: {value: 60.0, unit: "g/kg", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+    constraint_class: probabilistic_nutrition
+    numerical_tolerance: 1.0e-5
+  - constraint_id: ca_min
+    kind: concentration
+    terms: {Ca: 1.0}
+    sense: ge
+    bound: {value: 0.6, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+    constraint_class: probabilistic_nutrition
+    numerical_tolerance: 1.0e-6
+  - constraint_id: energy_supply_diag
+    name: "synthetic energy supply (diagnostic only)"
+    kind: supply
+    terms: {ENERGY_SYN: 1.0}
+    sense: ge
+    bound: {value: 125.0, unit: "MJ/d", basis: none, status: synthetic_test_only, source_id: SYN-P4A-001}
+    constraint_class: diagnostic_only
+    numerical_tolerance: 1.0e-6
+  - constraint_id: mineral_share_max
+    name: "planned DM share of mineral <= 2 % (structural, uses d_hat)"
+    kind: concentration
+    terms: {"DM:syn_mineral": 1.0}
+    sense: le
+    bound: {value: 2.0, unit: "%", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+    constraint_class: structural_hard
+    dm_source: decision_estimate
+    numerical_tolerance: 1.0e-7
+  - constraint_id: forage_wet_af_max
+    name: "as-fed upper bound for wet forage (inventory-type rule)"
+    kind: as_fed
+    terms: {"AF:syn_forage_wet": 1.0}
+    sense: le
+    bound: {value: 40.0, unit: "kg/d", basis: as_fed, status: synthetic_test_only, source_id: SYN-P4A-001}
+    constraint_class: structural_hard
+    numerical_tolerance: 1.0e-7
+prices:
+  price_id: syn_prices_v1
+  currency: XXX
+  is_scenario: true
+  price_year_or_date: null
+  items:
+    syn_forage_wet: {value: 60.0, unit: "XXX/t", basis: as_fed, status: synthetic_test_only, source_id: SYN-P4A-001}
+    syn_forage_dry: {value: 250.0, unit: "XXX/t", basis: as_fed, status: synthetic_test_only, source_id: SYN-P4A-001}
+    syn_grain: {value: 0.28, unit: "XXX/kg", basis: as_fed, status: synthetic_test_only, source_id: SYN-P4A-001}
+    syn_protein_meal: {value: 450.0, unit: "XXX/t", basis: as_fed, status: synthetic_test_only, source_id: SYN-P4A-001}
+    syn_mineral: {value: 300.0, unit: "XXX/t", basis: as_fed, status: synthetic_test_only, source_id: SYN-P4A-001}
+animal_profile:
+  profile_id: syn_cow_v1
+  species: dairy_cattle
+  animal_stage: synthetic_test_profile
+  nutrition_standard_and_version: null
+  dmi_equation: null
+  attributes:
+    dmi: {value: 20.0, unit: "kg/d", basis: DM, status: synthetic_test_only, source_id: SYN-P4A-001}
+run_context:
+  protocol_sha256: null
+  primary_assumption_id: null
+  fit_sets: [opt]

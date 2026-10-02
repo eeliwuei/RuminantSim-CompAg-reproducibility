@@ -1,0 +1,81 @@
+{
+  "status": "PASS",
+  "margin_definition": "m is the effective signed margin m_raw + original tolerance t; violation is m_raw < -t",
+  "hidden_state_example": {
+    "full_information_risk": 0.0,
+    "implementable_risk": 0.5,
+    "algorithmic_excess": 0
+  },
+  "marginal_example": {
+    "a_sum": 0.08,
+    "a_union": 0.04,
+    "b_sum": 0.06,
+    "b_union": 0.06
+  },
+  "variance_derivative_checks": [
+    {
+      "m": -2.0,
+      "v": 0.5,
+      "analytic": -0.02066698535409207,
+      "finite_difference": -0.020666985345307864,
+      "absolute_error": 8.784206001477557e-12
+    },
+    {
+      "m": -2.0,
+      "v": 1.0,
+      "analytic": -0.05399096651318806,
+      "finite_difference": -0.05399096650871015,
+      "absolute_error": 4.477911097477971e-12
+    },
+    {
+      "m": -2.0,
+      "v": 2.0,
+      "analytic": -0.051888437177574354,
+      "finite_difference": -0.05188843717751634,
+      "absolute_error": 5.801609193056834e-14
+    },
+    {
+      "m": 0.0,
+      "v": 0.5,
+      "analytic": 0.0,
+      "finite_difference": 0.0,
+      "absolute_error": 0.0
+    },
+    {
+      "m": 0.0,
+      "v": 1.0,
+      "analytic": 0.0,
+      "finite_difference": 0.0,
+      "absolute_error": 0.0
+    },
+    {
+      "m": 0.0,
+      "v": 2.0,
+      "analytic": 0.0,
+      "finite_difference": 0.0,
+      "absolute_error": 0.0
+    },
+    {
+      "m": 2.0,
+      "v": 0.5,
+      "analytic": 0.02066698535409207,
+      "finite_difference": 0.02066698535085898,
+      "absolute_error": 3.2330908783517742e-12
+    },
+    {
+      "m": 2.0,
+      "v": 1.0,
+      "analytic": 0.05399096651318806,
+      "finite_difference": 0.05399096651148571,
+      "absolute_error": 1.7023535359150799e-12
+    },
+    {
+      "m": 2.0,
+      "v": 2.0,
+      "analytic": 0.051888437177574354,
+      "finite_difference": 0.05188843717751634,
+      "absolute_error": 5.801609193056834e-14
+    }
+  ],
+  "scope": "deterministic illustrative algebra, no research data or stochastic draws"
+}

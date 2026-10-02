@@ -1,0 +1,4 @@
+case,world,scenario,root_index,policy,n_states,exclusive_pattern,count,event_unknown_denominator
+R0,TAB,C2,0,M0_historical,20000,energy_support_violation,1,1
+B,TAB,C0,2,M0_historical,20000,energy_support_violation,1,1
+B,TAB,C1,1,M0_historical,20000,energy_support_violation,1,1

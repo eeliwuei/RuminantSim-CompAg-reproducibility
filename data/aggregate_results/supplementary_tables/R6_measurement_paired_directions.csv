@@ -1,0 +1,12 @@
+policy,comparator,cells,improved,worse,includes_zero,observed_difference_min,observed_difference_max
+Q3_raw_noise_0p1,Q3_ideal_delta,6,0,0,6,0.00105,0.0021
+Q3_postmean_0p1,Q3_raw_noise_0p1,6,0,0,6,5e-05,0.0004
+Q3_postUA_0p1,Q3_postmean_0p1,6,0,0,6,-0.00105,-0.00015
+Q3_postUA_0p1,Q3_raw_noise_0p1,6,0,0,6,-0.00065,-0.0001
+Q2_postUA_0p1,Q3_postUA_0p1,6,5,0,1,-0.00595,-0.00315
+Q3_raw_noise_0p5,Q3_ideal_delta,6,0,6,0,0.02815,0.0421
+Q3_postmean_0p5,Q3_raw_noise_0p5,6,0,6,0,0.024,0.0428
+Q3_postUA_0p5,Q3_postmean_0p5,6,6,0,0,-0.06445,-0.04025
+Q3_postUA_0p5,Q3_raw_noise_0p5,6,6,0,0,-0.0253,-0.01625
+Q2_postUA_0p5,Q3_postUA_0p5,6,5,0,1,-0.00715,-0.00535
+Q2_ideal_delta,Q3_ideal_delta,6,5,0,1,-0.00665,-0.0037

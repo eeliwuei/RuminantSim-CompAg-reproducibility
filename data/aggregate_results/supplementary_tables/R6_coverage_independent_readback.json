@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "cells": 18,
+  "risks": 36,
+  "pairs": 18,
+  "canonical_reassessed_policy_states": 720000,
+  "new_draws": 0,
+  "stats_max_endpoint_difference": 6.74807432154978e-16,
+  "proxy_all_candidate_spot_positions": 288,
+  "proxy_spot_mismatch": 0,
+  "proxy_spot_max_error": 0.0,
+  "improved_pairs": 18,
+  "worse_pairs": 0,
+  "energy_fraction_min": 0.47730311860940694,
+  "energy_fraction_max": 0.5015898261758691,
+  "protocol_sha256": "e0bd7726500625d4f631012aca06469c0c121a4c4ac867891d10203a18e622c1",
+  "scope": "Full selected canonical saved-state replay, independent integer/beta counts and four-tail paired intervals. Original canonical evaluator reused; mathematical proxy equality all-action checks cover fixed16 positions per cell, not all test choices. Distinct within-experiment families; no across-source pairing. No runtime ratio from energy count."
+}

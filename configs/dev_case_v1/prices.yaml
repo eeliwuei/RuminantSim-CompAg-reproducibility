@@ -1,0 +1,153 @@
+# 开发案例 v1：价格情景（R4 第 5 项）——有日期、有来源的公开价格；无市场价的玉米青贮用有文献的定价规则
+# 状态（合同 §2.3）：implemented。无 placeholder：每个价格都有 URL、报告名、日期、单位、原物质/干物质基础、币种；
+#   规则价与情景选择标 research_scenario_assumption。
+# 读取方式：WebFetch 只读（K4，2026-09-25）。AMS PDF 由 WebFetch 工具自动缓存在会话 tool-results 目录（不在项目内），
+#   用 pdftotext 逐字读出下列行。K4c 于 2026-09-24T17:4xZ（= 09-25 KST）重新打开全部 8 个页面逐项核对数值、日期与页码，
+#   三份 AMS PDF 的 sha256 与创建时间记在 audit/_parts/round2/K4_nutrition_case_record.md §3（K4 当时未留 sha256）。
+# 持久定位：ams_*.pdf 是“最新一期”指针，会被下一期覆盖；复核时以“报告编号 + 报告日期”在 USDA MyMarketNews
+#   （https://mymarketnews.ams.usda.gov/viewReport/<编号>）查同一期，而不是依赖该 URL 当前内容。
+# 价格只代表“美国中西部 2026 年 9 月中旬、交易点报价”这一个研究情景；不是牧场到场成本，不是一般市场节约。
+# FIX_B（2026-09-25，第二轮红队 B）：石粉、磷酸氢钙两项由 sourced 改为 research_scenario_assumption——MU FEEDVAL II 页面
+#   只给计算日期，没有这两项的上游来源或观测期间（不满足 R4-3“注明期间”）；数值不变。其余 6 项状态不变。
+
+schema: ration_reliability.dev_case/0.1
+case_id: dev_case_v1
+file_role: prices
+stage_status: implemented
+frozen: false
+
+price_id: DEV-PRICE-USMW-2026W38
+currency: USD
+is_scenario: true
+price_period: "2026-09-14 至 2026-09-23"
+price_period_note: "该期间只覆盖 6 项有日期报价；石粉、磷酸氢钙为期间与上游来源未知的推广机构参考价（research_scenario_assumption，FIX_B）"
+scenario_statement: >-
+  美国中西部（Iowa / Missouri / Minnesota–Dakotas）2026 年 9 月中旬的公开报价与推广机构参考价。
+  运费、加工（玉米粉碎）、损耗、仓储均未计入，所有方法同一价格向量；成本差只在本价格情景下有意义。
+common_status_of_scenario_choice: research_scenario_assumption
+common_rationale: >-
+  没有牧场采购合同；选同一周、同一地区的公开价作为一个可复核的价格情景（合同 T2.2：记录币种与年份/情景；
+  固定价格下的成本优势不是一般市场节约）。
+
+sources:
+  - source_id: SRC-AMS-3511-20260918
+    title: "National Grain and Oilseed Processor Feedstuff Report (AMS 3511), report for 9/14/2026 – 9/18/2026"
+    publisher: "USDA AMS Livestock, Poultry and Grain Market News"
+    url: "https://www.ams.usda.gov/mnreports/ams_3511.pdf"
+    report_page: "https://mymarketnews.ams.usda.gov/viewReport/3511"
+    report_date: "2026-09-18"
+    units_note: "Price ($/Ton)；报告未印“ton”的定义，按美国饲料市场惯例取短吨 = 2000 lb（USD/lb = $/ton ÷ 2000）；报价为交易品原样（as-fed）"
+    url_is_latest_pointer: true
+    verified_by_k4c: "2026-09-25 读取时仍为 9/14–9/18 期（PDF 标注 September 18, 2026）；Canola Meal p.1、Soybean Hulls p.2、Soybean Meal p.3 三行与下列数值逐字一致"
+    licence: "美国联邦政府作品（公开）"
+  - source_id: SRC-AMS-2850-20260923
+    title: "Iowa Daily Cash Grain Bids (AMS 2850), Grain Report for 9/23/2026 – Final"
+    publisher: "USDA AMS Livestock, Poultry and Grain Market News / IA Dept. of Ag Market News"
+    url: "https://www.ams.usda.gov/mnreports/ams_2850.pdf"
+    report_date: "2026-09-23"
+    url_is_latest_pointer: true
+    verified_by_k4c: "2026-09-25 读取时仍为 “Grain Report for 9/23/2026 - Final”；p.1 “State Average Price: Corn -- $4.84” 逐字一致；同页各区 Country Elevators 为 Bid、DLVD-T"
+    licence: "美国联邦政府作品（公开）"
+  - source_id: SRC-AMS-2929-20260918
+    title: "Missouri Direct Hay Report (AMS 2929), Direct Hay Weighted Average Report for week ending 9/18/2026"
+    publisher: "USDA AMS Livestock, Poultry and Grain Market News / MO Dept. of Ag Market News"
+    url: "https://www.ams.usda.gov/mnreports/ams_2929.pdf"
+    report_date: "2026-09-18"
+    url_is_latest_pointer: true
+    verified_by_k4c: "2026-09-25 读取时仍为 week ending 9/18/2026 期；p.1 “Alfalfa - Fair (Ask/Per Ton) Large Round 125.00-150.00 F.O.B.” 与 “Alfalfa - Good (Ask/Per Ton) Large Round 150.00-200.00” 逐字一致"
+    licence: "美国联邦政府作品（公开）"
+  - source_id: SRC-MU-FEEDVAL-20260917
+    title: "Comparative Value of Net Energy – Lactation and Maintenance (FEEDVAL II), 9/17/2026"
+    publisher: "University of Missouri Extension, AgEBB"
+    url: "http://agebb.missouri.edu/dairy/byprod/lactation.php"
+    report_date: "2026-09-17"
+    limitation: >-
+      页面“Feeds Used to Calculate Value of Nutrients”表给出计算用参考价（石粉 11.35、磷酸氢钙 23.85，单位 $/cwt，
+      同表另列 D.M. % = 98.00），但既未注明这两项价格的上游来源，也未写明价格是原样（as-is）还是 DM 基础
+      （K4 写的 “as-is” 是解读，不是页面原文；K4c 更正）；页面只说明玉米价来自 Missouri Department of Agriculture
+    verified_by_k4c: "2026-09-25 读取：页面日期 9/17/2026；Limestone 11.35 $/cwt、Dical 23.85 $/cwt、两者 D.M. 98.00 % 与下列数值一致"
+    licence: "© Curators of the University of Missouri；只引用两个价格数值与出处"
+  - source_id: SRC-ISU-AGDM-A1-65
+    title: "Pricing Forage in the Field, Ag Decision Maker File A1-65 (W. Edwards, C. E. Hart), updated September 2018"
+    publisher: "Iowa State University Extension and Outreach"
+    url: "https://www.extension.iastate.edu/agdm/crops/html/a1-65.html"
+    used_for: "玉米青贮定价规则：已收获并贮存的青贮通常值每 bushel 玉米价的 10–12 倍（每吨，65 % 水分）；水分调整 = (100 − 实际水分)/35"
+    verified_by_k4c: "2026-09-25 读取：作者 William Edwards、Chad E. Hart，更新于 2018 年 9 月；“harvested and stored ... typically 10-12 times the price of a bushel of corn” 与水分调整句逐字一致（田间立株青贮另为 8–10 倍，本案例不用）"
+  - source_id: SRC-OSU-AGF-503
+    title: "Bushels, Test Weights, and Calculations, AGF-503 (J. Beuerlein; rev. A. J. Lindsey), Dec 26, 2018"
+    publisher: "The Ohio State University CFAES"
+    url: "https://cfaes.osu.edu/fact-sheet/bushels-test-weights-and-calculations"
+    used_for: "玉米 1 bushel = 56 lb，以 15.5 % 水分为基准"
+    verified_by_k4c: "2026-09-25 读取：Beuerlein 原作、Lindsey 修订，2018-12-26；56 lb 与 15.5 % 水分两句一致"
+
+items:
+  corn_grain_dry_ground_medium:
+    raw_quote: {value: 4.84, unit: "USD/bu", what: "US #2 Yellow Corn (Bulk)，Iowa State Average Price（country elevator bids，DLVD-T）", source_id: SRC-AMS-2850-20260923}
+    conversion: "4.84 USD/bu ÷ (56 lb × 0.845 DM) = 0.1022824 USD/lb DM（56 lb、15.5 % 水分：SRC-OSU-AGF-503）"
+    engine_value: {value: 0.1022824, unit: "USD/lb", basis: DM, dm_basis_semantics: converted_with_decision_time_dm_estimate}
+    status: sourced
+    locator: "AMS 2850 p.1 ‘State Average Price: Corn -- $4.84’；OSU AGF-503"
+    caveats: ["电梯收购价（卖方价），买方到场价更高；未计粉碎费", "报告日 9/23 比其他报价晚 5 天（周报之后可取得的最近日报）"]
+  corn_silage_typical:
+    rule: "价格（USD/短吨，35 % DM）= 11 × 玉米价（USD/bu）；11 = 已收获贮存青贮 10–12 倍区间的中点"
+    rule_source_id: SRC-ISU-AGDM-A1-65
+    inputs: {corn_price_usd_per_bu: 4.84, multiplier: 11, moisture_basis_pct: 65}
+    conversion: "11 × 4.84 = 53.24 USD/ton（35 % DM）→ 53.24 ÷ 0.35 ÷ 2000 = 0.07605714 USD/lb DM"
+    engine_value: {value: 0.07605714, unit: "USD/lb", basis: DM, dm_basis_semantics: converted_with_decision_time_dm_estimate}
+    status: research_scenario_assumption
+    rationale: "玉米青贮不是公开交易品，没有有日期的市场价；用有文献依据的定价规则（中点）并标为情景"
+    sensitivity: {multiplier_10: 0.06914286, multiplier_12: 0.08297143, unit: "USD/lb DM",
+                  alternative_rule: "MU FEEDVAL II 同日营养替代价值（$72.93/ton as-fed，32–38 % DM）只作对照，不作主价：它按营养价值定价，会使配方对青贮近乎无差别"}
+  legume_hay_mid:
+    raw_quote: {value_range: [125.00, 150.00], unit: "USD/ton", what: "Alfalfa – Fair (Ask/Per Ton)，Large Round，F.O.B.", source_id: SRC-AMS-2929-20260918}
+    engine_value: {value: 0.06875, unit: "USD/lb", basis: as_fed, derivation: "区间中点 137.50 ÷ 2000"}
+    status: research_scenario_assumption
+    rationale: >-
+      价格本身有来源；等级映射是判断：按受限表中 NASEM 中等成熟度豆科干草的 ADF、NDF 算得的 RFV 落在 AMS 苜蓿 Fair 区间
+      （RFV 130–150；ADF 32–35；NDF 40–44 % DM），CP 则高于 Fair 区间。等级指南原文（ams.usda.gov HayQualityGuidelines.pdf）
+      访问返回 403，未绕过；区间数值取自 Montana State University Extension 转载的 USDA AMS 表
+      （https://animalrangeextension.montana.edu/forage/hay_quality_standards.html）。报价为卖方要价（Ask），不是成交价。
+    sensitivity: {alfalfa_good_large_round_midpoint: 0.0875, unit: "USD/lb as-fed", note: "Good 150–200 中点 175"}
+  soybean_meal_solvent_48cp:
+    raw_quote: {value: 379.08, unit: "USD/ton", what: "Soybean Meal 46.5-48%，Iowa，Ask 368.70–396.30，Average，FOB-T/R", source_id: SRC-AMS-3511-20260918}
+    engine_value: {value: 0.18954, unit: "USD/lb", basis: as_fed}
+    status: sourced
+    locator: "AMS 3511 p.3"
+  canola_meal_solvent:
+    raw_quote: {value: 289.22, unit: "USD/ton", what: "Canola Meal 36%，Min-Dak，Ask 253.70–321.30，Average，FOB-T", source_id: SRC-AMS-3511-20260918}
+    engine_value: {value: 0.14461, unit: "USD/lb", basis: as_fed}
+    status: sourced
+    locator: "AMS 3511 p.1"
+    caveat: "Iowa 无报价，取相邻的 Minnesota–Dakotas；‘36 %’为原物质 CP 规格，与 NASEM 溶剂浸提菜粕条目按 DM 换算后相符（受限表核对）"
+  soybean_hulls:
+    raw_quote: {value: 134.57, unit: "USD/ton", what: "Soybean Hulls（散装），Iowa，Ask 112.00–150.00，Average，FOB-T", source_id: SRC-AMS-3511-20260918}
+    engine_value: {value: 0.067285, unit: "USD/lb", basis: as_fed}
+    status: sourced
+    locator: "AMS 3511 p.2"
+  limestone_ground:
+    raw_quote: {value: 11.35, unit: "USD/cwt", what: "Limestone，FEEDVAL II 计算用参考价（Cost $ 列；页面未注明 as-is 或 DM）", source_id: SRC-MU-FEEDVAL-20260917}
+    engine_value: {value: 0.1135, unit: "USD/lb", basis: as_fed, derivation: "11.35 ÷ 100 lb"}
+    status: research_scenario_assumption
+    status_changed_by: "FIX_B（第二轮红队 B，2026-09-25）：原为 sourced"
+    rationale: >-
+      期间与上游来源未知的推广机构参考价：数值逐字取自 MU FEEDVAL II 页面（页面日期 9/17/2026 是计算日期），但页面的价格来源说明
+      只提到玉米价（Missouri Department of Agriculture）与豆粕价（By-Product Feed Prices listing），没有写石粉、磷酸氢钙这类
+      计算器参考价的上游来源或观测期间，可能是长期不变的内置值。R4-3 要求价格“注明期间”，这两项做不到，故不算有期间的 sourced 报价，
+      按研究情景价使用。对成本的影响量级小（两项合计约 0.05 USD/头/日，< 1 %）；有日期的矿物报价是可替换的改进项。
+    locator: "agebb.missouri.edu/dairy/byprod/lactation.php，‘Feeds Used to Calculate Value of Nutrients’表，页面日期 9/17/2026（计算日期，不是报价期间）"
+    caveat: >-
+      计价基础页面未写明（K4c 更正 K4 的 “as-is” 说法）；按商品报价的惯例当作原样价使用。本案例石粉 d̂ = ⟨withheld⟩
+      （Table 19-3 脚注 a，DM ⟨withheld⟩ %），所以无论按原样还是按 DM 解读，引擎中的原物质价都是同一个值；与页面 DM 98 % 相比差 ≤ 2 %
+  dicalcium_phosphate:
+    raw_quote: {value: 23.85, unit: "USD/cwt", what: "Dicalcium Phosphate（Dical），同上（页面未注明 as-is 或 DM）", source_id: SRC-MU-FEEDVAL-20260917}
+    engine_value: {value: 0.2385, unit: "USD/lb", basis: as_fed, derivation: "23.85 ÷ 100 lb"}
+    status: research_scenario_assumption
+    status_changed_by: "FIX_B（第二轮红队 B，2026-09-25）：原为 sourced"
+    rationale: "同石粉：期间与上游来源未知的推广机构参考价（MU FEEDVAL II 计算器参考价），按研究情景价使用"
+    locator: "同石粉（页面日期 9/17/2026 为计算日期，不是报价期间）"
+    caveat: "同上：计价基础未写明；磷酸氢钙 d̂ = ⟨withheld⟩（Table 19-3 脚注 a），两种解读在引擎中结果相同；与页面 DM 98 % 差 ≤ 2 %"
+
+cost_semantics:
+  unit: "USD/头/日（原物质投料 q × 原物质价格）"
+  basis: "q 为原物质决策；DM 基础报价在载入时用决策时 d̂ 一次换成原物质价，不随抽样变化（合同 T2.2；dm_basis_semantics 枚举）"
+  excludes: ["运费与到场成本", "加工（粉碎、制粒）", "损耗与剩料", "盐、小苏打、预混料（不在模型内，所有方法相同的缺项）"]

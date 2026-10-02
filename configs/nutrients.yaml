@@ -1,0 +1,429 @@
+# 营养成分登记（nutrient registry）——未冻结草案
+# 生成：P2b_constraints_units 子任务，2026-09-24
+# 状态（合同 §2.3）：implemented（文件已起草）；未被代码读取，未 unit_passed / smoke_passed；未冻结。
+# 规则：
+#   - 本文件只登记“成分是什么、单位与基础、是否实测、如何换算”，不含任何原料成分数值。
+#     NASEM Table 19-1/19-3 的均值/SD/N 只存在 data/restricted_local/（不进 git）。
+#   - status 取值：sourced | pending_user_decision | research_scenario_assumption | not_applicable
+#   - locator 中 p.N 为 NASEM 2021 印刷页码（本地 PDF 页 = 印刷页 + 20，见 configs/animal_profile.yaml）。
+#   - 与已有引擎代码的对应：src/ration_reliability/nutrition/constraints.py 的项语法
+#     （"<nutrient>"、"G:<group>:<nutrient>"、"C:<coef>:<nutrient>"、"DM"），本文件 nutrient_id 与之一致（CP、NDF、starch …）。
+
+schema_version: "0.1-draft"
+file_role: "nutrient_registry"
+created_on: "2026-09-24"
+created_by: "P2b_constraints_units (subagent)"
+stage_status: "implemented"
+frozen: false
+
+nutrition_standard:
+  name: "NASEM 2021, Nutrient Requirements of Dairy Cattle, 8th revised edition"
+  doi: "10.17226/25806"
+  local_pdf: "data/restricted_local/nasem_dairy_2021_ncbi_bookshelf.pdf"
+  local_pdf_sha256: "e03e9415807b5e5f623cc84b54ab772b82f474d0dd874a7020a930154a95d49e"
+  registry_source_id: "SRC-C-NASEM21-T19（sources/source_registry.csv）"
+  composition_table: "Table 19-1（p.364–394）与 Table 19-3（p.408–413）"
+  composition_parameter_file: "data/restricted_local/nasem_t19_1_core.csv（核心表 v2，A、B 双录入对账后生成；不进 git）"
+  composition_parameter_file_sha256: "6c732510b563c5e1f6bbe9c9f82dfd678a9e02763ca6df4ea4b8ee2731bd2fdd"
+  composition_parameter_file_hash_record: "reports/data_audit.md（§1 输入与输出哈希表；§11.2 第 2 项）"
+  composition_parameter_file_rules: "只用 entry_agreement ∈ {both_agree, resolved} 的行；按 concept_id 连接并对多条目概念显式选 nasem_feed_id（data/data_dictionary.md §3.2、§5 第 10–11 条）；A 单录入的键（如 IVNDFD48、RUP、DE base、微量元素）在第二次独立录入前不得用于正式计算（字典 §5 第 7 条）"
+  composition_parameter_file_superseded: "2026-09-24 前指向 data/restricted_local/nasem_t19_1_entry_A.csv（A 单录入，含 576 个只有单录入的键）——已废止（红队 D B08/B10；BLOCKERS B-132；W1）。本文件其余位置引用的“entry_A notes”只作印刷行标签与脚注的定位记录，不是参数来源"
+
+# ---------------------------------------------------------------------------
+# 全局约定
+# ---------------------------------------------------------------------------
+conventions:
+  internal_canonical:
+    composition: "a_ij 以 kg/kg DM（fraction）存储；显示与约束阈值用 %DM"
+    dry_matter: "d_i 以 kg DM/kg as-fed（fraction）存储；显示用 % as-fed"
+    energy: "Mcal/kg DM（仅 B 层 NEL 与候选能量代理用）"
+    daily_supply: "N_j(q,θ) = Σ_i q_i d_i a_ij，单位 kg/head/d（矿物吸收量用 g/head/d）"
+    source: "合同 02_TECHNICAL_PROTOCOL.md T2；src/ration_reliability/normalization/units.py 单位表"
+  basis_rule:
+    statement: "除 DM 外，Table 19-1 全部成分为 DM 基础；DM 本身为 % as fed"
+    locator: "NASEM 2021 p.360（第 19 章正文）；Table 19-1 行标签 'DM, % as fed'、'CP, % DM' 等（entry_A notes §1）"
+    status: "sourced"
+    mineral_sources: "Table 19-3 标题为 '100 Percent DM Basis'；脚注 a：DM = ⟨withheld⟩%（磷酸 ⟨withheld⟩% 例外）（p.408、p.413）"
+  conversions:
+    - id: "CV-01"
+      rule: "%  → fraction：除以 100"
+      status: "sourced"
+      source: "SI 定义；units.py 登记"
+    - id: "CV-02"
+      rule: "%DM → g/kg DM：乘以 10"
+      status: "sourced"
+      source: "SI 定义；model_audit §6.1（Ca、P 吸收量式中的 10·a）"
+    - id: "CV-03"
+      rule: "DM 基础 → as-fed 基础：a_AF = a_DM × d；as-fed → DM：a_DM = a_AF / d"
+      requirement: "必须使用已登记的 d（来源、批次或情景明确），不得猜测；中国表等 as-fed 数据换算时逐行记录所用 d"
+      status: "sourced"
+      source: "合同 §7.1、验收 B05；数据可行性审计 §5.3-1"
+    - id: "CV-04"
+      rule: "Mcal ↔ MJ：1 Mcal = 4.184 MJ（热化学卡）"
+      status: "sourced"
+      source: "NIST SP 811 App. B.8（units.py 已引）；数据可行性审计 §5.3-1"
+    - id: "CV-05"
+      rule: "Mcal/lb → Mcal/kg：除以 0.45359237"
+      status: "sourced"
+      source: "NIST SP 811 App. B.8（units.py 已引）；Dairy One NEL 单位见数据可行性审计 §5.3-1"
+    - id: "CV-06"
+      rule: "%CP 口径（RUP、可溶蛋白、ADIP 等在 Table 19-1 中的 '% of CP'）不得当作 %DM；换算为 %DM 须乘以同一原料 CP%DM/100"
+      status: "sourced"
+      source: "Table 19-1 行标签（entry_A CSV unit 列：'% of CP'）；数据可行性审计 §5.3-1（FeedLibrary_CN_v1 的 ADICP、RDP 误标问题）"
+  rules:
+    - id: "NR-01"
+      rule: "不强制各化学成分相加为 100%。成分定义有重叠（如 NDF 含部分灰分与蛋白），且各成分样本数不同"
+      source: "NASEM 2021 p.361（分析与统计原因导致各分析物之和不一定为 100%）；合同 §7.4"
+      status: "sourced"
+    - id: "NR-02"
+      rule: "同一原料不同成分的 N 不同，不能把 Table 19-1 的单成分统计当作同一批配对样本，也不能由此估计协方差"
+      source: "NASEM 2021 p.361（各分析物 N 不同，均值组合因协方差可能不一致，引 Sauvant & Ponter 2004）；验收 B07"
+      status: "sourced"
+    - id: "NR-03"
+      rule: "缺失 ≠ 0。Table 19-1 中均值为空表示无数据；0 表示测得低于检出限；SD/N 为空表示单一来源点值。缺失成分一律记 data_quality_flag，不补零、不自动插补"
+      source: "Table 19-1 脚注 a（p.394，entry_A notes §1 照录）；合同 §11 E3（不得把缺失成分填零）"
+      status: "sourced"
+    - id: "NR-04"
+      rule: "Table 19-1 中湿化学与 NIRS 数据无法区分，两者都已计入（矿物只用湿化学）。因此 SD 含方法差异，不等于任何单一实验室方法的精度"
+      source: "NASEM 2021 p.360–361"
+      status: "sourced"
+    - id: "NR-05"
+      rule: "斜体值（RUP、DE base）为计算值，不是实测值，不给 SD，不进入随机抽样"
+      source: "Table 19-1 脚注 c、i（entry_A notes §1）"
+      status: "sourced"
+    - id: "NR-06"
+      rule: >-
+        Table 19-3（无机矿物源）中未列出的元素不是“缺失”，不适用 NR-03：脚注 b 规定含量 <1% 的元素不列出。
+        (a) 纯化合物且化学式不含该元素（食盐 NaCl、小苏打 NaHCO3 的 Ca、P）→ structural_zero，按 0 使用；
+        (b) 天然矿物源可能含痕量（石粉 Limestone, ground 的 P）→ not_listed_lt1pct，值在 [0, 1%) 且未知，
+            点值按 0 使用须标 research_scenario_assumption，敏感性上限可取 <1%；
+        两种情况都不得把该原料从 Ca、P 约束的可用集合中移出。NY/T A.7 给了食盐、小苏打的 Ca 点值，说明商品盐可能含杂质，(a) 是按化学式的约定。
+      source: "NASEM 2021 Table 19-3 脚注 b（印刷 p.413/PDF p.433，2026-09-24 复核）；覆盖表 audit/data_coverage_table.csv 对应格；restricted_local 的 nasem_t19_1_core.csv 记为 value_status=not_listed_below_1pct（转录保持 null，本规则只规定建模时如何使用）"
+      status: "sourced（(a)）；research_scenario_assumption（(b) 取 0）"
+      added: "2026-09-24，红队 B08 附注与 low 发现"
+
+# ---------------------------------------------------------------------------
+# 成分清单
+# role：primary_constraint | derived_constraint_quantity | auxiliary | diagnostic | b_layer | excluded
+# quantity_type：measured_analyte（实验室分析物）| derived_from_measured（由分析物按公式推导）|
+#                model_quantity（营养模型量，依赖模型参数）
+# ---------------------------------------------------------------------------
+nutrients:
+
+  - nutrient_id: "DM"
+    name_zh: "干物质"
+    name_en: "dry matter"
+    role: "primary_constraint"
+    quantity_type: "measured_analyte"
+    unit_display: "% as-fed"
+    unit_internal: "fraction (kg DM/kg as-fed)"
+    basis: "as_fed"
+    nasem_row_label: "DM, % as fed"
+    stochastic_in_main_analysis: true
+    used_in:
+      - "q ↔ x 换算：q_i = x_i / d̂_i（决策时），x_real_i = q_i · d_i(θ)（评估时）；见 docs/decision_timing_and_units.md"
+      - "所有浓度约束的分母 D(q,θ) = Σ q_i d_i(θ)"
+      - "Ca、P 吸收量约束（非齐次，DM 偏差直接影响违约）"
+    method_note: "烘箱法温度与时长影响 DM 值（例：CowNflow 2013 年由 80 °C 改为 60 °C 通风烘箱）；Dairy One 库的 DM 受寄样前干燥污染，只能限定美国州别使用"
+    method_note_source: "数据可行性审计 §1.2 #15、§11.1-7；S2§5.1"
+    cautions:
+      - "DM 不是 DM 基础上的成分，不参与 %DM 约束的系数，只决定 as-fed 与 DM 的换算"
+    status: "sourced"
+
+  - nutrient_id: "CP"
+    name_zh: "粗蛋白"
+    name_en: "crude protein"
+    role: "primary_constraint"
+    quantity_type: "measured_analyte"
+    unit_display: "%DM"
+    unit_internal: "fraction (kg/kg DM)"
+    basis: "DM"
+    nasem_row_label: "CP, % DM"
+    stochastic_in_main_analysis: true
+    claim_boundary: "CP 不是代谢蛋白（MP），满足 CP 规格不代表满足 MP 或可代谢 EAA；NASEM 2021 没有泌乳牛 CP 需要量"
+    claim_boundary_source: "model_audit §10.1（p.2、p.5、p.69、p.89、p.470）；合同 §2.1、验收 C03"
+    status: "sourced"
+
+  - nutrient_id: "NDF"
+    name_zh: "中性洗涤纤维"
+    name_en: "neutral detergent fiber"
+    role: "primary_constraint"
+    quantity_type: "measured_analyte"
+    unit_display: "%DM"
+    unit_internal: "fraction (kg/kg DM)"
+    basis: "DM"
+    nasem_row_label: "NDF, % DM"
+    stochastic_in_main_analysis: true
+    method_note: >-
+      Table 19-1 的 NDF 来自商业实验室，未注明是否一律加淀粉酶/亚硫酸钠；方法差异会制造假的变异和假的相关
+      （Yoder 2014 表 4：酒糟 NDF 两个亚群，推测与是否加亚硫酸钠有关）。
+    method_note_source: "NASEM 2021 p.360–361（NIRS/湿化学混用）；S6§2.16"
+    claim_boundary: "NDF 不是有效纤维（peNDF/paNDF），化学 NDF 约束不代表瘤胃健康效果"
+    claim_boundary_source: "合同 §2.1、验收 C03；model_audit §9.6（粒度只能作前提写入局限）"
+    status: "sourced"
+
+  - nutrient_id: "fNDF"
+    name_zh: "粗饲料来源 NDF（forage NDF）"
+    name_en: "forage NDF"
+    role: "derived_constraint_quantity"
+    quantity_type: "derived_from_measured"
+    unit_display: "%DM"
+    unit_internal: "fraction (kg/kg DM)"
+    basis: "DM"
+    nasem_row_label: null
+    definition: "fNDF_i = (1 − Fd_Conc_i/100) · NDF_i；日粮 fNDF = Σ_i x_i fNDF_i / D"
+    definition_source: "NASEM 2021 Eq 20-29（p.424）；Table 19-1 无 forage NDF 行（entry_A notes §1）"
+    forage_share_source: >-
+      Fd_Conc 由饲料库的类别/类型决定（p.360：饲料分为干粗料、湿粗料、精料三类型；Table 20-7，p.424 类别表）。
+      印刷版 Table 19-1 不含 Fd_Conc 列，逐原料取值记在 configs/inventories.yaml 的 forage_flag，
+      须与 nasem_dairy 饲料库核对（PUD-P2a-06）。
+    engine_term: "G:forage:NDF（group 权重 = 1 − Fd_Conc_i/100）"
+    stochastic_in_main_analysis: true
+    notes: "随机性完全来自 NDF_i；forage_flag 为确定性分类。全棉籽是否计入待 D-07"
+    status: "sourced"
+    open_decisions: ["D-07"]
+
+  - nutrient_id: "starch"
+    name_zh: "淀粉"
+    name_en: "starch"
+    role: "primary_constraint"
+    quantity_type: "measured_analyte"
+    unit_display: "%DM"
+    unit_internal: "fraction (kg/kg DM)"
+    basis: "DM"
+    nasem_row_label: "Starch, % DM"
+    stochastic_in_main_analysis: true
+    method_note: "玉米青贮 105 °C 烘干会降低淀粉读数（Hall & Mertens 2008，定性）"
+    method_note_source: "S6§2.12"
+    status: "sourced"
+
+  - nutrient_id: "EE"
+    name_zh: "粗脂肪（乙醚/溶剂浸出物）"
+    name_en: "crude fat (ether extract)"
+    role: "primary_constraint"
+    quantity_type: "measured_analyte"
+    unit_display: "%DM"
+    unit_internal: "fraction (kg/kg DM)"
+    basis: "DM"
+    nasem_row_label: "Crude fat, % DM"
+    stochastic_in_main_analysis: true
+    definition_note: >-
+      NASEM 用 “crude fat” 指重量法测得的可提取脂质，并说明它包含非脂肪酸部分；乙醚、己烷、酸水解乙醚等方法结果不同。
+      NASEM 本版不用 crude fat 计算能量，改用总脂肪酸（TFA）。
+    definition_source: "NASEM 2021 p.40（第 4 章引言）；p.362（CF 列出但不使用）"
+    constraint_basis_pending: >-
+      EE 上限的口径（EE 还是 FA）与数值未定：NASEM 的候选是 FA（p.41、p.52），NY/T 2025 征求意见稿的候选是 EE。
+      见 constraints.yaml PN-EE-HI、B-P2a-03。
+    status: "sourced"
+    open_decisions: ["B-P2a-03", "D-03"]
+
+  - nutrient_id: "TFA"
+    name_zh: "总脂肪酸"
+    name_en: "total fatty acids"
+    role: "auxiliary"
+    quantity_type: "measured_analyte"
+    unit_display: "%DM"
+    unit_internal: "fraction (kg/kg DM)"
+    basis: "DM"
+    nasem_row_label: "TFAs, % DM"
+    stochastic_in_main_analysis: false
+    data_quality_note: >-
+      实验室无 TFA 时，Table 19-1 通常按 CF − 1 估算；粗饲料按 TFA = CF × 0.5678 估算；估算值只报均值、不报 N 与 SD。
+      因此多数原料的 TFA 没有变异资料，不能直接作随机约束。
+    data_quality_source: "NASEM 2021 p.362；数据可行性审计 §5.2（多数原料 TFA 无 N）"
+    used_in: "仅当用户选 FA 口径的脂肪上限（PN-EE-HI 选项 FA）或诊断 DIAG-FA-7 时使用"
+    status: "sourced"
+
+  - nutrient_id: "Ca"
+    name_zh: "钙（总钙）"
+    name_en: "calcium"
+    role: "primary_constraint"
+    quantity_type: "measured_analyte"
+    unit_display: "%DM"
+    unit_internal: "fraction (kg/kg DM)"
+    basis: "DM"
+    nasem_row_label: "Ca, % DM"
+    stochastic_in_main_analysis: true
+    constraint_quantity: "吸收 Ca（Ca_abs，见下）"
+    method_note: "Table 19-1 矿物只用湿化学（p.361）"
+    status: "sourced"
+
+  - nutrient_id: "P"
+    name_zh: "磷（总磷）"
+    name_en: "phosphorus"
+    role: "primary_constraint"
+    quantity_type: "measured_analyte"
+    unit_display: "%DM"
+    unit_internal: "fraction (kg/kg DM)"
+    basis: "DM"
+    nasem_row_label: "P, % DM"
+    stochastic_in_main_analysis: true
+    constraint_quantity: "吸收 P（P_abs，见下）"
+    method_note: "Table 19-1 矿物只用湿化学（p.361）；印刷表无无机 P 分部与 P 吸收系数列"
+    method_note_source: "NASEM 2021 p.361；model_audit §5.3"
+    status: "sourced"
+
+  - nutrient_id: "Ca_abs"
+    name_zh: "吸收钙供给"
+    name_en: "absorbed calcium supply"
+    role: "derived_constraint_quantity"
+    quantity_type: "model_quantity"
+    unit_display: "g/head/d"
+    definition: "Ca_abs(q,θ) = Σ_i q_i d_i(θ) · 10 · a_Ca,i(θ) · AC_Ca,i（a 为 %DM，AC 固定）"
+    definition_source: "NASEM 2021 第 7 章析因体系（p.106–110；Table 7-1 p.109）；model_audit §4.2、§6.2"
+    ac_handling: "AC 为固定模型参数，不作随机变量；逐原料 AC 存于 restricted_local（planned），不写入本文件（版权）"
+    model_uncertainty: "AC 的不确定性属于合同 §7.3 第 4 类（模型/标准适用性），只作敏感性"
+    engine_term: "C:AC_Ca:Ca（具名系数项：c_i = IngredientRecord.coefficients[\"AC_Ca\"]，每种原料都必须给出并带 provenance \"coefficient:AC_Ca\"；缺失即编译错误，不当 0）——2026-09-24 按红队发现改正，原写 G:ac_ca:Ca（group 语法，权重限 [0,1]，inventories.yaml 也未定义该组）；语法见 docs/ENGINE_API.md §3、src/ration_reliability/datamodel.py ConstraintSpec"
+    status: "sourced"
+
+  - nutrient_id: "P_abs"
+    name_zh: "吸收磷供给"
+    name_en: "absorbed phosphorus supply"
+    role: "derived_constraint_quantity"
+    quantity_type: "model_quantity"
+    unit_display: "g/head/d"
+    definition: "P_abs(q,θ) = Σ_i q_i d_i(θ) · 10 · a_P,i(θ) · AC_P,i"
+    definition_source: "NASEM 2021 p.112–113；model_audit §5.3、§6.2"
+    ac_handling: >-
+      矿物 P 源的 AC 见 Table 19-3（p.408–413）；基础饲料的 AC 在电子饲料库中、印刷版未列，
+      在取得 nasem_dairy 饲料库前统一用无分部数据时的默认值（p.113），该做法标 research_scenario_assumption。
+    engine_term: "C:AC_P:P（具名系数项，c_i = coefficients[\"AC_P\"]；同 Ca_abs 的说明）——2026-09-24 改正，原写 G:ac_p:P"
+    status: "research_scenario_assumption"
+    status_reason: "基础饲料 P AC 统一取默认值是暂行做法，待 PUD-P2a-06（nasem_dairy 饲料库）核对"
+    open_decisions: ["PUD-P2a-06"]
+
+  - nutrient_id: "ADF"
+    name_zh: "酸性洗涤纤维"
+    name_en: "acid detergent fiber"
+    role: "auxiliary"
+    quantity_type: "measured_analyte"
+    unit_display: "%DM"
+    basis: "DM"
+    nasem_row_label: "ADF, % DM"
+    stochastic_in_main_analysis: false
+    notes: "不进入主约束；Yoder 2014 相关矩阵不含 ADF（数据可行性审计 §4.4）"
+    status: "sourced"
+
+  - nutrient_id: "ash"
+    name_zh: "粗灰分"
+    name_en: "ash"
+    role: "diagnostic"
+    quantity_type: "measured_analyte"
+    unit_display: "%DM"
+    basis: "DM"
+    nasem_row_label: "Ash, % DM"
+    stochastic_in_main_analysis: false
+    used_in: "诊断：日粮灰分浓度；ROM = 100 − (灰分 + FA + CP + NDF + 淀粉) 的质量核对（p.361）；不进联合违约事件"
+    status: "sourced"
+
+  - nutrient_id: "lignin"
+    name_zh: "木质素（多为硫酸法 ADL）"
+    name_en: "lignin"
+    role: "b_layer"
+    quantity_type: "measured_analyte"
+    unit_display: "%DM"
+    basis: "DM"
+    nasem_row_label: "Lignin, % DM"
+    stochastic_in_main_analysis: false
+    notes: "只在 B 层估计 NDF 消化率与能量时使用（p.362：木质素和灰分只用于估计能量，多数为 ADL）"
+    status: "sourced"
+
+  - nutrient_id: "Mg"
+    name_zh: "镁"
+    name_en: "magnesium"
+    role: "diagnostic"
+    quantity_type: "measured_analyte"
+    unit_display: "%DM"
+    basis: "DM"
+    nasem_row_label: "Mg, % DM"
+    notes: "Mg 吸收系数依赖日粮 K（Eq 20-395，p.456），非线性；只作诊断（model_audit §7；D-P2a-08）"
+    status: "sourced"
+
+  - nutrient_id: "K"
+    name_zh: "钾"
+    name_en: "potassium"
+    role: "diagnostic"
+    quantity_type: "measured_analyte"
+    unit_display: "%DM"
+    basis: "DM"
+    nasem_row_label: "K, % DM"
+    notes: "只作诊断（model_audit §7）"
+    status: "sourced"
+
+  - nutrient_id: "Na"
+    name_zh: "钠"
+    name_en: "sodium"
+    role: "diagnostic"
+    quantity_type: "measured_analyte"
+    unit_display: "%DM"
+    basis: "DM"
+    nasem_row_label: "Na, % DM"
+    notes: "主要来自确定性矿物原料（食盐、小苏打），只作诊断（model_audit §7）"
+    status: "sourced"
+
+  - nutrient_id: "NEL"
+    name_zh: "泌乳净能（日粮层面）"
+    name_en: "net energy for lactation (diet level)"
+    role: "b_layer"
+    quantity_type: "model_quantity"
+    unit_display: "Mcal/head/d（供给）；Mcal/kg DM（日粮浓度）"
+    notes: >-
+      NASEM 2021 的能量值依赖日粮组成与采食量，不是单个原料的属性；Table 19-1 的 DE base 是按标准化假设算出的
+      计算值（p.362）。NEL 只由 nasem_dairy 在 B 层事后评价（未安装，P1-7 待批）。
+    source: "NASEM 2021 p.362；数据可行性审计 §5.1–5.2；model_audit §1"
+    status: "pending_user_decision"
+    status_reason: "B 层评价器 nasem_dairy 1.0.2 安装待批（PUD-P2a-06 / P1-7）；A 层是否另加线性能量代理见 constraints.yaml CAND-ENERGY"
+
+  - nutrient_id: "DE_base"
+    name_zh: "基础消化能（表值，计算值）"
+    name_en: "base digestible energy (tabulated, calculated)"
+    role: "excluded"
+    quantity_type: "model_quantity"
+    unit_display: "Mcal/kg DM"
+    nasem_row_label: "DE base, Mcal/kg"
+    notes: "斜体计算值（脚注 i），按 DMI 3.5%BW、淀粉 26%、NDF 30% 标准化（p.362）；不作随机变量；仅作 CAND-ENERGY 选项之一的候选输入"
+    status: "not_applicable"
+
+  - nutrient_id: "peNDF"
+    name_zh: "物理有效 NDF"
+    name_en: "physically effective NDF"
+    role: "excluded"
+    quantity_type: "model_quantity"
+    notes: "Table 19-1 无 peNDF；只有 Preston/中国表 9 的 eNDF 点值；NASEM 软件因不确定性未纳入 paNDF（数据可行性审计 §2.2 要点 4、§5.2 C 层）"
+    status: "not_applicable"
+
+  - nutrient_id: "MP_RUP_RDP"
+    name_zh: "代谢蛋白 / 过瘤胃蛋白 / 瘤胃降解蛋白"
+    name_en: "MP / RUP / RDP"
+    role: "excluded"
+    quantity_type: "model_quantity"
+    notes: "RUP 为计算值（脚注 c）；MP 依赖大量模型参数；第一篇 C 层不用（数据可行性审计 §5.2）"
+    status: "not_applicable"
+
+# ---------------------------------------------------------------------------
+# 数据质量标记（缺资料 ≠ 营养违约）
+# ---------------------------------------------------------------------------
+data_quality_flags:
+  semantics: "以下标记单独计数与报告，不进入联合营养违约事件 I(q,θ)，也不当作营养不足（合同 T3、数据可行性审计 §0 Q2-5）"
+  flags:
+    - id: "DQF-MISSING"
+      meaning: "原料 × 成分在来源表中为空（无数据）"
+      handling: "不补零；该原料在涉及此成分的约束中不可用或须用户批准的借用规则（uncertainty.yaml missing_value_policy）"
+    - id: "DQF-SINGLE-SOURCE"
+      meaning: "只有均值、无 SD/N（单一来源点值或估算值，如估算 TFA）"
+      handling: "不能生成随机抽样；按 uncertainty.yaml 的 point_value_policy 处理并标注"
+    - id: "DQF-SMALL-N"
+      meaning: "n < 100 的参数"
+      handling: "单独报告参数不确定性（数据可行性审计 §0 Q2-2）"
+    - id: "DQF-DEFINITION-RISK"
+      meaning: "原料定义不符（如 canola 与中国菜籽粕）"
+      handling: "结论限定于 NASEM 条目定义；中国原料只进情景"
+    - id: "DQF-LABEL-MISSING"
+      meaning: "确定性原料无有来源的标签值（预混料）"
+      handling: "该原料不进入求解或按用户决定处理（B-P3A-2）"
+    - id: "DQF-TRUNCATION"
+      meaning: "抽样值落在物理边界外被截断/重抽"
+      handling: "记录截断比例；截断会改变均值时报告"
+    - id: "DQF-ROM-NEGATIVE"
+      meaning: "日粮 ROM 计算为负（成分重叠或统计不一致）"
+      handling: "诊断记录，不修改成分（NASEM p.361 同样保留负 ROM）"

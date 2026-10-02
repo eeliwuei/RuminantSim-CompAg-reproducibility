@@ -1,0 +1,429 @@
+# 原料目录与库存情景（inventories）——draft，未冻结
+# 生成：P2b_constraints_units 子任务，2026-09-24
+# 状态（合同 §2.3）：implemented（文件已起草，draft）；未被代码读取；未冻结。
+# 规则：
+#   - 只登记原料身份、角色、分类与可用性；不含任何成分均值/SD/N（NASEM 数值只在 data/restricted_local/）。
+#   - 库存情景 ≤ 3 套（合同 §10、T6），是研究情景，不是独立牧场（合同 §10）。
+#   - 批次库存量 B_i、覆盖头数 H、使用天数 T 没有来源，全部为 null。
+#   - 原料清单依据：数据可行性审计 §0 Q3（核心 21 种 + 4 种备选）；NASEM 条目与页码最初依据
+#     data/restricted_local/nasem_t19_1_entry_A_notes.md §2（A 录入）。A、B 双录入已对账并生成核心表 v2
+#     （reports/data_audit.md §0、§11），成分参数一律从核心表取，见下方 parameter_file_restricted（2026-09-24 W1 改）。
+
+schema_version: "0.1-draft"
+file_role: "ingredient_catalog_and_inventory_scenarios"
+created_on: "2026-09-24"
+created_by: "P2b_constraints_units (subagent)"
+stage_status: "implemented"
+draft: true
+frozen: false
+
+registry_source_id: "SRC-C-NASEM21-T19（sources/source_registry.csv）"
+parameter_file_restricted: "data/restricted_local/nasem_t19_1_core.csv（核心表 v2，A、B 双录入对账后生成；283 行 × 33 列；不进 git）"
+parameter_file_sha256: "6c732510b563c5e1f6bbe9c9f82dfd678a9e02763ca6df4ea4b8ee2731bd2fdd"
+parameter_file_hash_record: "reports/data_audit.md（§1 输入与输出哈希表；§11.2 第 2 项：v2 连续生成 3 次哈希相同）"
+parameter_file_rules: >-
+  只用 entry_agreement ∈ {both_agree, resolved} 的行；需要离散度时只用 statistic_type = summary_mean_sd_n；
+  用核心表第 33 列 concept_id 与本文件 ingredient_id 连接，一个概念对应多个条目（beet_pulp_dry、ddgs、corn_grain_high_moisture）
+  时必须显式选定 nasem_feed_id，不得按“条目 id = 概念 id”静默连接（data/data_dictionary.md §3.2、§5 第 10–11 条）。
+  石粉候选 NRC16F1003 不在核心表（只有 A 单录入，字典 §3.1 P-6），选它之前须先补第二次录入。
+parameter_file_superseded: "2026-09-24 前指向 data/restricted_local/nasem_t19_1_entry_A.csv（A 单录入，sha256 917d2d40…9b502，含 576 个只有单录入的键）——已废止（红队 D B08/B10；BLOCKERS B-132；W1）"
+grade_legend:
+  A: "多个谱系有 SD，且有方差分量或行级数据"
+  B: "多个谱系有 SD"
+  C: "只有单一已核谱系，或 n 较小，或定义不符"
+  D: "只有点值或标签值，作为确定性输入"
+  V: "有方差分量（单一谱系 + V 记 C/V）"
+  source: "数据可行性审计 §0 Q3 分级依据与终审修订说明"
+  caveat_20260924: "A、B 级所依赖的 AFZ、CVB SD 目前未在本项目内核实（AFZ 为 WebFetch 转述，CVB 为调研在项目外读 PDF；audit/data_feasibility_report.md §3.3）；许可（P0-9）与原始导出复核完成前，分级只作开发参考，不作证据等级声明"
+
+forage_flag_rule:
+  definition: "forage_flag_i = 1 − Fd_Conc_i/100，用于 fNDF_i = forage_flag_i · NDF_i（NASEM Eq 20-29，p.424）"
+  basis: "NASEM 饲料类别/类型（p.360；Table 20-7，p.424：'Grain crop forage' = 玉米与小粒谷物全株粗料；'Grass/legume forage'）"
+  status_note: "印刷版 Table 19-1 无 Fd_Conc 列；下列取值按类别推定，须与 nasem_dairy 饲料库核对（PUD-P2a-06）"
+  verification_status: "blocked：用 nasem_dairy 饲料库 Fd_Conc 逐条核对需要安装 nasem_dairy 1.0.2（P1-7/PUD-P2a-06，未获批准）；在此之前全部 forage_flag 仍是 research_scenario_assumption（红队 B04）"
+
+# ---------------------------------------------------------------------------
+# 原料目录
+# role：core_stochastic | core_stochastic_candidate | core_deterministic | core_deterministic_candidate |
+#       alternate | alternate_candidate
+# ---------------------------------------------------------------------------
+ingredient_catalog:
+
+  - ingredient_id: "corn_silage"
+    name_zh: "玉米青贮"
+    nasem_feed_name: "Corn Silage, Typical"
+    nasem_feed_id: "NRC16F48"
+    locator: "Table 19-1，p.373"
+    role: "core_stochastic"
+    grade: "A"
+    forage_flag: {value: 1, status: "research_scenario_assumption", rationale: "推定属 NASEM 类别 Grain crop forage（Table 20-7，p.424 类别定义）；逐条类别待饲料库核对"}
+    ca_ac_category: "玉米青贮（Table 7-1，p.109）"
+    p_ac: "基础饲料默认值（p.113），research_scenario_assumption"
+    open_decisions: ["D-06（Typical F48 或成熟度子群；代理建议 F48）"]
+
+  - ingredient_id: "legume_silage_mid"
+    name_zh: "豆科青贮，中等成熟度（NASEM 把苜蓿、三叶草、百脉根合为一类）"
+    name_zh_basis: "与核心表 v2 ingredient_name_zh、data/data_dictionary.md §3 相同；NASEM 印刷 p.363（pdf p.383）把苜蓿、三叶草、百脉根合为 legume 一类，条目名 Legume Silage 没有“苜蓿为主”，也没有“半干（haylage）”的含义（字典 §3.1 P-16；2026-09-24 W1 由“苜蓿（豆科）半干青贮”改）"
+    nasem_feed_name: "Legume Silage, Mid-Maturity"
+    nasem_feed_id: "NRC16F95"
+    locator: "Table 19-1，p.380–381"
+    role: "core_stochastic"
+    grade: "C/V"
+    forage_flag: {value: 1, status: "research_scenario_assumption", rationale: "推定属 NASEM 类别 Grass/legume forage（Table 20-7，p.424）；逐条类别待饲料库核对"}
+    ca_ac_category: "豆科粗饲料（Table 7-1，p.109）"
+    p_ac: "基础饲料默认值（p.113），research_scenario_assumption"
+    notes: "方差分量文献对应的是“苜蓿/禾豆青贮”（St-Pierre & Weiss 2015；Barrientos-Blanco 2024a），与 F95 的对应是近似映射"
+    open_decisions: ["D-16（C 级原料是否留在核心清单）"]
+
+  - ingredient_id: "legume_hay_mid"
+    name_zh: "豆科干草，中等成熟度（NASEM 把苜蓿、三叶草、百脉根合为一类）"
+    name_zh_basis: "与核心表 v2 ingredient_name_zh、data/data_dictionary.md §3 相同；NASEM 印刷 p.363（pdf p.383）把苜蓿、三叶草、百脉根合为 legume 一类，条目名 Legume Hay 没有“苜蓿为主”（字典 §3.1 P-16；2026-09-24 W1 由“苜蓿（豆科）干草”改）"
+    nasem_feed_name: "Legume Hay, Mid-Maturity"
+    nasem_feed_id: "NRC16F93"
+    locator: "Table 19-1，p.380"
+    role: "core_stochastic"
+    grade: "B"
+    forage_flag: {value: 1, status: "research_scenario_assumption", rationale: "推定属 NASEM 类别 Grass/legume forage（Table 20-7，p.424）；逐条类别待饲料库核对"}
+    ca_ac_category: "豆科粗饲料（Table 7-1，p.109）"
+    p_ac: "基础饲料默认值（p.113），research_scenario_assumption"
+
+  - ingredient_id: "cool_season_grass_hay_mid"
+    name_zh: "冷季禾本科干草"
+    nasem_feed_name: "Cool-Season Grass Hay, Mid-Maturity"
+    nasem_feed_id: "NRC16F34"
+    locator: "Table 19-1，p.369"
+    role: "core_stochastic"
+    grade: "C"
+    forage_flag: {value: 1, status: "research_scenario_assumption", rationale: "推定属 NASEM 类别 Grass/legume forage（Table 20-7，p.424）；逐条类别待饲料库核对"}
+    ca_ac_category: "禾草干草及其他粗饲料（Table 7-1，p.109）"
+    p_ac: "基础饲料默认值（p.113），research_scenario_assumption"
+    notes: "NASEM 冷季禾草不分物种，不含羊草（数据可行性审计 Q3）"
+    open_decisions: ["D-16"]
+
+  - ingredient_id: "corn_grain_dry_medium"
+    name_zh: "干玉米粒，粉碎（中粉）"
+    nasem_feed_name: "Corn Grain Dry, Medium Grind"
+    nasem_feed_id: "NRC16F44"
+    locator: "Table 19-1，p.372"
+    role: "core_stochastic"
+    grade: "B"
+    forage_flag: {value: 0, status: "research_scenario_assumption", rationale: "推定属 NASEM 类别 Energy source（精料，Table 20-7）；逐条类别待饲料库核对"}
+    ca_ac_category: "谷物与蛋白补充料（p.108）"
+    p_ac: "基础饲料默认值（p.113），research_scenario_assumption"
+    variants_same_statistics: ["NRC16F1070 细粉", "NRC16F1071 粗粉"]
+    notes: "三种粉碎度成分统计相同，只能共用同一组抽样；B 层淀粉消化率随粉碎度不同（数据可行性审计 Q3、§2.2 要点 6）"
+    open_decisions: ["D-14（粉碎度暂定中粉）"]
+
+  - ingredient_id: "corn_grain_steam_flaked"
+    name_zh: "蒸汽压片玉米"
+    nasem_feed_name: "Corn Grain, Steam-Flaked"
+    nasem_feed_id: "NRC16F46"
+    locator: "Table 19-1，p.372–373"
+    role: "core_stochastic"
+    grade: "C"
+    forage_flag: {value: 0, status: "research_scenario_assumption", rationale: "推定属 NASEM 类别 Energy source（Table 20-7）；逐条类别待饲料库核对"}
+    ca_ac_category: "谷物与蛋白补充料（p.108）"
+    p_ac: "基础饲料默认值（p.113），research_scenario_assumption"
+    notes: "发酵较快的淀粉源，影响 Table 5-1 前提（p.63–64；B-P2a-04）"
+    open_decisions: ["D-16", "B-P2a-04"]
+
+  - ingredient_id: "barley_grain_dry_ground"
+    name_zh: "大麦（干，粉碎）"
+    nasem_feed_name: "Barley Grain, Dry, Ground"
+    nasem_feed_id: "NRC16F8"
+    locator: "Table 19-1，p.364–365"
+    role: "core_stochastic"
+    grade: "B"
+    forage_flag: {value: 0, status: "research_scenario_assumption", rationale: "推定属 NASEM 类别 Energy source（Table 20-7）；逐条类别待饲料库核对"}
+    ca_ac_category: "谷物与蛋白补充料（p.108）"
+    p_ac: "基础饲料默认值（p.113），research_scenario_assumption"
+    variants_same_statistics: ["NRC16F1074"]
+    variants_same_statistics_note: >-
+      NRC16F1074 = Barley Grain, Steam Rolled（蒸汽压片，pdf p.385）。与 F8 在 Table 19-1 全部 33 个印刷行中只有斜体 DE base 不同，
+      11 项核心成分的 Mean/SD/N 逐格相同（data/data_dictionary.md §3.1 P-14；核心表 F8 各行 notes；B 录入说明“印刷表中的重复条目”；
+      FIX_data 与红队 D 看图；2026-09-24 W1 用 pdfplumber 文字层按列复核一致，见 audit/_parts/W1_record.md §2）。
+      “干、粉碎”在成分统计上无法与蒸汽压片区分：两者共用同一组参数，不是两个群体，也不是相互独立的证据；
+      结论不得写成“干粉碎大麦特有的变异”。B 层若要按加工形态区分，只能来自 DE base 等模型计算量。
+    notes: "发酵较快的淀粉源，影响 Table 5-1 前提（p.63–64；B-P2a-04）；加工形态只是名义标签，见 variants_same_statistics_note"
+    open_decisions: ["B-P2a-04"]
+
+  - ingredient_id: "beet_pulp_dry"
+    name_zh: "干甜菜粕"
+    nasem_feed_name: "Beet Pulp, Dry（F14）或 Beet Pulp, Dry, Molasses Added（F15）"
+    nasem_feed_id: null
+    candidates: ["NRC16F14", "NRC16F15"]
+    locator: "Table 19-1，p.366"
+    role: "core_stochastic_candidate"
+    grade: "C（选 F15 时可上调，数据可行性审计 Q3）"
+    forage_flag: {value: 0, status: "research_scenario_assumption", rationale: "非粗饲料来源纤维（数据可行性审计 §2.2 矩阵 fNDF“不适用”）"}
+    ca_ac_category: "待核：谷物与蛋白补充料类（p.108）是否覆盖副产品纤维饲料"
+    p_ac: "基础饲料默认值（p.113），research_scenario_assumption"
+    open_decisions: ["D-08", "D-16"]
+
+  - ingredient_id: "wheat_bran"
+    name_zh: "麸皮"
+    nasem_feed_name: "Wheat Bran"
+    nasem_feed_id: "NRC16F169"
+    locator: "Table 19-1，p.392–393"
+    role: "core_stochastic"
+    grade: "B−"
+    forage_flag: {value: 0, status: "research_scenario_assumption", rationale: "副产品，非粗饲料"}
+    ca_ac_category: "待核（同甜菜粕）"
+    p_ac: "基础饲料默认值（p.113），research_scenario_assumption"
+
+  - ingredient_id: "soybean_hulls"
+    name_zh: "大豆皮"
+    nasem_feed_name: "Soybean Hulls"
+    nasem_feed_id: "NRC16F144"
+    locator: "Table 19-1，p.388–389"
+    role: "core_stochastic"
+    grade: "B−"
+    forage_flag: {value: 0, status: "research_scenario_assumption", rationale: "非粗饲料纤维（数据可行性审计 §2.2 矩阵）"}
+    cross_system_classification_note: >-
+      跨体系分类差异（2026-09-24 红队 B04）：NY/T 征求意见稿附录 A 的表 A.8、A.9 把大豆皮列在“粗饲料”类
+      （本地 PDF p.30 第 5 行、p.33 第 5 行，已核），而本项目按 NASEM 体系设 forage_flag = 0。
+      fNDF 与 Table 5-1 约束的定义来自 NASEM，因此北美主分析保持 0；中国情景（D-01）若沿用 NY/T 分类，
+      大豆皮 NDF 会计入 fNDF，Table 5-1 的 3 条 fNDF 约束明显放松。中国情景采用哪种口径须用户决定并在方法中声明
+      （phase1_user_approvals.md §3.3 D-FIX-2）；在决定前，任何中国情景都必须写明“大豆皮按 NASEM 口径不计入 fNDF”。
+    ca_ac_category: "待核（同甜菜粕）"
+    p_ac: "基础饲料默认值（p.113），research_scenario_assumption"
+
+  - ingredient_id: "soybean_meal_48"
+    name_zh: "豆粕 48%"
+    nasem_feed_name: "Soybean Meal, Solvent Extracted, 48% CP"
+    nasem_feed_id: "NRC16F134"
+    locator: "Table 19-1，p.388–389"
+    role: "core_stochastic"
+    grade: "B"
+    forage_flag: {value: 0, status: "research_scenario_assumption", rationale: "推定属 NASEM 类别 Plant protein（Table 20-7）；逐条类别待饲料库核对"}
+    ca_ac_category: "谷物与蛋白补充料（p.108）"
+    p_ac: "基础饲料默认值（p.113），research_scenario_assumption"
+
+  - ingredient_id: "canola_meal"
+    name_zh: "菜籽粕（NASEM 条目为北美 canola）"
+    nasem_feed_name: "Canola Meal, Solvent Extracted"
+    nasem_feed_id: "NRC16F28"
+    locator: "Table 19-1，p.368–369"
+    role: "core_stochastic"
+    grade: "B（定义有风险）"
+    forage_flag: {value: 0, status: "research_scenario_assumption", rationale: "推定属 NASEM 类别 Plant protein（Table 20-7）；逐条类别待饲料库核对"}
+    ca_ac_category: "谷物与蛋白补充料（p.108）"
+    p_ac: "基础饲料默认值（p.113），research_scenario_assumption"
+    data_quality_flags: ["DQF-DEFINITION-RISK"]
+    notes: "写作 canola/00 型菜籽粕；中国菜籽粕只进入情景分析（数据可行性审计 §5.3-5）"
+    open_decisions: ["D-15"]
+
+  - ingredient_id: "cottonseed_meal"
+    name_zh: "棉籽粕"
+    nasem_feed_name: "Cottonseed Meal"
+    nasem_feed_id: "NRC16F58"
+    locator: "Table 19-1，p.374"
+    role: "core_stochastic"
+    grade: "C+"
+    forage_flag: {value: 0, status: "research_scenario_assumption", rationale: "推定属 NASEM 类别 Plant protein（Table 20-7）；逐条类别待饲料库核对"}
+    ca_ac_category: "谷物与蛋白补充料（p.108）"
+    p_ac: "基础饲料默认值（p.113），research_scenario_assumption"
+    open_decisions: ["D-16"]
+
+  - ingredient_id: "ddgs"
+    name_zh: "干酒糟及其可溶物（DDGS；NASEM 条目未注明谷物来源）"
+    name_zh_basis: "NASEM 条目名 Distillers Grains and Solubles, Dried, Low Fat（F61，pdf p.394–395）/ High Fat（F59，pdf p.394）没有写谷物来源，故不加“玉米”；核心表 v2 的条目名为“DDGS 低脂（候选 F61）”“DDGS 高脂（候选 F59）”（data/data_dictionary.md §3、§3.1 P-2、P-16；2026-09-24 W1 由“玉米干酒糟及其可溶物（DDGS）”改）"
+    nasem_feed_name: "Distillers Grains and Solubles, Dried, Low Fat（F61）或 High Fat（F59）"
+    nasem_feed_id: null
+    candidates: ["NRC16F61", "NRC16F59"]
+    locator: "Table 19-1，p.374–375"
+    role: "core_stochastic_candidate"
+    grade: "B（需固定亚型）"
+    forage_flag: {value: 0, status: "research_scenario_assumption", rationale: "推定为精料（By-product/other 或 Plant protein，Table 20-7）；逐条类别待饲料库核对"}
+    ca_ac_category: "谷物与蛋白补充料（p.108）"
+    p_ac: "基础饲料默认值（p.113），research_scenario_assumption"
+    open_decisions: ["D-05"]
+
+  - ingredient_id: "cottonseed_whole_linted"
+    name_zh: "全棉籽（带绒）"
+    nasem_feed_name: "Cottonseed Whole, Linted"
+    nasem_feed_id: "NRC16F56"
+    locator: "Table 19-1，p.374"
+    role: "core_stochastic"
+    grade: "B"
+    forage_flag: {value: null, status: "pending_user_decision", rationale: "是否计入 fNDF 须按 NASEM 饲料库类别核定（D-07）"}
+    ca_ac_category: "谷物与蛋白补充料（p.108）"
+    p_ac: "基础饲料默认值（p.113），research_scenario_assumption"
+    open_decisions: ["D-07"]
+
+  - ingredient_id: "calcium_soaps"
+    name_zh: "脂肪粉（只用钙皂点值）"
+    nasem_feed_name: "Calcium Soaps"
+    nasem_feed_id: "NRC16F25"
+    locator: "Table 19-1，p.368"
+    role: "core_deterministic"
+    grade: "D"
+    stochastic: false
+    forage_flag: {value: 0, status: "research_scenario_assumption", rationale: "脂肪补充料"}
+    ca_ac_category: "钙皂（p.108–109）"
+    notes: "“棕榈脂肪”在 NASEM 中没有条目，没有来源前不纳入（数据可行性审计 Q3）"
+
+  - ingredient_id: "limestone"
+    name_zh: "石粉"
+    nasem_feed_name: "Limestone, ground（主映射）；Calcium carbonate（候选）"
+    nasem_feed_id: "NRC16F1013"
+    candidates: ["NRC16F1013", "NRC16F1003"]
+    locator: "Table 19-3，p.409/413；F1003 p.408/413"
+    role: "core_deterministic"
+    grade: "D"
+    stochastic: false
+    dm: {value: null, unit: "fraction", status: "sourced", source: "Table 19-3 脚注 a：DM = ⟨withheld⟩%（p.413）"}
+    ca_ac_category: "Table 19-3 逐原料 AC（值在 restricted_local）"
+    mapping_impact_note: >-
+      D-P3A-3 的差异：Limestone, ground（F1013）Ca AC ⟨withheld⟩，CaCO3（F1003）⟨withheld⟩（Table 19-3 p.409/p.408；Table 7-1 p.109）。
+      只换 AC，石粉贡献的吸收 Ca 高约 ⟨withheld⟩%；连同条目 Ca 含量一起换，约高 ⟨withheld⟩%，直接放宽 PN-CA-ABS（model_audit §4.2）。
+    unlisted_elements: "T19-3 未列 P（脚注 b：<1% 不列）→ not_listed_lt1pct，按 nutrients.yaml NR-06 处理，不是缺失"
+    open_decisions: ["D-P3A-3（石粉映射）"]
+
+  - ingredient_id: "dicalcium_phosphate"
+    name_zh: "磷酸氢钙"
+    nasem_feed_name: "Calcium phosphate (dibasic), CaHPO4"
+    nasem_feed_id: "NRC16F1007"
+    locator: "Table 19-3，p.408/413"
+    role: "core_deterministic"
+    grade: "D"
+    stochastic: false
+    dm: {value: null, unit: "fraction", status: "sourced", source: "Table 19-3 脚注 a（p.413）"}
+    ca_ac_category: "Table 19-3 逐原料 AC（Ca、P；值在 restricted_local）"
+
+  - ingredient_id: "salt"
+    name_zh: "食盐"
+    nasem_feed_name: "Sodium chloride (salt), NaCl"
+    nasem_feed_id: "NRC16F1017"
+    locator: "Table 19-3，p.409/413"
+    role: "core_deterministic"
+    grade: "D"
+    stochastic: false
+    dm: {value: null, unit: "fraction", status: "sourced", source: "Table 19-3 脚注 a（p.413）"}
+    unlisted_elements: "T19-3 未列 Ca、P；NaCl 化学式不含 Ca、P → structural_zero（按 0），不是缺失（nutrients.yaml NR-06）"
+    notes: "主约束集不含 Na：无下限时会被优化为 0（constraints.yaml Q-06）"
+
+  - ingredient_id: "sodium_bicarbonate"
+    name_zh: "小苏打"
+    nasem_feed_name: "Sodium bicarbonate, NaHCO3"
+    nasem_feed_id: "NRC16F1033"
+    locator: "Table 19-3，p.412/413"
+    role: "core_deterministic"
+    grade: "D"
+    stochastic: false
+    dm: {value: null, unit: "fraction", status: "sourced", source: "Table 19-3 脚注 a（p.413）"}
+    unlisted_elements: "T19-3 未列 Ca、P；NaHCO3 化学式不含 Ca、P → structural_zero（按 0），不是缺失（nutrients.yaml NR-06）"
+    notes: "同食盐（Q-06）"
+
+  - ingredient_id: "premix"
+    name_zh: "预混料"
+    nasem_feed_name: null
+    nasem_feed_id: null
+    locator: "不在 NASEM Table 19-1/19-3（entry_A：not_in_NASEM2021_Tables19-1_19-3）"
+    role: "core_deterministic"
+    grade: "D"
+    stochastic: false
+    composition: null
+    status: "pending_user_decision"
+    status_reason: "没有指定任何有来源的产品标签（route_decision §3；B-P3A-2）"
+    data_quality_flags: ["DQF-LABEL-MISSING"]
+    handling_until_decided: "不进入求解（不能用空成分参与约束）；或由用户指定标签/标为研究情景"
+    open_decisions: ["D-04", "B-P3A-2"]
+
+  # ---- 备选（不在核心清单；不进入 INV-1…INV-3） ----
+  - {ingredient_id: "wheat_straw", name_zh: "（备选）小麦秸", nasem_feed_id: "NRC16F176", locator: "Table 19-1，p.394", role: "alternate", grade: "C"}
+  - {ingredient_id: "corn_gluten_feed_dry", name_zh: "（备选）玉米蛋白饲料", nasem_feed_id: "NRC16F40", locator: "Table 19-1，p.370–371", role: "alternate", grade: "C"}
+  - {ingredient_id: "corn_grain_high_moisture", name_zh: "（备选）高水分玉米", nasem_feed_id: null, candidates: ["NRC16F1072", "NRC16F45"], locator: "Table 19-1，p.372", role: "alternate_candidate", grade: "待评"}
+  - {ingredient_id: "wheat_middlings", name_zh: "（备选）小麦次粉", nasem_feed_id: "NRC16F173", locator: "Table 19-1，p.393", role: "alternate", grade: "待评"}
+
+# ---------------------------------------------------------------------------
+# 库存情景（≤ 3 套）——draft
+# 每套只规定 t0 时“哪些原料可用”；数量限制（B_i、H、T）待定。
+# ---------------------------------------------------------------------------
+inventory_scenarios:
+
+  - inventory_id: "INV-1"
+    name_zh: "核心 21 种全可用"
+    status: "research_scenario_assumption"
+    basis: "数据可行性审计 §0 Q3 推荐的核心清单（15 种随机 + 6 种确定性）；route_decision §4.2"
+    available: ["corn_silage", "legume_silage_mid", "legume_hay_mid", "cool_season_grass_hay_mid",
+                "corn_grain_dry_medium", "corn_grain_steam_flaked", "barley_grain_dry_ground", "beet_pulp_dry",
+                "wheat_bran", "soybean_hulls", "soybean_meal_48", "canola_meal", "cottonseed_meal", "ddgs",
+                "cottonseed_whole_linted", "calcium_soaps", "limestone", "dicalcium_phosphate", "salt",
+                "sodium_bicarbonate", "premix"]
+    role_in_study: "主分析默认库存"
+    caveats:
+      - "含压片玉米、大麦 → Table 5-1 “干粉碎玉米为主要淀粉源”前提可能不成立（B-P2a-04）；须配合 CAND-T51-PRECOND 或写入局限"
+      - "预混料在标签确定前不进入求解（premix.handling_until_decided）"
+      - "甜菜粕、DDGS 的条目二选一待定（D-08、D-05）"
+    batch_inventory_kg_as_fed: null
+    covered_heads_H: null
+    covered_days_T: null
+    open_decisions: ["D-04", "D-05", "D-08", "B-P2a-04", "B-P3A-2"]
+
+  - inventory_id: "INV-2"
+    name_zh: "Table 5-1 前提相容库存（去掉压片玉米、大麦）"
+    status: "research_scenario_assumption"
+    basis: >-
+      NASEM 2021 Table 5-1 的适用前提之一是以干粉碎玉米为主要淀粉源（p.63）；p.63–64 指出高比例使用发酵较快的
+      淀粉源（如大麦）时须提高 fNDF，但没有给出定量折算（model_audit §9.1、§9.6）。去掉这两种原料后，
+      日粮淀粉只可能来自干粉碎玉米和副产品/粗料，Table 5-1 的使用条件在库存层面成立。
+    available: ["corn_silage", "legume_silage_mid", "legume_hay_mid", "cool_season_grass_hay_mid",
+                "corn_grain_dry_medium", "beet_pulp_dry", "wheat_bran", "soybean_hulls", "soybean_meal_48",
+                "canola_meal", "cottonseed_meal", "ddgs", "cottonseed_whole_linted", "calcium_soaps", "limestone",
+                "dicalcium_phosphate", "salt", "sodium_bicarbonate", "premix"]
+    excluded:
+      - {ingredient_id: "corn_grain_steam_flaked", reason: "发酵较快的淀粉源，p.63–64"}
+      - {ingredient_id: "barley_grain_dry_ground", reason: "发酵较快的淀粉源，p.63–64"}
+    role_in_study: "检验 Table 5-1 前提处理方式（B-P2a-04）对结论的影响；与 INV-1 + CAND-T51-PRECOND 可互为对照"
+    caveats:
+      - "玉米青贮自身的淀粉是否算“干粉碎玉米”之外的主要来源，NASEM 未说明；DIAG-T51-STARCH-SOURCE 报告实际占比"
+    batch_inventory_kg_as_fed: null
+    covered_heads_H: null
+    covered_days_T: null
+    open_decisions: ["B-P2a-04"]
+
+  - inventory_id: "INV-3"
+    name_zh: "证据较强子集（去掉 C 级随机原料）"
+    status: "research_scenario_assumption"
+    basis: >-
+      数据可行性审计 §0 Q3 的数据质量分级：C 级原料只有单一已核谱系或 n 较小（豆科青贮 C/V、冷季禾本科干草 C、
+      压片玉米 C、干甜菜粕 C、棉籽粕 C+）。审计写明 C 级原料留在核心清单须在 protocol 中说明理由，
+      并指出压片玉米、甜菜粕可用于检验“小样本参数不确定性”的影响（D-16）。本情景用来看结论是否依赖证据较弱的原料。
+    available: ["corn_silage", "legume_hay_mid", "corn_grain_dry_medium", "barley_grain_dry_ground",
+                "wheat_bran", "soybean_hulls", "soybean_meal_48", "canola_meal", "ddgs", "cottonseed_whole_linted",
+                "calcium_soaps", "limestone", "dicalcium_phosphate", "salt", "sodium_bicarbonate", "premix"]
+    excluded:
+      - {ingredient_id: "legume_silage_mid", reason: "C/V"}
+      - {ingredient_id: "cool_season_grass_hay_mid", reason: "C"}
+      - {ingredient_id: "corn_grain_steam_flaked", reason: "C"}
+      - {ingredient_id: "beet_pulp_dry", reason: "C（若 D-08 选 F15 且上调等级，则应放回并重述本情景）"}
+      - {ingredient_id: "cottonseed_meal", reason: "C+"}
+    role_in_study: "E5 敏感性：结论对 C 级原料参数不确定性的依赖"
+    caveats:
+      - "粗饲料只剩玉米青贮和豆科干草；可行性须在开发阶段先验证（proven_infeasible 也要如实报告）"
+      - "去掉原料会同时改变成本；与 INV-1 的差异不能全部归因于参数不确定性"
+    batch_inventory_kg_as_fed: null
+    covered_heads_H: null
+    covered_days_T: null
+    open_decisions: ["D-16", "D-08"]
+
+not_included_scenarios:
+  - id: "INV-CN"
+    name_zh: "中国地域库存（含中国菜籽粕、羊草、国产苜蓿分茬次等）"
+    reason: "中国特有原料没有变异资料；地域基准待 D-01；中国均值只能作“均值漂移”情景（数据可行性审计 §9.2、§11.1-5）"
+    status: "pending_user_decision"
+  - id: "INV-REGIONAL-TYPICAL"
+    name_zh: "按地区典型牧场库存组合"
+    reason: "本地资料中没有带出处的地区典型原料组合；不凭经验拼凑"
+    status: "pending_user_decision"
+
+batch_and_coverage:
+  B_i_kg_as_fed: null
+  H_heads: null
+  T_days: null
+  status: "pending_user_decision"
+  note: >-
+    检测价值换算需要批次覆盖 H×T（合同 §12.5、T7.7）；若主分析不设库存约束，须在 protocol 写明“B_i 不受限”
+    并单独给出 E4 用的 H、T 情景及其依据。T 还受检测结果有效期（{3, 14, 30} d，research_scenario_assumption，见 assays.yaml result_validity_days；数据可行性审计 §4.5）与
+    检测等待期影响，见 docs/decision_timing_and_units.md §7。

@@ -1,0 +1,7 @@
+case,training_root_index,world,source_structure,old_menu_actions,legalold_menu_actions,removed_old_actions,new_menu_actions,generated_actions_added,old_vs_legal_action_mismatch,old_vs_legal_failure_mismatch,interpretation
+R0,0,TAB,C0,6,6,0,14,8,0,0,No old actions removed; no filtering contribution identified
+R0,1,TAB,C0,8,8,0,12,4,0,0,No old actions removed; no filtering contribution identified
+R0,2,TAB,C0,9,9,0,15,6,0,0,No old actions removed; no filtering contribution identified
+B,0,TAB,C0,5,5,0,13,8,0,0,No old actions removed; no filtering contribution identified
+B,1,TAB,C0,5,5,0,13,8,0,0,No old actions removed; no filtering contribution identified
+B,2,TAB,C0,5,5,0,13,8,0,0,No old actions removed; no filtering contribution identified

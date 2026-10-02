@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.DS_Store
+# licensed / restricted inputs and every run output derived from them
+data/restricted_local/
+data/processed/
+results/pilot/
+results/smoke/
+results/debug/

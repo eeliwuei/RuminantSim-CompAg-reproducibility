@@ -1,0 +1,10 @@
+row_id,group,binding_at_m0,dual_sign,class,cost_pct_of_m0_per_sd_margin,cost_pct_per_sd_finite_difference,exact_premium_pct_0p5sd,exact_premium_pct_1sd,exact_premium_pct_2sd,max_kappa_alone,failure_share_at_m0,group_max_kappa_alone,status
+PN-NEL-FIXEDDMI,energy,yes,-,locked,14.38,14.38,infeasible,infeasible,infeasible,0.0044,0.497,0.0044,"EXPLORATORY (registered v2.1; development streams; not an official result, never a comparable-set member)"
+PN-CP-SUP,protein,yes,-,limited,1.56,1.56,0.78,1.57,infeasible,0.0289,0.5085,0.0289,"EXPLORATORY (registered v2.1; development streams; not an official result, never a comparable-set member)"
+PN-CA-ABS,minerals,yes,-,cheap,0.33,0.33,0.17,0.33,0.66,0.1988,0.4985,0.1815,"EXPLORATORY (registered v2.1; development streams; not an official result, never a comparable-set member)"
+PN-P-ABS,minerals,yes,-,cheap,0.19,0.19,0.09,0.19,0.38,0.3422,0.5215,0.1815,"EXPLORATORY (registered v2.1; development streams; not an official result, never a comparable-set member)"
+PN-T1,carbohydrate,no,0,free,0.0,,0.00,0.00,0.13,0.1883,0.034,0.0209,"EXPLORATORY (registered v2.1; development streams; not an official result, never a comparable-set member)"
+PN-T2,carbohydrate,no,0,free,0.0,,0.00,0.00,0.00,0.1376,0.007,0.0209,"EXPLORATORY (registered v2.1; development streams; not an official result, never a comparable-set member)"
+PN-T3,carbohydrate,no,0,free,0.0,,0.00,0.12,infeasible,0.0724,0.218,0.0209,"EXPLORATORY (registered v2.1; development streams; not an official result, never a comparable-set member)"
+PN-T4,carbohydrate,yes,-,locked,1.74,1.74,2.00,infeasible,infeasible,0.0346,0.4995,0.0209,"EXPLORATORY (registered v2.1; development streams; not an official result, never a comparable-set member)"
+PN-T5,carbohydrate,yes,-,limited,0.34,0.34,0.17,2.50,infeasible,0.0496,0.5095,0.0209,"EXPLORATORY (registered v2.1; development streams; not an official result, never a comparable-set member)"

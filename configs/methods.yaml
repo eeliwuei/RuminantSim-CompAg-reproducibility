@@ -1,0 +1,325 @@
+# 方法与计算设置（methods）——draft，开发起点，未冻结
+# 生成：P2b_constraints_units 子任务，2026-09-24
+# 状态（合同 §2.3）：本配置 implemented（草案，未冻结）。各方法条目的 status 指协议层设定（网格、选择规则、不确定集等，
+#   均未冻结），engine_status 指代码状态。代码层：M0、M1、M2、M2b、M3a/b/c 均 implemented、unit_passed
+#   （src/ration_reliability/optimization/ 的 REGISTRY；docs/ENGINE_API.md §6.1；reports/stage4_5_report.md“当前状态”）；
+#   M0（nominal_point）与 M2 另为 smoke_passed（smoke-20260924T103019Z-4e1b5138，N = 64、α_train 未校准，只说明管线跑通）；
+#   没有 pilot / official 结果，也没有 independently_checked。
+#   〔W5 更正，2026-09-24，BLOCKERS B-146：原第 3–4 行写“M0–M3 均未实现为可比较方法（src 中仅有 m0_nominal.py，
+#   来源待核，见 BLOCKERS B-010）；无 unit_passed / smoke_passed / pilot 结论”，与代码现状不符，已改写；M0、M2、M3 补 engine_status，
+#   与 W1 给 M1 加的 engine_status 同一口径；决策项未改〕
+#   〔FIX5 更正，2026-09-24（红队「data_docs」）：上面“各方法条目的 status 指协议层”扩大到全文件——本文件中所有名为 status
+#   的字段（methods 各条目，含 M1 那一行；solver.lp、solver.milp；information_value；statistics_summary 等）都指协议或配置层设定，
+#   不是代码状态；代码状态只写在 engine_status 与本段。代码层另有：solver.lp、solver.milp 已通过 scipy 调用 HiGHS 实现并
+#   unit_passed（src/ration_reliability/optimization/highs.py；tests/numerical/test_infeasible_and_status.py 等；docs/ENGINE_API.md §6.1）；
+#   information_value 对应的阶段 8 原型 implemented、unit_passed（只用合成数据；src/ration_reliability/information/；
+#   tests/unit/test_information_*.py；docs/ENGINE_API.md §12）。solver 与 information_value 块内没有补 engine_status 字段
+#   （不在本任务可改范围，BLOCKERS B-146 残项）〕
+#   〔B2 对齐，2026-09-26（正式运行计划 docs/official_run_v2_plan_20260926.md 第 2 批；BLOCKERS B-453、B-126、B-129；
+#   DECISIONS D-533、D-535）：本文件逐项改为与执行代码一致（run_dev_case_v1.RUN_CONFIG、run_dev_case_v1.run_method_block、
+#   run_endpoint_ablation.py、official_v2.OFFICIAL_SETTINGS），由 tests/unit/test_methods_config_matches_driver.py 逐值核对。改动：
+#   (1) 选参筛查统计量：原写点估计 r̂_val ≤ α → 正式 = cp_upper_le_alpha（(n_V + n_U) 在 validation 流 S 个状态上的单侧精确
+#       Clopper–Pearson 上界，c = 0.95，≤ α）；开发运行用的是 rate_upper_le_alpha = (n_V + n_U)/S ≤ α（见 common_selection）；
+#   (2) Big-M：原写“结构可行盒上的最大值”→ 代码 box_quantile = min(M_box, Mq)；最小违约诊断用 box；
+#   (3) 求解时限：原 600 s → 方法与前沿 300 s（HiGHS 时限只作用于 MILP / LP 主求解；chance_saa 的辅助 LP——盒子、polish——
+#       不设时限）；最小违约诊断 N = 128 / 512 为 60 / 180 s，N = 1024 声明为 360 s；
+#   (4) Γ 网格：原写“逐行按随机系数个数”→ 单一标量网格 {0..6}，由引擎逐行截断到该行随机系数个数；
+#   (5) M3 盒子：原写作用于复合系数 c_ki → 作用于原始参数 (a_ij, d_i)（工厂矩 μ ± kσ，裁到支撑），行系数取双线性角点；
+#       能量行区间 = 成分盒在仿射能量映射下的精确像；
+#   (6) 测试精度：删去 Wilson 与加倍规则 → 固定 10,000 个 test 状态、精确 CP；
+#   (7) N 阶梯 {128, 512, 1024}，主 N = 1024（N_final），收敛判据见 M2.convergence_criterion；
+#   (8) M1：margin_semantics.chosen = coef_directional，margin_scale = relative，apply_to_dm 主设定 = true；
+#       apply_to_dm = false 为敏感性线，不是方法条目（不进可比集合与覆盖率分母）；
+#   (9) M3 不确定集：M3a = box、M3b = budget，均由工厂矩构造；
+#   (10) M0 系数：原写“开发流逐情景系数均值”→ 代码 coefficient_mode = nominal_point（t0 表值与 d̂）。
+#   开发运行（已见结果）用的是 (1) 的 rate_upper 与“两个 M1 变体都是条目”；这些差异如实保留在各条目的 development_runs_used。〕
+# 所有数值都是开发起点（合同 02 开头：“默认数值均是开发起点，不是已取得的结果，也不是营养标准”）。
+# 规则：
+#   - 所有方法共用同一输入、约束（configs/constraints.yaml）、价格与公共评估器；最终都交出同一物理意义的 q
+#     （kg as-fed/head/d）给公共评估器重算（合同 §8、验收 D05）。
+#   - 超参数只在开发/验证流上选，不在测试流上选（合同 T8.1、验收 E02）。
+
+schema_version: "0.1-draft"
+file_role: "methods_and_computation"
+created_on: "2026-09-24"
+created_by: "P2b_constraints_units (subagent)"
+stage_status: "implemented"
+draft: true
+frozen: false
+
+common:
+  decision_output: "q_i，kg as-fed/head/d（docs/decision_timing_and_units.md）"
+  shared_evaluator: true
+  shared_inputs: ["configs/constraints.yaml", "configs/inventories.yaml", "configs/prices.yaml", "configs/uncertainty.yaml", "configs/animal_profile.yaml"]
+  structural_constraints_never_relaxed: true
+  solve_status_enum: ["optimal", "feasible_time_limit", "proven_infeasible", "no_feasible_solution_found", "numerical_error", "invalid_input"]
+  infeasible_handling: "无解返回状态，不返回空配方、不记成本为零、不自动放松约束冒充原问题解（合同 §8）"
+  solve_result_fields: ["status", "q", "objective", "solver", "solver_version", "tolerances", "wall_time_s", "mip_gap", "iterations_or_nodes", "error_message", "constraint_residuals", "input_hash"]
+
+solver:
+  lp: {package: "scipy.optimize.linprog(method='highs')", status: "planned"}
+  milp: {package: "scipy.optimize.milp（HiGHS）", status: "planned"}
+  local_versions_for_unit_tests: "Mac：Python 3.11、scipy 1.17（只跑单元测试与小型 smoke）"
+  official_runtime: "正式实验只在服务器（D-13 待定）；服务器上的 scipy/HiGHS 版本在运行记录中登记"
+  dev_start_settings:
+    primal_feasibility_tolerance: 1.0e-7
+    mip_rel_gap: 1.0e-4
+    time_limit_s: 300
+    status: "research_scenario_assumption"
+    rationale: "开发起点；实际取值与 gap 须随每次求解记录（验收 C11）"
+    b2_note: "B2（B-453 第 3 项）：原 600 s 改为执行值 300 s（run_dev_case_v1.RUN_CONFIG solver.time_limit_s；SolverOptions 默认可行性容差 1e-7）"
+  time_limits_s:
+    methods: 300
+    frontier: 300
+    min_violation: {"128": 60, "512": 180, "1024": 360}
+    scope: "HiGHS 时限作用于每次 LP / MILP 主求解；chance_saa 的辅助 LP（盒子、Big-M、polish）不设时限；最小违约诊断 mip_rel_gap = 0"
+    source: "run_dev_case_v1.RUN_CONFIG solver / diagnostics.min_violation_saa；run_endpoint_ablation.ABLATION_CONFIG diagnostics.min_violation；official_v2.OFFICIAL_SETTINGS time_limits_s（N = 1024 的 360 s 为 B2 声明值）"
+
+common_selection:
+  screening_statistic: "cp_upper_le_alpha"
+  confidence: 0.95
+  counted_states: "n_V + n_U（unknown 状态计为违约）"
+  stream: "validation"
+  rule: "在 validation 流上选 (n_V + n_U) 的单侧精确 Clopper–Pearson 上界（c = 0.95）≤ α 的最低成本网格点；无网格点满足时报告 not_met，不在测试流上继续调（合同 T4、T8.1）"
+  applies_to: ["M1", "M2", "M3a", "M3b"]
+  development_runs_used: "rate_upper_le_alpha：(n_V + n_U)/S ≤ α（run_dev_case_v1.run_method_block 默认值，保留以复现开发运行）"
+  status: "decided_for_freeze（D-533；B-126 选参筛查项）"
+
+# ---------------------------------------------------------------------------
+# 核心方法 M0–M3
+# ---------------------------------------------------------------------------
+methods:
+
+  - method_id: "M0"
+    name_zh: "名义低成本配方"
+    formulation: "min C(q) s.t. 结构约束；各 probabilistic_nutrition 约束以名义点（t0 表值成分与决策时 d̂）满足：g_k(q, θ̂) ≤ 0"
+    coefficient_mode: "nominal_point"
+    coefficient_rule: >-
+      执行值：coefficient_mode = nominal_point——行系数取 t0 名义（表值）成分与 d̂，不用抽样（run_dev_case_v1.RUN_CONFIG
+      methods.M0.params）。引擎另有 draw_mean（开发流逐情景行系数均值，对乘积 d_i·a_ij 联合取均值），本研究不用
+      （B2 对齐第 10 项；原文写的是 draw_mean 口径）
+    information: "t0 参考值（P0 均值）；q_i = x_i / d̂_i"
+    equivalence_audit: "“平均系数 LP”与“多情景均值 LP”须做等价性测试；等价则合并为同一方法，不包装成两个基线（合同 §9、验收 D06）"
+    solver: "LP"
+    hyperparameters: none
+    replications: "确定性方法在同一物理问题上只求解一次，不以重复运行增加样本数（合同 §9）"
+    status: "planned"  # 协议层；代码状态见 engine_status
+    engine_status: "代码 implemented、unit_passed（src/ration_reliability/optimization/m0_nominal.py，REGISTRY 名 M0_nominal，coefficient_mode = nominal_point 或 draw_mean；tests/numerical/test_m0_small_lp.py 等）；nominal_point 另为 smoke_passed（smoke-20260924T103019Z-4e1b5138）；两种系数模式的等价性按 METHOD_EQUIVALENCES 标注（docs/ENGINE_API.md §6.3）；上面的 status 指协议层（2026-09-24 W5 补记，B-146）"
+
+  - method_id: "M1"
+    name_zh: "经过校准的安全余量"
+    margin_semantics:
+      chosen: "coef_directional"
+      status: "decided_for_freeze（B2 对齐；开发运行即此设定；B-129）"
+      rule: "先定义余量作用于要求量、含量系数还是统计标准差，不能混用；上下限按正确方向收紧（合同 T4 M1）"
+      options:
+        - id: "coef_directional"
+          definition: >-
+            对约束行中每个成分项按方向收紧系数：对“越大越有利”的项 a → a·(1 − m)，对“越大越不利”的项 a → a·(1 + m)
+            （例：PN-T5 的淀粉项 ×(1+m)、fNDF 项 ×(1−m)；PN-CA-ABS 的 Ca 项 ×(1−m)）
+          pros: "对复合规则（PN-T3、PN-T5）与吸收量约束都有定义；对应“用保守成分值配方”的做法"
+          engine_mapping: "引擎 M1 参数 margin_scale = \"relative\"（spread = |μ|，DM 为 d̂），即 μ·(1 ∓ k)（src/ration_reliability/optimization/safety_margin.py 模块说明）"
+          dev_start_proposal: true
+        - id: "rhs_relative"
+          definition: "下限 L → L(1+m)，上限 U → U(1−m)"
+          cons: "对 PN-T5（右端 −8）与右端含 D 的约束没有自然定义"
+          engine_mapping: "引擎未实现：现有 M1 只把余量加在含量系数（和可选的 DM）上，从不改右端项 K；选此项须先改引擎并补测试（planned）"
+        - id: "sd_units"
+          definition: "a → a ∓ z·σ（z 为余量参数）"
+          cons: "与 M3 的 μ ± kσ 箱体鲁棒接近，需说明区别；在同一盒子上与 M3a 是同一个 LP（B-P4b-01，METHOD_EQUIVALENCES 的 EQ-M1-M3a），二者只能择一作为独立方法"
+          engine_mapping: "引擎 M1 参数 margin_scale = \"sd\"（spread = σ；σ 来源 sd_source = opt_draws 或 explicit，见 PUD-P4b-04）"
+      dm_margin:
+        apply_to_dm: true
+        status: "decided_for_freeze（主设定 true：饲料的实际 DM 是每条供给行的声明随机通道；B2 对齐）"
+        sensitivity_variant: {apply_to_dm: false, role: "敏感性线，不是方法条目（不进可比集合、不进覆盖率分母；official_v2.OFFICIAL_SETTINGS membership.m1_dm_off_is_entry = false）"}
+        development_runs_used: "两个变体都作为条目（run_endpoint_ablation.ABLATION_CONFIG endpoint_reporting.m1_dm_off_is_entry = true）"
+        decision_ids: ["PUD-P4b-01", "B-129"]
+        question: "DM 通道是否也加余量（relative 尺度下即按 d̂(1 ∓ k) 计算，sd 尺度下为 d̂ ∓ k·σ_d）"
+        engine_rule: "引擎 M1 的 apply_to_dm 为必填布尔值、没有默认值，未给出时返回 invalid_input（tests/unit/test_redteam_engine_fixes.py::test_m1_scale_and_dm_margin_have_no_defaults）；不设 DM 余量也要显式写 false 并在方法说明中写明"
+    margin_scale:
+      value: "relative"
+      status: "decided_for_freeze（B2 对齐；与 coef_directional 对应）"
+      decision_ids: ["PUD-P4b-01", "B-129"]
+      allowed: ["relative", "sd"]
+      engine_rule: "引擎 M1 的 margin_scale 为必填、没有默认值；尺度决定网格含义（红队 D02；safety_margin.py PARAM_DEFAULTS）"
+    grid: [0.0, 0.025, 0.05, 0.075, 0.10]
+    grid_margin_scale: "relative"
+    grid_scale_rule: >-
+      本网格只能配 margin_scale = "relative"（即 coef_directional 的 m）。在 sd 尺度下它最多只是 0.1σ，等于人为设弱 M1（合同 §9；红队 D02），
+      引擎 check_margin_grid 对“margin_scale = sd 且网格最大值 ≤ 0.10”直接拒绝，对未声明尺度也拒绝
+      （src/ration_reliability/optimization/safety_margin.py::check_margin_grid；tests/unit/test_redteam_engine_fixes.py::test_m1_scale_and_dm_margin_have_no_defaults）
+    grid_status: "research_scenario_assumption"
+    grid_source: "合同 02 T4 M1 开发候选网格（configs/protocol.yaml methods.safety_margin_development_grid）；这是计算研究设定，不是行业推荐营养百分比（合同 §9）"
+    grid_sd:
+      value: null
+      status: "not_applicable（margin_scale = relative；B2）"
+      decision_ids: ["PUD-P4b-01", "B-129"]
+      rule: "若主分析选 sd 尺度，须在冻结前另定 sd 网格，其最大值必须大于 0.10（否则引擎拒绝），并且足够细（PUD-P4b-01：合成例子中网格 {0, 0.5, 1, …} 太粗，选中点的 validation 违约率远低于目标 α，成本被高估）；不得沿用上面的相对网格"
+      dev_note: "PUD-P4b-01 提到的“0–3 按 0.25 步长”只是开发建议，不是数值来源"
+    selection_rule:
+      rule: "见 common_selection：在 validation 流上选 (n_V + n_U) 的单侧 CP 上界（c = 0.95）≤ α 的最低成本 m；无 m 满足时报告未达标，不在测试流上继续调（合同 T4 M1、T8.1）"
+      screening_statistic: "cp_upper_le_alpha"
+      confidence: 0.95
+      development_runs_used: "rate_upper_le_alpha"
+      screening_statistic_status: "decided_for_freeze（B2 对齐第 1 项；在看任何正式 test 结果之前确定）"
+    double_conservatism_note: "若所用标准本身已含安全系数须记录潜在重复保守性；NASEM 需要量相当于 EAR、不含 RDA 式安全系数（p.5；animal_profile.yaml claim_scope）"
+    status: "planned"
+    engine_status: "代码 unit_passed（src/ration_reliability/optimization/safety_margin.py；reports/stage4_5_report.md“当前状态”）；开发期校准 blocked（验收 D02）；margin_scale、apply_to_dm、sd 网格原为 pending_user_decision（2026-09-24 W1 补记），B2（2026-09-26）定为 relative / true（false 为敏感性线）/ 不适用；上面的 status 指协议层，未改"
+
+  - method_id: "M2"
+    name_zh: "联合机会约束 SAA（共同情景）"
+    formulation: |
+      min C(q)
+      s.t. g_k(q, θ_s) ≤ M_ks · z_s   对所有 s = 1..N、所有联合事件成员 k
+           Σ_s z_s ≤ floor(α_train · N)
+           z_s ∈ {0,1}；q 满足全部 structural_hard 约束
+    joint_semantics: "同一 s 的所有 k 共用 z_s（联合事件）；不得各约束分别用 α 却声称总体 α（合同 T4 M2、验收 D03）"
+    big_m:
+      mode: "box_quantile"
+      rule: "M = min(M_box, Mq)：M_box[s,k] = 结构盒（结构多面体上各 x_i 的最小/最大，2I 个 LP）上 g_{s,k} 的最大值；Mq[s,k] = 盒上 (A[s,k] − A[t,k])·x 最大值在 t 上的第 (m_k + 1) 小值（对每个 SAA 可行点有效）；不统一设 1e6（chance_saa.py 模块说明）"
+      min_violation_diagnostic_mode: "box"
+      q_upper_bounds: "结构盒由结构约束（含 SH-DM-PLAN、纳入量上下限）经 LP 求出"
+      audit: "记录每个 M 的数量级与条件数（chance_saa big-M 报告）"
+      status: "decided_for_freeze（B2 对齐第 2 项；原写“结构可行盒上的最大值”= 代码的 box 模式，只用于最小违约诊断）"
+    polish: true
+    alpha_train:
+      grid_multipliers_of_alpha: [1.0, 0.75, 0.5, 0.25]
+      grid_status: "research_scenario_assumption"
+      selection_rule: "见 common_selection（cp_upper_le_alpha，c = 0.95）：在 validation 流上选 CP 上界 ≤ α 的最低成本 α_train；冻结后不改（合同 T4 M2）"
+      development_runs_used: "rate_upper_le_alpha"
+    N_ladder: [128, 512, 1024]
+    N_ladder_source: "合同 02 T6；protocol.yaml computation.optimization_scenario_development_grid；opt 抽 1024 个，小 N 取前缀"
+    N_final: 1024
+    N_final_status: "decided_for_freeze（D-533：主 N = 1024 预先固定；不能因测试结果不理想再扩抽样替换主结果）"
+    development_runs_used_N: [128, 512]
+    convergence_criterion: "每根、每 SD 点、每 α：512→1024 的 M2 选参状态相同、|Δ validation r̂⁺| ≤ 2 MC SE、成本相对变化 ≤ 1%；不满足报告“未证实”，不延长 N（正式运行计划 §6.4）"
+    alpha_granularity_note: "α = 0.01 且 N = 128 时 floor(α·N) = 1；N = 1024 时为 10。小 N 下 α = 0.01 的 SAA 近似很粗，须在收敛检查中单独报告"
+    variant_optional:
+      id: "M2-Bonferroni"
+      definition: "边际机会约束 + 风险分配 Σ_k α_k ≤ α"
+      naming: "必须命名为 Bonferroni 风险分配的保守替代模型，不是联合 SAA 的等价实现（合同 T4 M2）"
+      status: "planned（可选）"
+    normal_analytic_check: "单一线性下限 + 正态分布时，μᵀx − Φ⁻¹(1−α)·sqrt(xᵀΣx) ≥ b 只用于用独立抽样核对实现，不作为真实成分分布依据（合同 §8）"
+    status: "planned"  # 协议层；代码状态见 engine_status
+    engine_status: "代码 implemented、unit_passed（src/ration_reliability/optimization/chance_saa.py，REGISTRY 名 M2_joint_chance_saa；可选变体 M2b_marginal_bonferroni_saa 也已实现、unit_passed；tests/numerical/test_chance_saa.py）；M2 另为 smoke_passed（smoke-20260924T103019Z-4e1b5138，N = 64、α_train 未校准，只说明管线跑通）；N 阶梯与 α_train 校准 blocked（服务器未定，验收 D08）；上面的 status 与 big_m.status、variant_optional.status 指协议层（2026-09-24 W5 补记，B-146）"
+
+  - method_id: "M3"
+    name_zh: "鲁棒配方"
+    uncertainty_set:
+      kind: {M3a: "box", M3b: "budget"}
+      construction: "工厂矩（所用分布族的实际均值 ± k·SD，裁到单元支撑）构造原始参数 (a_ij, d_i) 的盒子；行系数取双线性角点；NEL_fixedDMI 区间 = 成分盒在仿射能量映射下的精确像（截距 + Σ_j min/max(slope_ij·lo_ij, slope_ij·hi_ij)）；不用 opt 抽样盒（其默认 0 截断会切掉矿物的负 NEL 贡献）"
+      parameter_space: "primitive (a_ij, d_i)"
+      status: "decided_for_freeze（B2 对齐第 5、9 项；run_dev_case_v1.RUN_CONFIG methods.M3a.box）"
+      decision_id: "D-11"
+      options:
+        - id: "box_mu_k_sigma"
+          definition: "原始参数 (a_ij, d_i) 的名义值 ± k·SD（工厂矩），行系数取双线性角点；等价于 Soyster 盒（B2 更正：原写作用于复合系数 c_ki，与代码不符）"
+          source_basis: "同一基准 P 下的 μ ± kσ（数据可行性审计 §0 Q4 口径 ①；D-11 代理建议以此为主）"
+        - id: "budget_bertsimas_sim"
+          definition: "同上半宽，每行最多 Γ_k 个系数同时取最坏值（Bertsimas & Sim 2004, Oper Res 52:35, doi:10.1287/opre.1030.0065）"
+          note: "有限检索中未见其在饲料配方中的应用（S7 A16），投稿前系统检索复核"
+        - id: "scenario_set"
+          definition: "有限情景集合 {θ_s} 上所有行都满足"
+          naming: "只能称 scenario-set robust，不能声称连续区间保证（合同 §9 M3、验收 D04）"
+        - id: "empirical_range"
+          definition: "有实测依据的经验范围（NANP P10/P90、Dairy One 分位数、Dairyland 90% 区间）"
+          status: "blocked（P0-4、P0-2/P0-3；Dairyland 区间口径与累积期不明）"
+        - id: "afz_min_max"
+          definition: "AFZ Min/Max（上下各截去 5% 后的数据，不是极值）"
+          status: "blocked（P0-9）"
+    k_grid: [1.0, 1.5, 2.0, 2.5, 3.0]
+    k_grid_status: "research_scenario_assumption"
+    gamma_grid: [0, 1, 2, 3, 4, 5, 6]
+    gamma_grid_rule: "单一标量网格（6 种随机原料），引擎逐行截断到该行随机系数个数（robust._parse_gamma：Γ_eff = min(Γ, n_unc_k)）；B2 对齐第 4 项"
+    gamma_grid_status: "research_scenario_assumption"
+    selection_rule: "见 common_selection（cp_upper_le_alpha，c = 0.95）：M3a 在 validation 流上选 k；M3b 每个 k 选满足筛查的最低成本 Γ，再跨 k 取最低成本（平局取较低 rate_upper，再取较小 k）；不在测试流上调范围（合同 §9 M3）"
+    development_runs_used: "rate_upper_le_alpha"
+    caveat: "由边际区间拼成的高维箱体可能含联合上不可能的状态；可作保守对照，但要解释（合同 T4 M3）"
+    status: "planned"  # 协议层；代码状态见 engine_status
+    engine_status: "代码 implemented、unit_passed：M3a_box_robust、M3b_budget_robust（只有逐行保证，不声称 Bertsimas–Sim 2004 的概率界）、M3c_scenario_set_robust（src/ration_reliability/optimization/robust.py；tests/unit/test_robust.py；合成数据端到端 tests/integration/test_end_to_end_synthetic.py）；M3 没有 smoke；uncertainty_set.kind 原为 pending_user_decision（D-11），B2（2026-09-26）按执行代码定为 M3a box / M3b budget；上面的 status 指协议层（2026-09-24 W5 补记，B-146）"
+
+  - method_id: "M4"
+    name_zh: "旧 RFEU 适配（可选）"
+    status: "not_applicable"
+    reason: "DECISIONS D-007：暂不纳入主线；只有在相同成本、约束、输入信息、评估器与透明计算预算下可公平适配时才纳入（合同 §9 M4、T4 M4）"
+
+# ---------------------------------------------------------------------------
+# 风险水平
+# ---------------------------------------------------------------------------
+risk_levels:
+  primary_alpha: 0.05
+  secondary_alphas: [0.10, 0.01]
+  source: "合同 01 §10、02 T3；protocol.yaml risk_and_outcomes"
+  semantics: "计算目标，是研究设计选择，不是动物安全阈值或饲喂安全标准"
+  optional_descriptive_points: "0.2、0.5 只能作为预登记的描述性曲线点（phase1_user_approvals D-09 代理处理）"
+  joint_event_members: "见 constraints.yaml joint_event（D-09 待定）"
+
+# ---------------------------------------------------------------------------
+# 随机数与抽样规模
+# ---------------------------------------------------------------------------
+rng:
+  development_seeds: [1103, 2207, 3301]
+  source: "合同 02 T6；protocol.yaml computation.development_seeds"
+  scheme: "numpy.random.SeedSequence(seed).spawn(k)，按固定顺序命名子流：optimisation、validation、test、outer_parameter、assay_signal、policy_evaluation；H1 两层结构另需 farm_mean（uncertainty.yaml e_information_state_history，2026-09-24 新增）"
+  isolation_rule: "优化/验证/测试随机流隔离；测试流在冻结前只允许 smoke 规模的实现检查，不用于选择"
+  seeds_are_not_units: "种子只控制 MC 误差，不是统计单位（数据可行性审计 §9.1）"
+  status: "research_scenario_assumption（种子值来自合同；子流命名是本项目设定）"
+
+draws:
+  validation_draws_initial: 20000
+  validation_draws_status: "research_scenario_assumption"
+  validation_draws_rationale: "α = 0.05 时 MC 标准误约 0.0015（√(0.05·0.95/20000)），足以区分网格点；开发阶段可调整，冻结前固定"
+  test_draws_initial: 10000
+  test_draws_source: "合同 02 T6；protocol.yaml conditional_mc_test_initial_draws"
+  test_precision_rule:
+    n_test: 10000
+    interval: "clopper_pearson_exact"
+    adaptive_doubling: false
+    rule: "固定 10,000 个 test 状态（每个评估世界），不扩展；精确 Clopper–Pearson 区间（成员判定用单侧上界 p̄，c = 0.95）；精度不够时如实报告区间（B2 对齐第 6 项：原“加倍到 Wilson 半宽”规则删除，代码从未实现）"
+    status: "decided_for_freeze"
+    freeze_note: "规则在冻结前固定；不能因结果不理想再扩抽样替换主结果（合同 T6）"
+  mc_interval: "精确 Clopper–Pearson（evaluation/stats.py clopper_pearson / one_sided_upper）；零违约时单侧上界 = 1 − (1 − c)^(1/n)（合同 T8.2）"
+  draws_are_not_empirical_n: true
+
+# ---------------------------------------------------------------------------
+# 信息价值（合同 E4；T7）
+# ---------------------------------------------------------------------------
+information_value:
+  risk_semantics: "ex_ante_joint（合同 T7.1）；逐结果条件风险规则另行命名、不进同一 EVSI 表（T7.2）"
+  policy_class:
+    kind: "有限候选配方库 K + 有限信号分箱（合同 T7.3）"
+    constant_policy_included: true
+    randomized_policies: false
+    library_construction: "开发流上构建；包含无信息配方与覆盖不同可观测信息状态的候选；冻结后不改"
+    library_size_grid: null
+    signal_bins_grid: null
+    grid_status: "pending_user_decision（开发阶段通过扩大 K、细化分箱、小问题完整枚举检查近似误差后确定）"
+    naming: "结果称“限定候选库/政策类下的信息价值”，不称连续全局 EVSI 的上界或下界（T7.3）"
+  information_types:
+    full_perfect: "理想观察 θ 中全部纳入的未知分量（oracle，只作上界参照）"
+    partial_perfect: "只观察预先指定子集，其余按正确条件分布保留（EVPPI；Strong & Oakley 2013, doi:10.1177/0272989X12465123）"
+    sample: "按 assays.yaml 观测模型产生 Z 并更新（EVSI；Strong et al. 2015, doi:10.1177/0272989X15575286；Heath et al. 2022, doi:10.1177/0272989X211026292）"
+    order_check: "0 ≤ gross EVSI ≤ EVPPI ≤ 全完美信息价值只在同一理论决策模型下成立；数值不满足时检查修复，不截断负值或手工排序（T7.4、验收 F10）"
+  comparator_strategies:
+    strategies:
+      - {id: "S0", name_zh: "不检测"}
+      - {id: "S1", name_zh: "最大边际变异优先"}
+      - {id: "S2", name_zh: "最大添加量优先"}
+      - {id: "S3", name_zh: "预设营养约束敏感度优先（开发阶段定义敏感度）"}
+      - {id: "S4", name_zh: "随机选择"}
+      - {id: "S5", name_zh: "决策价值优先"}
+      - {id: "ORACLE", name_zh: "知道真实最危险原料（明示 oracle 参考，不作为可行策略）"}
+    source: "合同 T7.6；专家意见第七节 1"
+    budget_rule: "相同检测预算/相同面板成本下比较；检测选择只用决策时可得信息"
+  sequential_testing: "多次检测区分固定顺序与基于已得结果的调整；第二次检测可用第一次结果，不能用未取得结果（T7.6）"
+  economics: "无真实检测费时报告盈亏平衡最高费用；毛值与净值分开；负批次节约保留（T7.7、验收 F12、F14）"
+  status: "planned"
+
+# ---------------------------------------------------------------------------
+# 统计与报告（摘要；完整分析计划在阶段 6 另写）
+# ---------------------------------------------------------------------------
+statistics_summary:
+  error_layers: ["MC 区间（固定参数下的数值精度）", "样本区间（U3 外层重抽；只在用户按 D-FIX-6 定下有效样本量后按 U3-NEFF 给出并注明 n_eff；按印刷 N 的 σ̂²/N 一律禁止；都不可用时声明 U3 不可识别，见 uncertainty.yaml outer_parameter_draws）", "假设范围（不同 𝒫、相关、误差模型下的范围，不称 95% CI）"]
+  paired_comparison: "同一物理情景、共同随机数；主表给双方可行样本数、总体成功率、共同可行集与差值（T8.4）"
+  lineage_unit: "跨谱系结果（≤ 4 个谱系）只作描述，不做显著性检验（数据可行性审计 §3.2）"
+  status: "planned"

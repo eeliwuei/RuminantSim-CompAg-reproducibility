@@ -1,0 +1,1838 @@
+{
+ "new_draws": 0,
+ "figures": [
+  {
+   "name": "Fig1_decision_structure",
+   "records": [],
+   "pdf_sha256": "9fb7ad1887780640797629d33a27dccf83aa5e64e596a2a569056015e0a5be65",
+   "png_sha256": "ba4a385a83f13435de12a0a9c18d551574c756f47b81acc1a0090cc63cb6bf00"
+  },
+  {
+   "name": "Fig2_candidate_pools",
+   "records": [
+    {
+     "case": "A",
+     "root": 0,
+     "policy": "Q0_static",
+     "risk_percent": 12.784999999999998,
+     "upper_percent": 13.855266173477835
+    },
+    {
+     "case": "A",
+     "root": 0,
+     "policy": "Q1_static",
+     "risk_percent": 7.485,
+     "upper_percent": 8.337940629421343
+    },
+    {
+     "case": "A",
+     "root": 0,
+     "policy": "Q2_static",
+     "risk_percent": 7.485,
+     "upper_percent": 8.337940629421343
+    },
+    {
+     "case": "A",
+     "root": 0,
+     "policy": "Q3_static",
+     "risk_percent": 7.485,
+     "upper_percent": 8.337940629421343
+    },
+    {
+     "case": "A",
+     "root": 0,
+     "policy": "Q4_static",
+     "risk_percent": 7.485,
+     "upper_percent": 8.337940629421343
+    },
+    {
+     "case": "A",
+     "root": 1,
+     "policy": "Q0_static",
+     "risk_percent": 12.385,
+     "upper_percent": 13.441450105510205
+    },
+    {
+     "case": "A",
+     "root": 1,
+     "policy": "Q1_static",
+     "risk_percent": 7.185,
+     "upper_percent": 8.02282102281911
+    },
+    {
+     "case": "A",
+     "root": 1,
+     "policy": "Q2_static",
+     "risk_percent": 7.185,
+     "upper_percent": 8.02282102281911
+    },
+    {
+     "case": "A",
+     "root": 1,
+     "policy": "Q3_static",
+     "risk_percent": 7.185,
+     "upper_percent": 8.02282102281911
+    },
+    {
+     "case": "A",
+     "root": 1,
+     "policy": "Q4_static",
+     "risk_percent": 7.185,
+     "upper_percent": 8.02282102281911
+    },
+    {
+     "case": "A",
+     "root": 2,
+     "policy": "Q0_static",
+     "risk_percent": 12.504999999999999,
+     "upper_percent": 13.565630935357447
+    },
+    {
+     "case": "A",
+     "root": 2,
+     "policy": "Q1_static",
+     "risk_percent": 8.045,
+     "upper_percent": 8.925149184354279
+    },
+    {
+     "case": "A",
+     "root": 2,
+     "policy": "Q2_static",
+     "risk_percent": 8.045,
+     "upper_percent": 8.925149184354279
+    },
+    {
+     "case": "A",
+     "root": 2,
+     "policy": "Q3_static",
+     "risk_percent": 8.045,
+     "upper_percent": 8.925149184354279
+    },
+    {
+     "case": "A",
+     "root": 2,
+     "policy": "Q4_static",
+     "risk_percent": 8.045,
+     "upper_percent": 8.925149184354279
+    },
+    {
+     "case": "A",
+     "root": 0,
+     "policy": "Q0_delta",
+     "risk_percent": 4.130000000000001,
+     "upper_percent": 4.785000328471382
+    },
+    {
+     "case": "A",
+     "root": 0,
+     "policy": "Q1_delta",
+     "risk_percent": 2.445,
+     "upper_percent": 2.9622434250625624
+    },
+    {
+     "case": "A",
+     "root": 0,
+     "policy": "Q2_delta",
+     "risk_percent": 2.13,
+     "upper_percent": 2.61610485551266
+    },
+    {
+     "case": "A",
+     "root": 0,
+     "policy": "Q3_delta",
+     "risk_percent": 2.495,
+     "upper_percent": 3.016982574483525
+    },
+    {
+     "case": "A",
+     "root": 0,
+     "policy": "Q4_delta",
+     "risk_percent": 2.405,
+     "upper_percent": 2.918414217982115
+    },
+    {
+     "case": "A",
+     "root": 1,
+     "policy": "Q0_delta",
+     "risk_percent": 3.8649999999999998,
+     "upper_percent": 4.500766179569944
+    },
+    {
+     "case": "A",
+     "root": 1,
+     "policy": "Q1_delta",
+     "risk_percent": 2.31,
+     "upper_percent": 2.814179740721001
+    },
+    {
+     "case": "A",
+     "root": 1,
+     "policy": "Q2_delta",
+     "risk_percent": 1.95,
+     "upper_percent": 2.4171925055996164
+    },
+    {
+     "case": "A",
+     "root": 1,
+     "policy": "Q3_delta",
+     "risk_percent": 2.365,
+     "upper_percent": 2.874550445471254
+    },
+    {
+     "case": "A",
+     "root": 1,
+     "policy": "Q4_delta",
+     "risk_percent": 2.16,
+     "upper_percent": 2.649172721286743
+    },
+    {
+     "case": "A",
+     "root": 2,
+     "policy": "Q0_delta",
+     "risk_percent": 3.8649999999999998,
+     "upper_percent": 4.500766179569944
+    },
+    {
+     "case": "A",
+     "root": 2,
+     "policy": "Q1_delta",
+     "risk_percent": 2.405,
+     "upper_percent": 2.918414217982115
+    },
+    {
+     "case": "A",
+     "root": 2,
+     "policy": "Q2_delta",
+     "risk_percent": 2.04,
+     "upper_percent": 2.516760010602739
+    },
+    {
+     "case": "A",
+     "root": 2,
+     "policy": "Q3_delta",
+     "risk_percent": 2.705,
+     "upper_percent": 3.246344510638251
+    },
+    {
+     "case": "A",
+     "root": 2,
+     "policy": "Q4_delta",
+     "risk_percent": 2.335,
+     "upper_percent": 2.841629418942354
+    },
+    {
+     "case": "C",
+     "root": 0,
+     "policy": "Q0_static",
+     "risk_percent": 10.03,
+     "upper_percent": 10.997483344960756
+    },
+    {
+     "case": "C",
+     "root": 0,
+     "policy": "Q1_static",
+     "risk_percent": 4.955,
+     "upper_percent": 5.665689384206356
+    },
+    {
+     "case": "C",
+     "root": 0,
+     "policy": "Q2_static",
+     "risk_percent": 4.825,
+     "upper_percent": 5.527293499445192
+    },
+    {
+     "case": "C",
+     "root": 0,
+     "policy": "Q3_static",
+     "risk_percent": 4.825,
+     "upper_percent": 5.527293499445192
+    },
+    {
+     "case": "C",
+     "root": 0,
+     "policy": "Q4_static",
+     "risk_percent": 4.825,
+     "upper_percent": 5.527293499445192
+    },
+    {
+     "case": "C",
+     "root": 1,
+     "policy": "Q0_static",
+     "risk_percent": 10.065,
+     "upper_percent": 11.033911541618165
+    },
+    {
+     "case": "C",
+     "root": 1,
+     "policy": "Q1_static",
+     "risk_percent": 4.705,
+     "upper_percent": 5.399424848037077
+    },
+    {
+     "case": "C",
+     "root": 1,
+     "policy": "Q2_static",
+     "risk_percent": 4.705,
+     "upper_percent": 5.399424848037077
+    },
+    {
+     "case": "C",
+     "root": 1,
+     "policy": "Q3_static",
+     "risk_percent": 4.705,
+     "upper_percent": 5.399424848037077
+    },
+    {
+     "case": "C",
+     "root": 1,
+     "policy": "Q4_static",
+     "risk_percent": 4.705,
+     "upper_percent": 5.399424848037077
+    },
+    {
+     "case": "C",
+     "root": 2,
+     "policy": "Q0_static",
+     "risk_percent": 10.42,
+     "upper_percent": 11.403202074822227
+    },
+    {
+     "case": "C",
+     "root": 2,
+     "policy": "Q1_static",
+     "risk_percent": 5.015,
+     "upper_percent": 5.729520677636272
+    },
+    {
+     "case": "C",
+     "root": 2,
+     "policy": "Q2_static",
+     "risk_percent": 4.784999999999999,
+     "upper_percent": 5.484683478973848
+    },
+    {
+     "case": "C",
+     "root": 2,
+     "policy": "Q3_static",
+     "risk_percent": 4.784999999999999,
+     "upper_percent": 5.484683478973848
+    },
+    {
+     "case": "C",
+     "root": 2,
+     "policy": "Q4_static",
+     "risk_percent": 4.784999999999999,
+     "upper_percent": 5.484683478973848
+    },
+    {
+     "case": "C",
+     "root": 0,
+     "policy": "Q0_delta",
+     "risk_percent": 3.465,
+     "upper_percent": 4.070260426616431
+    },
+    {
+     "case": "C",
+     "root": 0,
+     "policy": "Q1_delta",
+     "risk_percent": 0.83,
+     "upper_percent": 1.1499588629983892
+    },
+    {
+     "case": "C",
+     "root": 0,
+     "policy": "Q2_delta",
+     "risk_percent": 0.6649999999999999,
+     "upper_percent": 0.9557236352061059
+    },
+    {
+     "case": "C",
+     "root": 0,
+     "policy": "Q3_delta",
+     "risk_percent": 1.09,
+     "upper_percent": 1.4505350608070318
+    },
+    {
+     "case": "C",
+     "root": 0,
+     "policy": "Q4_delta",
+     "risk_percent": 1.065,
+     "upper_percent": 1.4218668360586801
+    },
+    {
+     "case": "C",
+     "root": 1,
+     "policy": "Q0_delta",
+     "risk_percent": 3.54,
+     "upper_percent": 4.151125718951273
+    },
+    {
+     "case": "C",
+     "root": 1,
+     "policy": "Q1_delta",
+     "risk_percent": 0.83,
+     "upper_percent": 1.1499588629983892
+    },
+    {
+     "case": "C",
+     "root": 1,
+     "policy": "Q2_delta",
+     "risk_percent": 0.795,
+     "upper_percent": 1.1090238460055362
+    },
+    {
+     "case": "C",
+     "root": 1,
+     "policy": "Q3_delta",
+     "risk_percent": 1.4200000000000002,
+     "upper_percent": 1.8253830452197786
+    },
+    {
+     "case": "C",
+     "root": 1,
+     "policy": "Q4_delta",
+     "risk_percent": 1.3,
+     "upper_percent": 1.6897725197530473
+    },
+    {
+     "case": "C",
+     "root": 2,
+     "policy": "Q0_delta",
+     "risk_percent": 3.6450000000000005,
+     "upper_percent": 4.26422106067891
+    },
+    {
+     "case": "C",
+     "root": 2,
+     "policy": "Q1_delta",
+     "risk_percent": 0.815,
+     "upper_percent": 1.1324312181910952
+    },
+    {
+     "case": "C",
+     "root": 2,
+     "policy": "Q2_delta",
+     "risk_percent": 0.7000000000000001,
+     "upper_percent": 0.9972086469450242
+    },
+    {
+     "case": "C",
+     "root": 2,
+     "policy": "Q3_delta",
+     "risk_percent": 1.125,
+     "upper_percent": 1.4905984454960721
+    },
+    {
+     "case": "C",
+     "root": 2,
+     "policy": "Q4_delta",
+     "risk_percent": 1.04,
+     "upper_percent": 1.393153986457906
+    },
+    {
+     "case": "A",
+     "root": 0,
+     "paired_policy": "Q3_delta",
+     "paired_comparator": "Q2_delta",
+     "difference_points": 0.365,
+     "lower_points": -0.015176955025059157,
+     "upper_points": 0.7441423338965635
+    },
+    {
+     "case": "A",
+     "root": 1,
+     "paired_policy": "Q3_delta",
+     "paired_comparator": "Q2_delta",
+     "difference_points": 0.415,
+     "lower_points": 0.02365780865271243,
+     "upper_points": 0.8051974600107967
+    },
+    {
+     "case": "A",
+     "root": 2,
+     "paired_policy": "Q3_delta",
+     "paired_comparator": "Q2_delta",
+     "difference_points": 0.6649999999999999,
+     "lower_points": 0.19867203559945446,
+     "upper_points": 1.1297564993883638
+    },
+    {
+     "case": "C",
+     "root": 0,
+     "paired_policy": "Q3_delta",
+     "paired_comparator": "Q2_delta",
+     "difference_points": 0.42500000000000004,
+     "lower_points": 0.07989982951249244,
+     "upper_points": 0.7688132387949747
+    },
+    {
+     "case": "C",
+     "root": 1,
+     "paired_policy": "Q3_delta",
+     "paired_comparator": "Q2_delta",
+     "difference_points": 0.625,
+     "lower_points": 0.23390008576755064,
+     "upper_points": 1.0143965331293705
+    },
+    {
+     "case": "C",
+     "root": 2,
+     "paired_policy": "Q3_delta",
+     "paired_comparator": "Q2_delta",
+     "difference_points": 0.42500000000000004,
+     "lower_points": 0.09613428087221737,
+     "upper_points": 0.7525758475650071
+    }
+   ],
+   "sources": {
+    "R6_attribution_risks.csv": "a507f72e188f21e7ebe8210628074800464d08ba23bc01df4efa3046923b6aa3",
+    "R6_attribution_pairs.csv": "de085ddc16f40c50aa3da072cd9ae62b44c39228e3c120a4caffef008aba3260"
+   },
+   "pdf_sha256": "c44d478bb5e4addc0bfe9400e0f047e4f9149f3211a729fd4e6b7b952deaf986",
+   "png_sha256": "a4ae1b5c406e2c85b5ef2e553e25f8692c8e260d6b167ce8e72592e03219e3bc"
+  },
+  {
+   "name": "Fig3_coverage_measurement",
+   "records": [
+    {
+     "experiment": "coverage",
+     "case": "A",
+     "target": "C0",
+     "root": 0,
+     "policy": "Q3_delta",
+     "n": 20000,
+     "risk_percent": 2.59,
+     "upper_percent": 3.1208471246234692
+    },
+    {
+     "experiment": "coverage",
+     "case": "A",
+     "target": "C0",
+     "root": 1,
+     "policy": "Q3_delta",
+     "n": 20000,
+     "risk_percent": 2.58,
+     "upper_percent": 3.1099224211205314
+    },
+    {
+     "experiment": "coverage",
+     "case": "A",
+     "target": "C0",
+     "root": 2,
+     "policy": "Q3_delta",
+     "n": 20000,
+     "risk_percent": 2.735,
+     "upper_percent": 3.2790427461930447
+    },
+    {
+     "experiment": "coverage",
+     "case": "A",
+     "target": "C0",
+     "root": 0,
+     "policy": "Q2_safe_delta",
+     "n": 20000,
+     "risk_percent": 2.1399999999999997,
+     "upper_percent": 2.627130033236738
+    },
+    {
+     "experiment": "coverage",
+     "case": "A",
+     "target": "C0",
+     "root": 1,
+     "policy": "Q2_safe_delta",
+     "n": 20000,
+     "risk_percent": 2.035,
+     "upper_percent": 2.5112344568333453
+    },
+    {
+     "experiment": "coverage",
+     "case": "A",
+     "target": "C0",
+     "root": 2,
+     "policy": "Q2_safe_delta",
+     "n": 20000,
+     "risk_percent": 2.155,
+     "upper_percent": 2.6436630022705696
+    },
+    {
+     "experiment": "coverage",
+     "case": "A",
+     "target": "C1_Table6_matched",
+     "root": 0,
+     "policy": "Q3_delta",
+     "n": 20000,
+     "risk_percent": 2.53,
+     "upper_percent": 3.0552694301995498
+    },
+    {
+     "experiment": "coverage",
+     "case": "A",
+     "target": "C1_Table6_matched",
+     "root": 1,
+     "policy": "Q3_delta",
+     "n": 20000,
+     "risk_percent": 2.6149999999999998,
+     "upper_percent": 3.148150423537156
+    },
+    {
+     "experiment": "coverage",
+     "case": "A",
+     "target": "C1_Table6_matched",
+     "root": 2,
+     "policy": "Q3_delta",
+     "n": 20000,
+     "risk_percent": 2.555,
+     "upper_percent": 3.082602106702986
+    },
+    {
+     "experiment": "coverage",
+     "case": "A",
+     "target": "C1_Table6_matched",
+     "root": 0,
+     "policy": "Q2_safe_delta",
+     "n": 20000,
+     "risk_percent": 2.045,
+     "upper_percent": 2.5222848775531475
+    },
+    {
+     "experiment": "coverage",
+     "case": "A",
+     "target": "C1_Table6_matched",
+     "root": 1,
+     "policy": "Q2_safe_delta",
+     "n": 20000,
+     "risk_percent": 1.9800000000000002,
+     "upper_percent": 2.4504073178322754
+    },
+    {
+     "experiment": "coverage",
+     "case": "A",
+     "target": "C1_Table6_matched",
+     "root": 2,
+     "policy": "Q2_safe_delta",
+     "n": 20000,
+     "risk_percent": 2.025,
+     "upper_percent": 2.500181278941166
+    },
+    {
+     "experiment": "coverage",
+     "case": "A",
+     "target": "C2_Corn4D_author",
+     "root": 0,
+     "policy": "Q3_delta",
+     "n": 20000,
+     "risk_percent": 2.15,
+     "upper_percent": 2.6381526493627354
+    },
+    {
+     "experiment": "coverage",
+     "case": "A",
+     "target": "C2_Corn4D_author",
+     "root": 1,
+     "policy": "Q3_delta",
+     "n": 20000,
+     "risk_percent": 2.22,
+     "upper_percent": 2.7152406740183674
+    },
+    {
+     "experiment": "coverage",
+     "case": "A",
+     "target": "C2_Corn4D_author",
+     "root": 2,
+     "policy": "Q3_delta",
+     "n": 20000,
+     "risk_percent": 2.445,
+     "upper_percent": 2.9622434250625624
+    },
+    {
+     "experiment": "coverage",
+     "case": "A",
+     "target": "C2_Corn4D_author",
+     "root": 0,
+     "policy": "Q2_safe_delta",
+     "n": 20000,
+     "risk_percent": 1.765,
+     "upper_percent": 2.211760053516667
+    },
+    {
+     "experiment": "coverage",
+     "case": "A",
+     "target": "C2_Corn4D_author",
+     "root": 1,
+     "policy": "Q2_safe_delta",
+     "n": 20000,
+     "risk_percent": 1.7950000000000002,
+     "upper_percent": 2.2451479792999183
+    },
+    {
+     "experiment": "coverage",
+     "case": "A",
+     "target": "C2_Corn4D_author",
+     "root": 2,
+     "policy": "Q2_safe_delta",
+     "n": 20000,
+     "risk_percent": 1.9849999999999999,
+     "upper_percent": 2.455940593040977
+    },
+    {
+     "experiment": "measurement",
+     "case": "A",
+     "target": "C0",
+     "root": 0,
+     "policy": "Q3_ideal_delta",
+     "n": 20000,
+     "risk_percent": 2.36,
+     "upper_percent": 2.869065001283546
+    },
+    {
+     "experiment": "measurement",
+     "case": "A",
+     "target": "C0",
+     "root": 1,
+     "policy": "Q3_ideal_delta",
+     "n": 20000,
+     "risk_percent": 2.48,
+     "upper_percent": 3.000566273342331
+    },
+    {
+     "experiment": "measurement",
+     "case": "A",
+     "target": "C0",
+     "root": 2,
+     "policy": "Q3_ideal_delta",
+     "n": 20000,
+     "risk_percent": 2.4699999999999998,
+     "upper_percent": 2.989619493088292
+    },
+    {
+     "experiment": "measurement",
+     "case": "A",
+     "target": "C0",
+     "root": 0,
+     "policy": "Q3_raw_noise_0p5",
+     "n": 20000,
+     "risk_percent": 6.555,
+     "upper_percent": 7.359713740475127
+    },
+    {
+     "experiment": "measurement",
+     "case": "A",
+     "target": "C0",
+     "root": 1,
+     "policy": "Q3_raw_noise_0p5",
+     "n": 20000,
+     "risk_percent": 6.69,
+     "upper_percent": 7.501971133759265
+    },
+    {
+     "experiment": "measurement",
+     "case": "A",
+     "target": "C0",
+     "root": 2,
+     "policy": "Q3_raw_noise_0p5",
+     "n": 20000,
+     "risk_percent": 6.22,
+     "upper_percent": 7.00629402679356
+    },
+    {
+     "experiment": "measurement",
+     "case": "A",
+     "target": "C0",
+     "root": 0,
+     "policy": "Q3_postmean_0p5",
+     "n": 20000,
+     "risk_percent": 10.405000000000001,
+     "upper_percent": 11.387605333616701
+    },
+    {
+     "experiment": "measurement",
+     "case": "A",
+     "target": "C0",
+     "root": 1,
+     "policy": "Q3_postmean_0p5",
+     "n": 20000,
+     "risk_percent": 10.605,
+     "upper_percent": 11.59551165867119
+    },
+    {
+     "experiment": "measurement",
+     "case": "A",
+     "target": "C0",
+     "root": 2,
+     "policy": "Q3_postmean_0p5",
+     "n": 20000,
+     "risk_percent": 10.5,
+     "upper_percent": 11.486374332687948
+    },
+    {
+     "experiment": "measurement",
+     "case": "A",
+     "target": "C0",
+     "root": 0,
+     "policy": "Q3_postUA_0p5",
+     "n": 20000,
+     "risk_percent": 4.195,
+     "upper_percent": 4.854609617707512
+    },
+    {
+     "experiment": "measurement",
+     "case": "A",
+     "target": "C0",
+     "root": 1,
+     "policy": "Q3_postUA_0p5",
+     "n": 20000,
+     "risk_percent": 4.16,
+     "upper_percent": 4.817132823283149
+    },
+    {
+     "experiment": "measurement",
+     "case": "A",
+     "target": "C0",
+     "root": 2,
+     "policy": "Q3_postUA_0p5",
+     "n": 20000,
+     "risk_percent": 4.2,
+     "upper_percent": 4.859962476036657
+    },
+    {
+     "experiment": "measurement",
+     "case": "A",
+     "target": "C0",
+     "root": 0,
+     "policy": "Q2_postUA_0p5",
+     "n": 20000,
+     "risk_percent": 3.655,
+     "upper_percent": 4.2749851616594405
+    },
+    {
+     "experiment": "measurement",
+     "case": "A",
+     "target": "C0",
+     "root": 1,
+     "policy": "Q2_postUA_0p5",
+     "n": 20000,
+     "risk_percent": 3.61,
+     "upper_percent": 4.226537366986691
+    },
+    {
+     "experiment": "measurement",
+     "case": "A",
+     "target": "C0",
+     "root": 2,
+     "policy": "Q2_postUA_0p5",
+     "n": 20000,
+     "risk_percent": 3.495,
+     "upper_percent": 4.102615004050047
+    },
+    {
+     "experiment": "coverage",
+     "case": "C",
+     "target": "C0",
+     "root": 0,
+     "policy": "Q3_delta",
+     "n": 20000,
+     "risk_percent": 1.045,
+     "upper_percent": 1.398900201318671
+    },
+    {
+     "experiment": "coverage",
+     "case": "C",
+     "target": "C0",
+     "root": 1,
+     "policy": "Q3_delta",
+     "n": 20000,
+     "risk_percent": 1.54,
+     "upper_percent": 1.960318994013873
+    },
+    {
+     "experiment": "coverage",
+     "case": "C",
+     "target": "C0",
+     "root": 2,
+     "policy": "Q3_delta",
+     "n": 20000,
+     "risk_percent": 1.195,
+     "upper_percent": 1.5704867024051379
+    },
+    {
+     "experiment": "coverage",
+     "case": "C",
+     "target": "C0",
+     "root": 0,
+     "policy": "Q2_safe_delta",
+     "n": 20000,
+     "risk_percent": 0.685,
+     "upper_percent": 0.9794499539603803
+    },
+    {
+     "experiment": "coverage",
+     "case": "C",
+     "target": "C0",
+     "root": 1,
+     "policy": "Q2_safe_delta",
+     "n": 20000,
+     "risk_percent": 0.8250000000000001,
+     "upper_percent": 1.1441189226729362
+    },
+    {
+     "experiment": "coverage",
+     "case": "C",
+     "target": "C0",
+     "root": 2,
+     "policy": "Q2_safe_delta",
+     "n": 20000,
+     "risk_percent": 0.65,
+     "upper_percent": 0.9378915140758254
+    },
+    {
+     "experiment": "coverage",
+     "case": "C",
+     "target": "C1_Table6_matched",
+     "root": 0,
+     "policy": "Q3_delta",
+     "n": 20000,
+     "risk_percent": 1.055,
+     "upper_percent": 1.4103871381325093
+    },
+    {
+     "experiment": "coverage",
+     "case": "C",
+     "target": "C1_Table6_matched",
+     "root": 1,
+     "policy": "Q3_delta",
+     "n": 20000,
+     "risk_percent": 1.365,
+     "upper_percent": 1.7633171447522762
+    },
+    {
+     "experiment": "coverage",
+     "case": "C",
+     "target": "C1_Table6_matched",
+     "root": 2,
+     "policy": "Q3_delta",
+     "n": 20000,
+     "risk_percent": 1.08,
+     "upper_percent": 1.4390730279708452
+    },
+    {
+     "experiment": "coverage",
+     "case": "C",
+     "target": "C1_Table6_matched",
+     "root": 0,
+     "policy": "Q2_safe_delta",
+     "n": 20000,
+     "risk_percent": 0.655,
+     "upper_percent": 0.943839194200371
+    },
+    {
+     "experiment": "coverage",
+     "case": "C",
+     "target": "C1_Table6_matched",
+     "root": 1,
+     "policy": "Q2_safe_delta",
+     "n": 20000,
+     "risk_percent": 0.755,
+     "upper_percent": 1.0620755851950687
+    },
+    {
+     "experiment": "coverage",
+     "case": "C",
+     "target": "C1_Table6_matched",
+     "root": 2,
+     "policy": "Q2_safe_delta",
+     "n": 20000,
+     "risk_percent": 0.61,
+     "upper_percent": 0.8901734036029639
+    },
+    {
+     "experiment": "coverage",
+     "case": "C",
+     "target": "C2_Corn4D_author",
+     "root": 0,
+     "policy": "Q3_delta",
+     "n": 20000,
+     "risk_percent": 1.03,
+     "upper_percent": 1.3816559987536512
+    },
+    {
+     "experiment": "coverage",
+     "case": "C",
+     "target": "C2_Corn4D_author",
+     "root": 1,
+     "policy": "Q3_delta",
+     "n": 20000,
+     "risk_percent": 1.25,
+     "upper_percent": 1.6330474781568776
+    },
+    {
+     "experiment": "coverage",
+     "case": "C",
+     "target": "C2_Corn4D_author",
+     "root": 2,
+     "policy": "Q3_delta",
+     "n": 20000,
+     "risk_percent": 0.9249999999999999,
+     "upper_percent": 1.260452457380167
+    },
+    {
+     "experiment": "coverage",
+     "case": "C",
+     "target": "C2_Corn4D_author",
+     "root": 0,
+     "policy": "Q2_safe_delta",
+     "n": 20000,
+     "risk_percent": 0.6649999999999999,
+     "upper_percent": 0.9557236352061059
+    },
+    {
+     "experiment": "coverage",
+     "case": "C",
+     "target": "C2_Corn4D_author",
+     "root": 1,
+     "policy": "Q2_safe_delta",
+     "n": 20000,
+     "risk_percent": 0.64,
+     "upper_percent": 0.9259850271679982
+    },
+    {
+     "experiment": "coverage",
+     "case": "C",
+     "target": "C2_Corn4D_author",
+     "root": 2,
+     "policy": "Q2_safe_delta",
+     "n": 20000,
+     "risk_percent": 0.52,
+     "upper_percent": 0.781814898361089
+    },
+    {
+     "experiment": "measurement",
+     "case": "C",
+     "target": "C0",
+     "root": 0,
+     "policy": "Q3_ideal_delta",
+     "n": 20000,
+     "risk_percent": 1.045,
+     "upper_percent": 1.3989002013187946
+    },
+    {
+     "experiment": "measurement",
+     "case": "C",
+     "target": "C0",
+     "root": 1,
+     "policy": "Q3_ideal_delta",
+     "n": 20000,
+     "risk_percent": 1.2,
+     "upper_percent": 1.576181396520269
+    },
+    {
+     "experiment": "measurement",
+     "case": "C",
+     "target": "C0",
+     "root": 2,
+     "policy": "Q3_ideal_delta",
+     "n": 20000,
+     "risk_percent": 1.105,
+     "upper_percent": 1.4677152031914669
+    },
+    {
+     "experiment": "measurement",
+     "case": "C",
+     "target": "C0",
+     "root": 0,
+     "policy": "Q3_raw_noise_0p5",
+     "n": 20000,
+     "risk_percent": 4.495,
+     "upper_percent": 5.175367809386126
+    },
+    {
+     "experiment": "measurement",
+     "case": "C",
+     "target": "C0",
+     "root": 1,
+     "policy": "Q3_raw_noise_0p5",
+     "n": 20000,
+     "risk_percent": 4.015,
+     "upper_percent": 4.661742567232475
+    },
+    {
+     "experiment": "measurement",
+     "case": "C",
+     "target": "C0",
+     "root": 2,
+     "policy": "Q3_raw_noise_0p5",
+     "n": 20000,
+     "risk_percent": 4.4799999999999995,
+     "upper_percent": 5.1593492603651505
+    },
+    {
+     "experiment": "measurement",
+     "case": "C",
+     "target": "C0",
+     "root": 0,
+     "policy": "Q3_postmean_0p5",
+     "n": 20000,
+     "risk_percent": 8.434999999999999,
+     "upper_percent": 9.333372628055214
+    },
+    {
+     "experiment": "measurement",
+     "case": "C",
+     "target": "C0",
+     "root": 1,
+     "policy": "Q3_postmean_0p5",
+     "n": 20000,
+     "risk_percent": 6.415,
+     "upper_percent": 7.212088559974964
+    },
+    {
+     "experiment": "measurement",
+     "case": "C",
+     "target": "C0",
+     "root": 2,
+     "policy": "Q3_postmean_0p5",
+     "n": 20000,
+     "risk_percent": 7.605,
+     "upper_percent": 8.46387945833996
+    },
+    {
+     "experiment": "measurement",
+     "case": "C",
+     "target": "C0",
+     "root": 0,
+     "policy": "Q3_postUA_0p5",
+     "n": 20000,
+     "risk_percent": 2.145,
+     "upper_percent": 2.6326416604076917
+    },
+    {
+     "experiment": "measurement",
+     "case": "C",
+     "target": "C0",
+     "root": 1,
+     "policy": "Q3_postUA_0p5",
+     "n": 20000,
+     "risk_percent": 2.39,
+     "upper_percent": 2.901969399127898
+    },
+    {
+     "experiment": "measurement",
+     "case": "C",
+     "target": "C0",
+     "root": 2,
+     "policy": "Q3_postUA_0p5",
+     "n": 20000,
+     "risk_percent": 2.34,
+     "upper_percent": 2.847117656043824
+    },
+    {
+     "experiment": "measurement",
+     "case": "C",
+     "target": "C0",
+     "root": 0,
+     "policy": "Q2_postUA_0p5",
+     "n": 20000,
+     "risk_percent": 1.6099999999999999,
+     "upper_percent": 2.038750933698751
+    },
+    {
+     "experiment": "measurement",
+     "case": "C",
+     "target": "C0",
+     "root": 1,
+     "policy": "Q2_postUA_0p5",
+     "n": 20000,
+     "risk_percent": 1.675,
+     "upper_percent": 2.1114097077416716
+    },
+    {
+     "experiment": "measurement",
+     "case": "C",
+     "target": "C0",
+     "root": 2,
+     "policy": "Q2_postUA_0p5",
+     "n": 20000,
+     "risk_percent": 1.685,
+     "upper_percent": 2.1225740013340975
+    }
+   ],
+   "sources": {
+    "R6_coverage_risks.csv": "461e2b7581a1b0dd039203a730ced73a2ea4f7a93e545bd8ef5051a685f3b8a5",
+    "R6_measurement_risks.csv": "8b198c77dc8691719e5215f11d697012b811f56f9d11175a092e4ea23141c2ff"
+   },
+   "pdf_sha256": "c64edf3263775fd4f4fc12704099996c10f94ed67192acc284b9131132108ee6",
+   "png_sha256": "640e76ef2e1504e7131fbc5b64dc16202d945bd575d4f8e9283d0cc5317422f3"
+  },
+  {
+   "name": "Fig4_failure_vs_shortage",
+   "records": [
+    {
+     "family": "coverage_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "0",
+     "policy": "Q2_safe_delta",
+     "comparator": "Q3_delta",
+     "risk_difference_percentage_points": -0.45000000000000007,
+     "NEL_tail_difference_percent_of_target": -0.11907214491313828,
+     "panel": "a"
+    },
+    {
+     "family": "coverage_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "1",
+     "policy": "Q2_safe_delta",
+     "comparator": "Q3_delta",
+     "risk_difference_percentage_points": -0.545,
+     "NEL_tail_difference_percent_of_target": -0.09970873360889178,
+     "panel": "a"
+    },
+    {
+     "family": "coverage_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "2",
+     "policy": "Q2_safe_delta",
+     "comparator": "Q3_delta",
+     "risk_difference_percentage_points": -0.58,
+     "NEL_tail_difference_percent_of_target": -0.14660193042467917,
+     "panel": "a"
+    },
+    {
+     "family": "coverage_formal",
+     "case": "A",
+     "scenario": "C1_Table6_matched",
+     "training_rep_id": "0",
+     "policy": "Q2_safe_delta",
+     "comparator": "Q3_delta",
+     "risk_difference_percentage_points": -0.485,
+     "NEL_tail_difference_percent_of_target": -0.08128884971346727,
+     "panel": "a"
+    },
+    {
+     "family": "coverage_formal",
+     "case": "A",
+     "scenario": "C1_Table6_matched",
+     "training_rep_id": "1",
+     "policy": "Q2_safe_delta",
+     "comparator": "Q3_delta",
+     "risk_difference_percentage_points": -0.6349999999999998,
+     "NEL_tail_difference_percent_of_target": -0.08325461616132895,
+     "panel": "a"
+    },
+    {
+     "family": "coverage_formal",
+     "case": "A",
+     "scenario": "C1_Table6_matched",
+     "training_rep_id": "2",
+     "policy": "Q2_safe_delta",
+     "comparator": "Q3_delta",
+     "risk_difference_percentage_points": -0.5299999999999999,
+     "NEL_tail_difference_percent_of_target": -0.13164325968316723,
+     "panel": "a"
+    },
+    {
+     "family": "coverage_formal",
+     "case": "A",
+     "scenario": "C2_Corn4D_author",
+     "training_rep_id": "0",
+     "policy": "Q2_safe_delta",
+     "comparator": "Q3_delta",
+     "risk_difference_percentage_points": -0.3849999999999999,
+     "NEL_tail_difference_percent_of_target": -0.062470773631332494,
+     "panel": "a"
+    },
+    {
+     "family": "coverage_formal",
+     "case": "A",
+     "scenario": "C2_Corn4D_author",
+     "training_rep_id": "1",
+     "policy": "Q2_safe_delta",
+     "comparator": "Q3_delta",
+     "risk_difference_percentage_points": -0.42500000000000004,
+     "NEL_tail_difference_percent_of_target": -0.04090016241103576,
+     "panel": "a"
+    },
+    {
+     "family": "coverage_formal",
+     "case": "A",
+     "scenario": "C2_Corn4D_author",
+     "training_rep_id": "2",
+     "policy": "Q2_safe_delta",
+     "comparator": "Q3_delta",
+     "risk_difference_percentage_points": -0.45999999999999996,
+     "NEL_tail_difference_percent_of_target": -0.12774153016746678,
+     "panel": "a"
+    },
+    {
+     "family": "coverage_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "0",
+     "policy": "Q2_safe_delta",
+     "comparator": "Q3_delta",
+     "risk_difference_percentage_points": -0.3599999999999999,
+     "NEL_tail_difference_percent_of_target": -0.04187050225229925,
+     "panel": "a"
+    },
+    {
+     "family": "coverage_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "1",
+     "policy": "Q2_safe_delta",
+     "comparator": "Q3_delta",
+     "risk_difference_percentage_points": -0.715,
+     "NEL_tail_difference_percent_of_target": -0.1390993148961374,
+     "panel": "a"
+    },
+    {
+     "family": "coverage_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "2",
+     "policy": "Q2_safe_delta",
+     "comparator": "Q3_delta",
+     "risk_difference_percentage_points": -0.545,
+     "NEL_tail_difference_percent_of_target": -0.053482859696619915,
+     "panel": "a"
+    },
+    {
+     "family": "coverage_formal",
+     "case": "C",
+     "scenario": "C1_Table6_matched",
+     "training_rep_id": "0",
+     "policy": "Q2_safe_delta",
+     "comparator": "Q3_delta",
+     "risk_difference_percentage_points": -0.4,
+     "NEL_tail_difference_percent_of_target": -0.03178864006558571,
+     "panel": "a"
+    },
+    {
+     "family": "coverage_formal",
+     "case": "C",
+     "scenario": "C1_Table6_matched",
+     "training_rep_id": "1",
+     "policy": "Q2_safe_delta",
+     "comparator": "Q3_delta",
+     "risk_difference_percentage_points": -0.61,
+     "NEL_tail_difference_percent_of_target": -0.09904670031039634,
+     "panel": "a"
+    },
+    {
+     "family": "coverage_formal",
+     "case": "C",
+     "scenario": "C1_Table6_matched",
+     "training_rep_id": "2",
+     "policy": "Q2_safe_delta",
+     "comparator": "Q3_delta",
+     "risk_difference_percentage_points": -0.47000000000000003,
+     "NEL_tail_difference_percent_of_target": -0.061328677923851334,
+     "panel": "a"
+    },
+    {
+     "family": "coverage_formal",
+     "case": "C",
+     "scenario": "C2_Corn4D_author",
+     "training_rep_id": "0",
+     "policy": "Q2_safe_delta",
+     "comparator": "Q3_delta",
+     "risk_difference_percentage_points": -0.36500000000000005,
+     "NEL_tail_difference_percent_of_target": -0.05587030243292507,
+     "panel": "a"
+    },
+    {
+     "family": "coverage_formal",
+     "case": "C",
+     "scenario": "C2_Corn4D_author",
+     "training_rep_id": "1",
+     "policy": "Q2_safe_delta",
+     "comparator": "Q3_delta",
+     "risk_difference_percentage_points": -0.61,
+     "NEL_tail_difference_percent_of_target": -0.10695929301207598,
+     "panel": "a"
+    },
+    {
+     "family": "coverage_formal",
+     "case": "C",
+     "scenario": "C2_Corn4D_author",
+     "training_rep_id": "2",
+     "policy": "Q2_safe_delta",
+     "comparator": "Q3_delta",
+     "risk_difference_percentage_points": -0.40499999999999997,
+     "NEL_tail_difference_percent_of_target": -0.04531301157219628,
+     "panel": "a"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "0",
+     "policy": "Q2_ideal_delta",
+     "comparator": "Q3_ideal_delta",
+     "risk_difference_percentage_points": -0.36999999999999983,
+     "NEL_tail_difference_percent_of_target": -0.06977461422263292,
+     "panel": "b"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "1",
+     "policy": "Q2_ideal_delta",
+     "comparator": "Q3_ideal_delta",
+     "risk_difference_percentage_points": -0.5649999999999998,
+     "NEL_tail_difference_percent_of_target": -0.08215947712662099,
+     "panel": "b"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "2",
+     "policy": "Q2_ideal_delta",
+     "comparator": "Q3_ideal_delta",
+     "risk_difference_percentage_points": -0.6649999999999999,
+     "NEL_tail_difference_percent_of_target": -0.13668954560335744,
+     "panel": "b"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "0",
+     "policy": "Q2_ideal_delta",
+     "comparator": "Q3_ideal_delta",
+     "risk_difference_percentage_points": -0.4199999999999999,
+     "NEL_tail_difference_percent_of_target": -0.06343821563382074,
+     "panel": "b"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "1",
+     "policy": "Q2_ideal_delta",
+     "comparator": "Q3_ideal_delta",
+     "risk_difference_percentage_points": -0.445,
+     "NEL_tail_difference_percent_of_target": -0.08683410129546859,
+     "panel": "b"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "2",
+     "policy": "Q2_ideal_delta",
+     "comparator": "Q3_ideal_delta",
+     "risk_difference_percentage_points": -0.4050000000000001,
+     "NEL_tail_difference_percent_of_target": -0.08050044952280573,
+     "panel": "b"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "0",
+     "policy": "Q2_postUA_0p1",
+     "comparator": "Q3_postUA_0p1",
+     "risk_difference_percentage_points": -0.315,
+     "NEL_tail_difference_percent_of_target": -0.05934999456615403,
+     "panel": "b"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "1",
+     "policy": "Q2_postUA_0p1",
+     "comparator": "Q3_postUA_0p1",
+     "risk_difference_percentage_points": -0.5950000000000001,
+     "NEL_tail_difference_percent_of_target": -0.08731036809299063,
+     "panel": "b"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "2",
+     "policy": "Q2_postUA_0p1",
+     "comparator": "Q3_postUA_0p1",
+     "risk_difference_percentage_points": -0.5850000000000001,
+     "NEL_tail_difference_percent_of_target": -0.11729375178104119,
+     "panel": "b"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "0",
+     "policy": "Q2_postUA_0p1",
+     "comparator": "Q3_postUA_0p1",
+     "risk_difference_percentage_points": -0.455,
+     "NEL_tail_difference_percent_of_target": -0.07811334580943255,
+     "panel": "b"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "1",
+     "policy": "Q2_postUA_0p1",
+     "comparator": "Q3_postUA_0p1",
+     "risk_difference_percentage_points": -0.52,
+     "NEL_tail_difference_percent_of_target": -0.09600389723456734,
+     "panel": "b"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "2",
+     "policy": "Q2_postUA_0p1",
+     "comparator": "Q3_postUA_0p1",
+     "risk_difference_percentage_points": -0.43,
+     "NEL_tail_difference_percent_of_target": -0.12480455805943917,
+     "panel": "b"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "0",
+     "policy": "Q2_postUA_0p5",
+     "comparator": "Q3_postUA_0p5",
+     "risk_difference_percentage_points": -0.5400000000000003,
+     "NEL_tail_difference_percent_of_target": -0.10954222504343594,
+     "panel": "b"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "1",
+     "policy": "Q2_postUA_0p5",
+     "comparator": "Q3_postUA_0p5",
+     "risk_difference_percentage_points": -0.5499999999999998,
+     "NEL_tail_difference_percent_of_target": -0.10788160538448242,
+     "panel": "b"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "2",
+     "policy": "Q2_postUA_0p5",
+     "comparator": "Q3_postUA_0p5",
+     "risk_difference_percentage_points": -0.7050000000000001,
+     "NEL_tail_difference_percent_of_target": -0.14428562425135458,
+     "panel": "b"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "0",
+     "policy": "Q2_postUA_0p5",
+     "comparator": "Q3_postUA_0p5",
+     "risk_difference_percentage_points": -0.535,
+     "NEL_tail_difference_percent_of_target": -0.07638329944026885,
+     "panel": "b"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "1",
+     "policy": "Q2_postUA_0p5",
+     "comparator": "Q3_postUA_0p5",
+     "risk_difference_percentage_points": -0.715,
+     "NEL_tail_difference_percent_of_target": -0.11448154955334688,
+     "panel": "b"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "2",
+     "policy": "Q2_postUA_0p5",
+     "comparator": "Q3_postUA_0p5",
+     "risk_difference_percentage_points": -0.655,
+     "NEL_tail_difference_percent_of_target": -0.10757464266251326,
+     "panel": "b"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "0",
+     "policy": "Q3_postUA_0p1",
+     "comparator": "Q3_raw_noise_0p1",
+     "risk_difference_percentage_points": -0.06499999999999978,
+     "NEL_tail_difference_percent_of_target": 0.011874994995360495,
+     "panel": "c"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "1",
+     "policy": "Q3_postUA_0p1",
+     "comparator": "Q3_raw_noise_0p1",
+     "risk_difference_percentage_points": -0.010000000000000286,
+     "NEL_tail_difference_percent_of_target": 0.019363690164146338,
+     "panel": "c"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "2",
+     "policy": "Q3_postUA_0p1",
+     "comparator": "Q3_raw_noise_0p1",
+     "risk_difference_percentage_points": -0.02999999999999982,
+     "NEL_tail_difference_percent_of_target": 0.008652257475116366,
+     "panel": "c"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "0",
+     "policy": "Q3_postUA_0p1",
+     "comparator": "Q3_raw_noise_0p1",
+     "risk_difference_percentage_points": -0.029999999999999992,
+     "NEL_tail_difference_percent_of_target": 0.01329896948768991,
+     "panel": "c"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "1",
+     "policy": "Q3_postUA_0p1",
+     "comparator": "Q3_raw_noise_0p1",
+     "risk_difference_percentage_points": -0.059999999999999984,
+     "NEL_tail_difference_percent_of_target": 0.007356394402490774,
+     "panel": "c"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "2",
+     "policy": "Q3_postUA_0p1",
+     "comparator": "Q3_raw_noise_0p1",
+     "risk_difference_percentage_points": -0.04999999999999987,
+     "NEL_tail_difference_percent_of_target": 0.022176214539450928,
+     "panel": "c"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "0",
+     "policy": "Q3_postUA_0p1",
+     "comparator": "Q3_postmean_0p1",
+     "risk_difference_percentage_points": -0.10499999999999989,
+     "NEL_tail_difference_percent_of_target": 0.02545164012269013,
+     "panel": "c"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "1",
+     "policy": "Q3_postUA_0p1",
+     "comparator": "Q3_postmean_0p1",
+     "risk_difference_percentage_points": -0.015000000000000083,
+     "NEL_tail_difference_percent_of_target": 0.021154688816570674,
+     "panel": "c"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "2",
+     "policy": "Q3_postUA_0p1",
+     "comparator": "Q3_postmean_0p1",
+     "risk_difference_percentage_points": -0.05499999999999984,
+     "NEL_tail_difference_percent_of_target": 0.013971548415939172,
+     "panel": "c"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "0",
+     "policy": "Q3_postUA_0p1",
+     "comparator": "Q3_postmean_0p1",
+     "risk_difference_percentage_points": -0.07000000000000009,
+     "NEL_tail_difference_percent_of_target": 0.02043234826169247,
+     "panel": "c"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "1",
+     "policy": "Q3_postUA_0p1",
+     "comparator": "Q3_postmean_0p1",
+     "risk_difference_percentage_points": -0.08999999999999997,
+     "NEL_tail_difference_percent_of_target": 0.008445750649833808,
+     "panel": "c"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "2",
+     "policy": "Q3_postUA_0p1",
+     "comparator": "Q3_postmean_0p1",
+     "risk_difference_percentage_points": -0.0749999999999999,
+     "NEL_tail_difference_percent_of_target": 0.03137424290597778,
+     "panel": "c"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "0",
+     "policy": "Q3_postUA_0p5",
+     "comparator": "Q3_raw_noise_0p5",
+     "risk_difference_percentage_points": -2.3599999999999994,
+     "NEL_tail_difference_percent_of_target": 0.1614297806850078,
+     "panel": "d"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "1",
+     "policy": "Q3_postUA_0p5",
+     "comparator": "Q3_raw_noise_0p5",
+     "risk_difference_percentage_points": -2.5300000000000002,
+     "NEL_tail_difference_percent_of_target": 0.14138758790893136,
+     "panel": "d"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "2",
+     "policy": "Q3_postUA_0p5",
+     "comparator": "Q3_raw_noise_0p5",
+     "risk_difference_percentage_points": -2.0199999999999996,
+     "NEL_tail_difference_percent_of_target": 0.1448150212538229,
+     "panel": "d"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "0",
+     "policy": "Q3_postUA_0p5",
+     "comparator": "Q3_raw_noise_0p5",
+     "risk_difference_percentage_points": -2.3499999999999996,
+     "NEL_tail_difference_percent_of_target": 0.05120316830996576,
+     "panel": "d"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "1",
+     "policy": "Q3_postUA_0p5",
+     "comparator": "Q3_raw_noise_0p5",
+     "risk_difference_percentage_points": -1.6249999999999998,
+     "NEL_tail_difference_percent_of_target": 0.05213897180493224,
+     "panel": "d"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "2",
+     "policy": "Q3_postUA_0p5",
+     "comparator": "Q3_raw_noise_0p5",
+     "risk_difference_percentage_points": -2.1399999999999997,
+     "NEL_tail_difference_percent_of_target": 0.03027226123170014,
+     "panel": "d"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "0",
+     "policy": "Q3_postUA_0p5",
+     "comparator": "Q3_postmean_0p5",
+     "risk_difference_percentage_points": -6.21,
+     "NEL_tail_difference_percent_of_target": 0.36532578566035406,
+     "panel": "d"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "1",
+     "policy": "Q3_postUA_0p5",
+     "comparator": "Q3_postmean_0p5",
+     "risk_difference_percentage_points": -6.445,
+     "NEL_tail_difference_percent_of_target": 0.365270997334279,
+     "panel": "d"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "A",
+     "scenario": "C0",
+     "training_rep_id": "2",
+     "policy": "Q3_postUA_0p5",
+     "comparator": "Q3_postmean_0p5",
+     "risk_difference_percentage_points": -6.3,
+     "NEL_tail_difference_percent_of_target": 0.345571082187716,
+     "panel": "d"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "0",
+     "policy": "Q3_postUA_0p5",
+     "comparator": "Q3_postmean_0p5",
+     "risk_difference_percentage_points": -6.29,
+     "NEL_tail_difference_percent_of_target": 0.18624544962109185,
+     "panel": "d"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "1",
+     "policy": "Q3_postUA_0p5",
+     "comparator": "Q3_postmean_0p5",
+     "risk_difference_percentage_points": -4.0249999999999995,
+     "NEL_tail_difference_percent_of_target": 0.14847133387044853,
+     "panel": "d"
+    },
+    {
+     "family": "measurement_formal",
+     "case": "C",
+     "scenario": "C0",
+     "training_rep_id": "2",
+     "policy": "Q3_postUA_0p5",
+     "comparator": "Q3_postmean_0p5",
+     "risk_difference_percentage_points": -5.265000000000001,
+     "NEL_tail_difference_percent_of_target": 0.22537360612650137,
+     "panel": "d"
+    }
+   ],
+   "sources": {
+    "R7_descriptive_same_protocol_differences.csv": "117563903e4ba4dd3b4bee966a983a930fecbd58932bbabe78d9819dcec61f4a",
+    "R7_NEL_all96_rule_records_safe.csv": "75082c6b96f2ec29432b20bcfb1ac8f769ad6faf1038231651716f788b5c0c26"
+   },
+   "pdf_sha256": "2a26ab9afb20197ad5c55c27c3011b74d6dbaca46a7e78f3d863f86887d78e93",
+   "png_sha256": "386e3b7718aba109377f6314dd2c627e5b3d9a52348007a188195638ebe7cc68"
+  }
+ ]
+}

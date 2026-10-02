@@ -1,0 +1,7 @@
+case,training_root_index,world,source_structure,n,actions,all_fail_count,all_fail_rate,adjusted_lower,adjusted_lower_pct,excluded_targets,scope,analysis_status,confidence_family
+R0,0,TAB,C0,20000,14,13522,0.6761,0.6613443944760469,66.13443944760469,0.01;0.02;0.05;0.1;0.2,only_this_frozen_training_generated_menu_under_this_model,registered_formal,continuous_floor_alpha0p05_bound10000
+R0,1,TAB,C0,20000,12,13738,0.6869,0.6722685288473198,67.22685288473198,0.01;0.02;0.05;0.1;0.2,only_this_frozen_training_generated_menu_under_this_model,registered_formal,continuous_floor_alpha0p05_bound10000
+R0,2,TAB,C0,20000,15,13482,0.6741,0.6593223884462336,65.93223884462336,0.01;0.02;0.05;0.1;0.2,only_this_frozen_training_generated_menu_under_this_model,registered_formal,continuous_floor_alpha0p05_bound10000
+B,0,TAB,C0,20000,13,12372,0.6186,0.6033281522722058,60.33281522722058,0.01;0.02;0.05;0.1;0.2,only_this_frozen_training_generated_menu_under_this_model,registered_formal,continuous_floor_alpha0p05_bound10000
+B,1,TAB,C0,20000,13,12411,0.62055,0.6052918422206351,60.52918422206351,0.01;0.02;0.05;0.1;0.2,only_this_frozen_training_generated_menu_under_this_model,registered_formal,continuous_floor_alpha0p05_bound10000
+B,2,TAB,C0,20000,13,12341,0.61705,0.6017674552759389,60.17674552759389,0.01;0.02;0.05;0.1;0.2,only_this_frozen_training_generated_menu_under_this_model,registered_formal,continuous_floor_alpha0p05_bound10000

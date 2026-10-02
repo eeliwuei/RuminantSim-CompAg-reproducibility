@@ -1,0 +1,10 @@
+identity,case,world,root,n_states,policy,target,integer_tail_qualified
+dev_case_v3a__SD-H0__C0__r0,dev_case_v3a,SD-H0,r0,20000,Q3_delta,0.05,True
+dev_case_v3a__SD-H0__C0__r1,dev_case_v3a,SD-H0,r1,20000,Q3_delta,0.05,True
+dev_case_v3a__SD-H0__C0__r2,dev_case_v3a,SD-H0,r2,20000,Q3_delta,0.05,True
+dev_case_v3c__SD-H0__C0__r0,dev_case_v3c,SD-H0,r0,20000,Q2_delta,0.01,True
+dev_case_v3c__SD-H0__C0__r0,dev_case_v3c,SD-H0,r0,20000,Q3_delta,0.02,True
+dev_case_v3c__SD-H0__C0__r1,dev_case_v3c,SD-H0,r1,20000,Q2_delta,0.01,False
+dev_case_v3c__SD-H0__C0__r1,dev_case_v3c,SD-H0,r1,20000,Q3_delta,0.02,True
+dev_case_v3c__SD-H0__C0__r2,dev_case_v3c,SD-H0,r2,20000,Q2_delta,0.01,True
+dev_case_v3c__SD-H0__C0__r2,dev_case_v3c,SD-H0,r2,20000,Q3_delta,0.02,True

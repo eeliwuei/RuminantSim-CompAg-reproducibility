@@ -1,0 +1,560 @@
+# 不确定性模型（uncertainty）——draft，未冻结
+# 生成：P2b_constraints_units 子任务，2026-09-24
+# 状态（合同 §2.3）：implemented（结构已起草，draft）；未被代码读取；未冻结；主假设未选。
+# 研究层级：第二层（route_decision：summary_based_computation）——“在声明的分布族 𝒫 与固定版本营养模型下的
+#   计算可靠性分析”；从均值/SD 生成的样本是模拟抽样，不是真实样本（数据可行性审计 §0 Q2-1）。
+# 规则：
+#   - 四类不确定性分开建模、分开报告，不合成一个无单位风险分数（合同 §7.3）。
+#   - 没有来源的参数写 null，并标 pending_user_decision 或 research_scenario_assumption（写明理由）。
+#   - NASEM Table 19-1 的均值/SD/N 只在 data/restricted_local/，本文件只写引用路径。
+# G2_phase3_uncertainty（2026-09-24）追加：各候选下新增 engine_* 字段（代码实现状态与指针），另新增候选 TN_MM、BETA_MM、
+#   C_CONS_closure；scripts/build_phase3_tables.py 读取本文件的 SD 缩放网格、k 开发起点、C1 成对键、C5 网格与 ratio_table。
+#   没有改动任何 pending_user_decision 项、primary 字段或数值；frozen 仍为 false。
+# R3E_uncertainty_layers（2026-09-25，第三轮复核执行指令 E）只追加元数据字段（键名以 _round3 结尾）：数据层级标签、逐格比值登记表指针、
+#   窄化 SD 敏感性范围指针、随机流政策指针。没有改动任何数值、网格、候选、primary、pending 项或既有选择；frozen 仍为 false。
+
+schema_version: "0.1-draft"
+file_role: "uncertainty_model"
+created_on: "2026-09-24"
+created_by: "P2b_constraints_units (subagent)"
+stage_status: "implemented"
+draft: true
+frozen: false
+
+# 与阶段 1 来源登记（sources/source_registry.csv）的对应
+registry_crosswalk:
+  NASEM_2021_Table19: "SRC-C-NASEM21-T19"
+  Tran_2020: "SRC-C-TRAN2020"
+  Yoder_2014: "SRC-C-YODER2014"
+  PLOS_ONE_2024_corn_silage: "SRC-G-PLOS2024-CS"
+  Duplessis_2024_raw: "SRC-J-DUPLESSIS-RAW"
+  St-Pierre_Weiss_2015: "SRC-V-SPW2015"
+  Barrientos-Blanco_2024a: "SRC-V-BB2024A"
+  Weiss_St-Pierre_2009: "SRC-V-WEISS-TRISTATE"
+  Kertz_1998: "SRC-V-KERTZ1998"
+  AFZ: ["SRC-A-FEEDIPEDIA", "SRC-A-FEEDTABLES"]
+  CVB_2023: "SRC-B-CVB2023"
+  CQBAL_4: "SRC-D-CQBAL4"
+  NYT_2025_draft: "SRC-E-NYT2025-DRAFT"
+  rank_based_synthetic_method_reference: "SRC-M-TEDESCHI2025"
+
+# ---------------------------------------------------------------------------
+# 四类不确定性（合同 01 §7.3；02 T7.5、T8.3）
+# ---------------------------------------------------------------------------
+uncertainty_categories:
+  U1_batch_true_variation:
+    meaning: "批次间真实成分变异：决定情景 θ 中的 d_i(θ)、a_ij(θ)"
+    modelled_by: "base_distribution + 本文件各敏感性维度"
+    in_primary_analysis: true
+  U2_current_batch_observation_error:
+    meaning: "当前批次的采样误差、实验室随机误差与系统偏差：只在有检测动作的信息政策里出现"
+    modelled_by: "configs/assays.yaml（Z = θ + ε_sampling + ε_lab + b）"
+    in_primary_analysis: "只在合同 E4（信息价值）与 E3 的“检测后”信息状态中"
+  U3_parameter_estimation:
+    meaning: "分布参数（均值、SD、相关）本身的估计不确定性"
+    modelled_by: "outer_parameter_draws（外层重抽或外层参数情景；按印刷 N 构造的朴素形式禁止，见 outer_parameter_draws.forbidden_schemes）"
+    in_primary_analysis: false
+    reporting: "单独报告，不与 MC 误差、假设范围混成一个区间（合同 T8.3）"
+  U4_model_and_standard:
+    meaning: "营养模型/标准适用性：AC 取值、Table 5-1 前提、DMI 方程版本、需要量为 EAR 等"
+    modelled_by: "预登记敏感性（constraints.yaml 的选项；E5）"
+    in_primary_analysis: false
+
+# ---------------------------------------------------------------------------
+# 基准分布 P0（谱系 C：NASEM 2021 Table 19-1）
+# ---------------------------------------------------------------------------
+base_distribution:
+  id: "P0_NASEM2021_T19_1"
+  lineage_id: "C"
+  parameter_file: "data/restricted_local/nasem_t19_1_core.csv（核心表 v2，A、B 双录入对账后生成；283 行 × 33 列；不进 git）"
+  parameter_file_sha256: "6c732510b563c5e1f6bbe9c9f82dfd678a9e02763ca6df4ea4b8ee2731bd2fdd"
+  parameter_file_hash_record: "reports/data_audit.md（§1 输入与输出哈希表；§11.2 第 2 项）"
+  parameter_file_status: >-
+    核心表 v2 implemented；283 行中 both_agree 278、resolved 5、unresolved 0；278 个双录入一致单元的转录为 independently_checked，
+    限定：两次录入都由 软件辅助录入 完成，不是人类双录入（reports/data_audit.md §0、§9）
+  parameter_file_rules: >-
+    只用 entry_agreement ∈ {both_agree, resolved} 的行；离散度只取 statistic_type = summary_mean_sd_n 的单元；
+    按核心表 concept_id 连接并对多条目概念显式选 nasem_feed_id（data/data_dictionary.md §3.2、§5 第 10–11 条）
+  parameter_file_superseded: "2026-09-24 前指向 data/restricted_local/nasem_t19_1_entry_A.csv（A 单录入）——已废止（红队 D B08/B10；BLOCKERS B-132；W1）"
+  statistics_available: ["mean", "sd", "n"]
+  statistics_not_available: ["min", "max", "P10", "P90（正文称新增，但印刷表未列，NASEM p.361）", "相关/协方差矩阵"]
+  sd_semantics: >-
+    出处逐条分开（2026-09-24 W1 对照 PDF 原文改正；此前把第 (1) 条误引为 NASEM p.361）：
+    (1) “SD 为各实验室内 SD 按样本数加权的线性平均”只来自调研 S1§2.6 对 Tran et al. 2020 的转述，本项目没有原文
+    （sources/source_registry.csv SRC-C-TRAN2020 为 not_downloaded；核心表 sd_definition 带 _secondary_unverified），属二手、未核实。
+    NASEM 2021 第 19 章正文（印刷 p.360–361，pdf p.380–381）没有写 SD 怎样跨实验室合成，不能作为这一条的出处。
+    (2) 截尾与亚群：关键成分超出均值 ± 3.5 SD 的样本被删除，主成分得分超过 3.5 SD 的样本被删除，再用聚类识别亚群
+    （NASEM 印刷 p.361，pdf p.381）。
+    (3) 湿化学与近红外数据无法区分、两者都用（印刷 p.360–361，pdf p.380–381）；矿物只来自湿化学（印刷 p.361）。
+    因此它相对于美国送检群体可能偏小（第 (2) 条；第 (1) 条若成立也同向）、相对于单个牧场的批次变异偏大，
+    方向依决策情景而定（数据可行性审计 §11.1-1；reports/data_audit.md §7）。
+  sd_is_not_se: >-
+    SD 描述新批次的离散程度；SD/√n 是均值的估计误差（标准误），不是新批次波动，不得当作新批次波动（合同 01 §7.4）。
+    用 Table 19-1 印刷 N 计算的 SD/√N、σ̂²/N 及其区间在本项目的任何用途中都禁止（包括 U3，也包括“只作诊断”），
+    见 outer_parameter_draws.forbidden_schemes；U3 只允许 outer_parameter_draws.scheme_candidates 中的形式，
+    其中有效样本量须由用户按 D-FIX-6 决定（2026-09-24 W1 改；此前写作“只用于 U3”）。
+  data_layer_round3:          # R3E（2026-09-25）追加的元数据；不改上面任何数值或规则
+    layer_id: "H0"
+    variance_basis: "observed_incl_sampling_and_lab"
+    used_as: "当前批次（本批）成分的真实波动"
+    assumption_strength: "strong_assumption"
+    is_real_world_baseline: false
+    evidence_status_of_this_use: "assumption_only"
+    note: >-
+      把送检结果的观测总 SD（含历史采样与分析误差、跨牧场与跨实验室变异）当作本批波动，是强假设，不是“真实世界基线”；
+      相对单个牧场的批次变异它可能偏大，相对美国送检总体它可能偏小（见 sd_semantics），方向依情景而定。
+      可支持与不可支持的结论措辞见 docs/uncertainty_data_layers.md。
+  stochastic_ingredients: "inventories.yaml 中 role 为 core_stochastic / core_stochastic_candidate 的 15 种"
+  deterministic_ingredients: "脂肪粉（F25 点值）、石粉、磷酸氢钙、食盐、小苏打、预混料（待定）"
+  stochastic_nutrients: ["DM", "CP", "NDF", "starch", "EE", "Ca", "P"]
+  derived_nutrients: {fNDF: "forage_flag × NDF（同一次抽样的 NDF）", Ca_abs: "AC 固定", P_abs: "AC 固定"}
+  missing_value_policy:
+    rule: "均值缺失的原料 × 成分：不补零（nutrients.yaml NR-03）"
+    options:
+      - "该原料在涉及此成分的约束中不可用（从可用集合移出并记录）"
+      - "借用同类原料 CV（research_scenario_assumption，逐格标“借用”）"
+    chosen: null
+    status: "pending_user_decision"
+  point_value_policy:
+    rule: "有均值无 SD/N（单一来源点值，如多数 TFA 估算值）：不生成随机抽样"
+    options:
+      - "作为确定性值并记 DQF-SINGLE-SOURCE"
+      - "借用同类 CV（research_scenario_assumption）"
+    chosen: null
+    status: "pending_user_decision"
+  mean_equals_reference: "t0 的名义值（M0 使用、决策时的 d̂）= P0 的均值；不用 AFZ/CVB 等其他谱系的均值（它们只在来源情景中出现）"
+
+# ---------------------------------------------------------------------------
+# 预登记敏感性维度 (a)–(g)（数据可行性审计 §0 Q2-3）
+# ---------------------------------------------------------------------------
+sensitivity_dimensions:
+
+  a_sd_scale_factor:
+    meaning: "把 P0 的 SD 整体乘以因子 s（所有随机原料 × 成分同乘，或按原料类分组）"
+    must_cover_both_directions: true
+    must_cover_source: "数据可行性审计 §0 Q2-3(a)、§11.1-1：NASEM SD 同时存在偏小（截尾、实验室内 SD 平均）与偏大（方法混用）的机制"
+    grid: [0.667, 0.8, 1.0, 1.25, 1.5]
+    grid_status: "research_scenario_assumption"
+    engine_status: "implemented"
+    engine_impl: "src/ration_reliability/uncertainty/scaling.py（scale_sd、scale_sd_by_group、build_scenario_targets）；单元测试 unit_passed（tests/unit/test_uncertainty_scaling.py）"
+    engine_note: "是否同乘 DM 的 SD 须显式给出（sd_scale_applies_to_dm，无默认）；缩放后逐格重新矩匹配，TN 不可匹配的格如实标记（reports/stage3_data_processing.md §3）"
+    grid_rationale: >-
+      对数尺度上以 1 为中心对称（×/÷1.25、×/÷1.5），覆盖 <1 与 >1 两个方向；幅度本身没有文献依据，
+      只是开发起点。与维度 (e) 的“本场历史”比值 r 是不同概念：s 缩放总 SD；r 只把（缩放后的）总方差分成场间与场内两部分（H1 两层结构），不是再缩小一次。
+    relation_to_narrowed_range_round3: >-
+      R3E（2026-09-25）追加：窄化 SD 敏感性范围（docs/uncertainty_data_layers.md §5，逐格场内比值 ≤ 1）与本维度分开报告；
+      两者不叠加使用（窄化点再乘 s < 1 属于继续降低 SD，超出声明范围）。
+    decision_id: "D-17"
+
+  b_distribution_family:
+    candidates:
+      - id: "TN"
+        name: "截断正态"
+        definition: "N(μ, (s·σ)²) 截断到物理区间：%DM 成分 [0, 100]；DM [0, 100] % as-fed；若 Σ 截断质量 > 1% 须报告均值偏移"
+        status: "research_scenario_assumption"
+        engine_status: "implemented"
+        engine_impl: "distributions.naive_truncnorm（族名 TN_NAIVE，只作诊断：均值漂移；smoke 的 20/119 由 scripts/build_phase3_tables.py 复现）"
+      - id: "TN_MM"
+        name: "截断正态（矩匹配）"
+        definition: "父正态 (μ*, σ*) 由数值求解，使截断到物理区间后的均值、SD 恰等于目标 (μ, s·σ)；CV（相对下界）≥ 1 的格数学上不可能，标 not_matchable，不强行拟合"
+        status: "research_scenario_assumption"
+        engine_status: "implemented"
+        engine_impl: "src/ration_reliability/uncertainty/distributions.py fit_truncnorm_moments；单元测试 unit_passed（tests/unit/test_uncertainty_distributions.py）"
+        added_by: "G2_phase3_uncertainty（2026-09-24），用于解决 smoke S-5 的均值漂移"
+      - id: "LN"
+        name: "对数正态（矩匹配）"
+        definition: "按 μ、σ 矩匹配；只用于非负成分；上界 100 另做截断"
+        status: "research_scenario_assumption"
+        engine_status: "implemented"
+        engine_impl: "distributions.fit_lognormal_moments（族名 LN_MM）：抽样总在上界截断；截断后的矩不等于目标时数值求解截断对数正态，使截断后的均值、SD 仍等于目标"
+      - id: "BETA_MM"
+        name: "Beta（有界成分，矩匹配）"
+        definition: "lower + (upper − lower)·Beta(a, b)，a、b 由均值、SD 闭式求出；a < 1 或 b < 1 时密度在边界无界，逐格标记"
+        status: "research_scenario_assumption"
+        engine_status: "implemented"
+        engine_impl: "distributions.fit_beta_moments；单元测试 unit_passed"
+        added_by: "G2_phase3_uncertainty（2026-09-24）"
+      - id: "N"
+        name: "未截断正态"
+        definition: "只作诊断（可能出现负值），不作主分析"
+        status: "research_scenario_assumption"
+        engine_status: "implemented"
+        engine_impl: "distributions.untruncated_normal（族名 N_UNTRUNCATED，只报告物理区间外的概率质量，不可抽样）"
+      - id: "EMP"
+        name: "经验分位数"
+        definition: "只有在取得有许可的分位数（NANP P10/P90：P0-4；Dairy One：P0-2/P0-3）后才可用"
+        status: "blocked"
+    note: "NASEM 提示部分营养素不服从正态、均值未必是最佳中心（p.360–361）"
+    primary: null
+    primary_status: "pending_user_decision"
+    dev_start_proposal: "TN（开发起点，未选定）"
+    decision_id: "D-19"
+
+  c_correlation_structure:
+    scope_note: "相关只在同一原料的成分之间有文献依据（Yoder 2014 群体相关）；场内批次间相关、不同原料之间的相关均无公开数据（数据可行性审计 §4.4）"
+    candidates:
+      - id: "C0_independent"
+        definition: "所有成分、所有原料相互独立"
+        status: "research_scenario_assumption"
+        role: "基线，不是事实（合同 §7.4）"
+        engine_status: "implemented"
+        engine_impl: "correlation.independent_structure；GaussianCopulaModel 在 R = I 时与独立抽样逐位相同（共同随机数）"
+      - id: "C1_yoder_table6"
+        definition: >-
+          用 Yoder et al. 2014 表 6 过滤后的群体相关（只覆盖 4 对成分 × 9 种原料），其余对取 0；
+          只作用于随机成分集合 base_distribution.stochastic_nutrients（DM、CP、NDF、starch、EE、Ca、P）。
+          下列 values_used 中涉及 lignin、ash 的对（玉米青贮 NDF_lignin、ash_NDF）不进入抽样矩阵（lignin、ash 不是随机成分）；
+          若以后把 lignin 或 ash 改为随机成分，“其余对取 0”的矩阵不是半正定（见 psd_precheck_20260924），
+          须另行给出隐含相关（例如 PSD 补全）并重新预检，不得直接使用。
+        scope_restriction_reason: "红队 B09：C1 全部 5 个成分（NDF/淀粉/CP/灰分/木质素）的最小特征值为 ⟨withheld⟩，NDF/淀粉/木质素为 ⟨withheld⟩；限定在随机成分子集后为 ⟨withheld⟩"
+        values_used:
+          corn_silage: {starch_NDF: null, NDF_lignin: null, CP_NDF: null, ash_NDF: null, value_ref: "withheld (public copy): Yoder, St-Pierre & Weiss 2014, J Dairy Sci 97:5645, doi:10.3168/jds.2013-7724, Table 6 (redistribution licence undecided, B-310)"}
+          legume_silage_mid: {CP_NDF: null, note: "Yoder 为苜蓿青贮，映射到 F95 为近似", value_ref: "withheld (public copy): Yoder, St-Pierre & Weiss 2014, J Dairy Sci 97:5645, doi:10.3168/jds.2013-7724, Table 6 (redistribution licence undecided, B-310)"}
+          cool_season_grass_hay_mid: {CP_NDF: null, note: "Yoder 为禾草干草（不分冷暖季）", value_ref: "withheld (public copy): Yoder, St-Pierre & Weiss 2014, J Dairy Sci 97:5645, doi:10.3168/jds.2013-7724, Table 6 (redistribution licence undecided, B-310)"}
+          cottonseed_whole_linted: {CP_NDF: null, starch_NDF: null, value_ref: "withheld (public copy): Yoder, St-Pierre & Weiss 2014, J Dairy Sci 97:5645, doi:10.3168/jds.2013-7724, Table 6 (redistribution licence undecided, B-310)"}
+          canola_meal: {CP_NDF: null, note: "接近 0，不当作有相关证据（数据可行性审计 §4.4）", value_ref: "withheld (public copy): Yoder, St-Pierre & Weiss 2014, J Dairy Sci 97:5645, doi:10.3168/jds.2013-7724, Table 6 (redistribution licence undecided, B-310)"}
+          ddgs: {CP_NDF: null, note: "酒糟；过滤后接近 0；酒糟 NDF 方法亚群问题见 S6§2.16", value_ref: "withheld (public copy): Yoder, St-Pierre & Weiss 2014, J Dairy Sci 97:5645, doi:10.3168/jds.2013-7724, Table 6 (redistribution licence undecided, B-310)"}
+        source: "Yoder, St-Pierre & Weiss 2014, J Dairy Sci 97:5645, doi:10.3168/jds.2013-7724, 表 6（经 S6§2.16 转录）"
+        limitation: "群体层面（含农场间、实验室、成熟度亚群），不是场内批次相关；不含 Ca、P、ADF；DM 与其他成分的相关在补充表中，未下载"
+        status: "pending_user_decision"
+        status_superseded: "sourced（2026-09-24 FIX5 前的值）"
+        status_reason: >-
+          FIX5（红队 low 发现：配置与代码口径矛盾）：S6 §2.16 把表 6 数值标为【原文】，但只给了文章页码范围 5645–5656，
+          没有表 6 所在页；代码侧登记表按“只用带页码的数值”全部置 null。两处统一为 pending_user_decision，
+          直到用户二选一：核对表 6 页码（或批准下载补充材料 P0-6）后填入代码侧登记表；或确认“文章页码范围”作为定位已足够。
+          下列 values_used 原样保留，只作待核对的转录，不是已核实来源。
+        engine_status: "implemented（机制：correlation.pairwise_structure；值为 None 时抛 PendingValueError，不当 0）"
+        engine_values_status: "pending_user_decision"
+        engine_values_note: >-
+          G2 任务规则：只用调研笔记 S6 中带页码的数值。S6 §2.16 只给了表号（表 6）与文章页码范围 5645–5656，没有表 6 所在页，
+          因此代码侧登记表 data/restricted_local/processed/phase3_yoder_c1_registry.csv 中 11 个成对值全部为 null，C1（及依赖它的 C4）
+          在 phase3 构建中未构造。上面 values_used 保持原样未改；须由用户核对页码（或批准下载补充材料 P0-6）后再填入代码侧登记表。
+      - id: "C2_yoder_full"
+        definition: "Yoder 2014 补充表的完整矩阵"
+        status: "blocked"
+        blocked_by: "P0-6（补充材料需用户在浏览器手动下载）"
+      - id: "C3_rowlevel_corn_silage"
+        definition: "由 PLOS ONE 2024 巴西玉米青贮 94 个样本估计的相关（报告置信区间）"
+        status: "blocked"
+        blocked_by: "P1-5 ②（批准下载 S1 文件）"
+      - id: "C4_extreme"
+        definition: >-
+          逐原料取 C1（已限定在随机成分集合）的相关矩阵 R1，令 R(c) = I + c·(R1 − I)，
+          C4 = R(c*)，c* = min(c_cap, c_psd)：c_cap 使该原料 max|ρ| = 0.9；c_psd 为满足 λ_min(R(c)) ≥ 0.01 的最大 c。
+          C1 中标为“不当作有相关证据”的对（菜籽粕 CP_NDF ⟨withheld⟩、DDGS CP_NDF ⟨withheld⟩）在 C4 中保持 0，不放大。
+          原料之间仍为 0（跨原料相关只在 C5 中出现）。
+        replaced_definition: "“取 C1 的符号方向，|ρ| 放大到 0.9”（2026-09-24 前）：对玉米青贮、全棉籽的 [NDF, 淀粉, CP] 最小特征值均为 −0.273，数学上不存在；Higham 修复会把 0.9 改成约 0.743 并凭空生成淀粉–CP −0.105（红队 B09，本修复复算一致）"
+        c_star_by_ingredient_precheck: {corn_silage: {c_star: null, binding: "max|ρ|=0.9", rho: {starch_NDF: null, CP_NDF: null, value_ref: "withheld (public copy): computed from the C1 values (Yoder et al. 2014 Table 6; B-310) with the construction stated in this block"}, lambda_min: null, value_ref: "withheld (public copy): computed from the C1 values (Yoder et al. 2014 Table 6; B-310) with the construction stated in this block"}, legume_silage_mid: {c_star: null, binding: "max|ρ|=0.9", rho: {CP_NDF: null, value_ref: "withheld (public copy): computed from the C1 values (Yoder et al. 2014 Table 6; B-310) with the construction stated in this block"}, value_ref: "withheld (public copy): computed from the C1 values (Yoder et al. 2014 Table 6; B-310) with the construction stated in this block"}, cool_season_grass_hay_mid: {c_star: null, binding: "max|ρ|=0.9", rho: {CP_NDF: null, value_ref: "withheld (public copy): computed from the C1 values (Yoder et al. 2014 Table 6; B-310) with the construction stated in this block"}, value_ref: "withheld (public copy): computed from the C1 values (Yoder et al. 2014 Table 6; B-310) with the construction stated in this block"}, cottonseed_whole_linted: {c_star: null, binding: "λ_min=0.01", rho: {CP_NDF: null, starch_NDF: null, value_ref: "withheld (public copy): computed from the C1 values (Yoder et al. 2014 Table 6; B-310) with the construction stated in this block"}, value_ref: "withheld (public copy): computed from the C1 values (Yoder et al. 2014 Table 6; B-310) with the construction stated in this block"}, canola_meal: "保持 0", ddgs: "保持 0"}
+        status: "research_scenario_assumption"
+        rationale: "预登记的极端结构（数据可行性审计 §4.4）；0.9 上限与 λ_min ≥ 0.01 的数值余量均为设定值；按构造保证半正定，不需要 psd_repair，E3 敏感性不会被修复算法悄悄改写"
+        decision_id: "D-19（相关结构集合，待用户接受新定义）"
+        engine_status: "implemented（correlation.extreme_scaling：c_psd 用闭式 (1 − floor)/(1 − λ_min(R1))；合成矩阵单元测试 unit_passed）"
+        engine_constructible: "否——输入 R1 来自 C1，C1 代码侧数值为 null（见 C1_yoder_table6.engine_values_note）"
+        engine_extreme_role_note: >-
+          FIX5（红队 low 发现）：phase 3 产出中 C4 未构造，预登记的“极端”候选目前完全不在产出里。C_CONS_closure 在 c_max 下的 ρ 可到约 ⟨withheld⟩，
+          数值上比 C4 更极端，但它不是预登记的极端候选，不得替代 C4，也不得在 C4 不可构造时被当成“极端结构”报告。
+          另：新定义（缩放 C1）比旧定义（|ρ| 放大到 0.9）弱，例如玉米青贮 CP–NDF 只有 ⟨withheld⟩；新旧定义对每个 ρ 的影响表见
+          audit/_parts/FIX5_code_log_additions.md（供 D-19 决策卡合并），仍待用户在 D-19 确认。
+      - id: "C5_cross_ingredient"
+        definition: "不同原料同一成分之间 ρ_cross ∈ {0, 0.3}（例如两种青贮的 DM 同受降雨影响）"
+        grid: [0.0, 0.3]
+        scope: >-
+          开发起点：只用于发酵粗饲料（玉米青贮、豆科半干青贮）之间的 DM（其余原料与成分之间为 0）。
+          若扩大到多个原料的 DM/CP/NDF/淀粉，与 C1 组合后不是半正定（psd_precheck_20260924），须先重新定义并预检。
+        scope_status: "research_scenario_assumption"
+        status: "research_scenario_assumption"
+        rationale: "纯属假设，没有公开数据（数据可行性审计 §4.4 明确标注）"
+        engine_status: "implemented（correlation.with_cross_correlation；phase3 构建：玉米青贮与豆科青贮 DM，ρ ∈ grid，与 C0、C_CONS 组合均半正定）"
+      - id: "C_CONS_closure"
+        definition: >-
+          成分守恒推出的负相关：只对定义上互不包含的随机成分 {CP, NDF, starch, EE} 做部分质量平衡（其余干物质——灰分、糖、有机酸、
+          果胶等，减去重叠部分——吸收剩余平衡，不强制总和为 100%，合同 01 §7.4）。Σ_c = D − c·D11ᵀD/s（D = diag(SD²)，s = ΣSD²），
+          再缩放为单位对角的相关矩阵：ρ_kl = −c·σ_kσ_l/√((s − cσ_k²)(s − cσ_l²))；0 ≤ c < 1 时按构造正定，c = 0 即 C0。
+          CP 与 NDF 通过 NDICP 部分重叠，作为已记录的注意事项保留；ADF/NDF、木质素/ADF、TFA/EE、Ca、P/灰分等嵌套成分禁止进入。
+          Ca、P 不在其中（与 C6 一致取 0）。原料之间为 0。
+        strength_grid: null
+        strength_grid_status: "pending_user_decision"
+        strength_dev_start_proposal: ["0（= C0）", "c_max：使 λ_min(R_c) ≥ 0.01 的最大 c（与 C4 相同的数值余量）"]
+        strength_dev_start_status: "research_scenario_assumption"
+        status: "research_scenario_assumption"
+        rationale: "预登记范围（数据可行性审计 §0 Q2-3(c)“由成分守恒推出的负相关”）；强度 c 无文献值，只作情景；相关系数只由各成分 SD 的相对大小决定"
+        rationale_caveat_B07: >-
+          FIX5（红队 low 发现）：守恒推理隐含“CP、NDF、淀粉、EE 在同一批样品上同时测定”，但所用 SD 来自不同的样本集——
+          NASEM Table 19-1 各成分的印刷 N 不同：17 个随机条目中没有一个在这四项上共用一个 N（13 个条目四个 N 两两不同），
+          每个条目内 max/min 的中位数约 ⟨withheld⟩、最大约 ⟨withheld⟩（由受限清洗长表统计，这里只报比值）。用它们构造协方差属于验收 B07 所说的
+          “伪配对”；因此 C_CONS 是情景构造，不是由数据估计的相关，结果与报告中不得称“估计的相关”。
+        extreme_role: "不是极端候选；不得替代 C4_extreme（见 C4_extreme.engine_extreme_role_note）"
+        engine_status: "implemented（correlation.conservation_closure_structure、closure_strength_for_floor；单元测试 unit_passed）"
+        added_by: "G2_phase3_uncertainty（2026-09-24）"
+      - id: "C6_ca_p"
+        definition: "Ca、P 与其他成分：ρ = 0；青贮可在 E5 外检数据核验后改用 Duplessis 2024 原始数据估计值"
+        status: "research_scenario_assumption"
+        upgrade_blocked_by: "P1-5 ①（Duplessis 原始数据下载与字段核验）"
+    psd_repair:
+      method: "若组合后的相关矩阵非正定，用最近相关矩阵（Higham 2002 交替投影）修正"
+      logging: "记录修正前后 Frobenius 范数差与每个 ρ 的变化；任一 ρ 变化 > 0.05 须在结果中标注"
+      rule: "预登记的候选结构（C0/C1/C4/C5 按上面的范围）按构造应为半正定；若某结构需要修复才能使用，该结构视为定义错误，须改定义并重新预检，而不是在 E3 中静默修复后使用"
+      status: "implemented（G2，2026-09-24：correlation.nearest_correlation = Higham 2002 交替投影 + Dykstra；correlation.repair_correlation 默认拒绝修复预登记结构，allow=True 时只作诊断并记录 Frobenius 差、修复前后 λ_min、每个 ρ 的变化与 >0.05 的标注；PSD 断言测试 unit_passed）"
+      status_superseded: "planned（修复函数未实现；预检已做一次，见 psd_precheck_20260924）——2026-09-24 G2 前的状态"
+      source: "合同 §7.4（报告相关结构来源、正定性处理及修正产生的变化）"
+    psd_precheck_20260924:
+      what: "冻结前的一次性数值预检（numpy.linalg.eigvalsh；Higham 交替投影 + Dykstra 修正），脚本全文见 audit/_parts/FIX_docs_record.md 附录"
+      status: "implemented（已在本机运行一次，2026-09-24；只是配置层面的数值检查，不是引擎单元测试）"
+      results:
+        "C1_all_pairs_corn_silage_[CP,NDF,starch,ash,lignin]": {lambda_min: null, higham_frobenius_diff: null, max_abs_rho_change: null, value_ref: "withheld (public copy): computed from the C1 values (Yoder et al. 2014 Table 6; B-310) with the construction stated in this block"}
+        "C1_corn_silage_[NDF,starch,lignin]": {lambda_min: null, value_ref: "withheld (public copy): computed from the C1 values (Yoder et al. 2014 Table 6; B-310) with the construction stated in this block"}
+        "C1_stochastic_subset_corn_silage_[CP,NDF,starch]": {lambda_min: null, value_ref: "withheld (public copy): computed from the C1 values (Yoder et al. 2014 Table 6; B-310) with the construction stated in this block"}
+        C1_stochastic_subset_other_ingredients: {legume_silage_mid: null, cool_season_grass_hay_mid: null, cottonseed_whole_linted: null, canola_meal: null, ddgs: null, value_ref: "withheld (public copy): computed from the C1 values (Yoder et al. 2014 Table 6; B-310) with the construction stated in this block"}
+        "C4_old_corn_silage_[CP,NDF,starch]": {lambda_min: -0.2728, higham_frobenius_diff: 0.3468, repaired: "ρ(CP,NDF) 0.9→0.743；ρ(NDF,starch) −0.9→−0.743；ρ(CP,starch) 0→−0.105"}
+        "C4_old_cottonseed_whole_[CP,NDF,starch]": {lambda_min: -0.2728, higham_frobenius_diff: 0.3468}
+        C4_new: "全部原料 λ_min ≥ 0.01（见 C4_extreme.c_star_by_ingredient_precheck），修复前后 Frobenius 差 = 0"
+        C5_all_nutrients_with_C1_rho0.3: {K2: null, K6: null, K15: null, note: "[DM,CP,NDF,starch] × K 种原料，同成分跨原料 0.3；不是半正定", value_ref: "withheld (public copy): computed from the C1 values (Yoder et al. 2014 Table 6; B-310) with the construction stated in this block"}
+        C5_with_C0_rho0.3: {any_K: 0.7}
+        C5_DM_only_two_silages_with_C1: {lambda_min: null, value_ref: "withheld (public copy): computed from the C1 values (Yoder et al. 2014 Table 6; B-310) with the construction stated in this block"}
+      engine_test_required: "PSD 断言测试（tests/）属引擎任务，本子任务无权修改 tests/，已记入 audit/_parts/FIX_docs_record.md 待总负责人分派；状态 planned"
+      engine_test_status: "unit_passed（G2：tests/unit/test_uncertainty_correlation.py；旧 C4 设计矩阵 λ_min −0.2728、Higham 修复 Frobenius 0.3468、ρ 0.9→0.743、CP–淀粉 0→−0.105 与本预检逐项复现）"
+    primary: null
+    primary_status: "pending_user_decision"
+    rule: "若不同合理相关结构改变方法排序，报告这种不确定性，不挑选使某方法获胜的结构（合同 §7.5）"
+
+  d_evidence_lineage:
+    candidates:
+      - {id: "P_C", definition: "NASEM Table 19-1（基准 P0）", status: "sourced"}
+      - {id: "P_A", definition: "AFZ（Feedipedia/feedtables）均值 + SD", status: "blocked", blocked_by: "P0-9 许可 + P2-2 导出 CSV 复核（现有数值经 WebFetch 转述，不得入库）"}
+      - {id: "P_B", definition: "CVB Feed Table 2023 均值 + sdc", status: "blocked", blocked_by: "P0-9（条款禁止未经书面许可转成机器可读形式）"}
+      - {id: "P_D", definition: "CQBAL 4.0", status: "blocked", blocked_by: "P0-9、覆盖未核"}
+      - {id: "P_CN_meanshift", definition: "NY/T 2025 征求意见稿附录 A 均值 + NASEM CV", status: "research_scenario_assumption", note: "只算“均值漂移”情景，不是独立谱系（数据可行性审计 §9.2 核心层限制第 3 条）", requires: ["D-01", "P1-13"]}
+    naming_rule: "核心层不用“验证集”“保留测试集”，一律称“来源情景 P_A、P_B、P_D”（数据可行性审计 §9.2）"
+    borrowed_cells_rule: "缺项用 NASEM SD 补齐时，该单元不再算另一个谱系，逐格标“借用”"
+
+  e_information_state_history:
+    meaning: "决策者对本场该批原料已知多少：只有成分表 vs 有本场历史"
+    states:
+      - id: "H0_table_only"
+        definition: "先验 = P0（数据库 SD）"
+        status: "sourced"
+      - id: "H1_farm_history"
+        definition: >-
+          两层结构（2026-09-24 按红队 high 发现改写）。同一外层世界里：
+          (1) 本场均值 μ_farm ~ N(μ_P0, σ²_between)，由外层流 farm_mean 抽取；
+          (2) 本批真实成分 θ | μ_farm ~ N(μ_farm, σ²_within)，由 test/validation 流抽取；
+          σ²_within = (r·s·σ_P0)²（r 只用 true_only 比值，DC-03），σ²_between = (s·σ_P0)² − σ²_within（r < 1 时为正），
+          使 θ 的边际分布仍是 P0（s 为维度 a 的 SD 缩放），H0 与 H1 在同一世界里比较。
+          H0 决策者只知道 P0：先验 N(μ_P0, (s·σ_P0)²)，d̂ = μ_P0（DM）。
+          H1 决策者知道本场历史：H1-perfect 变体已知 μ_farm；H1-m 变体只知 μ̂_farm = μ_farm + e，e ~ N(0, σ²_within/m_hist)，
+          先验 N(μ̂_farm, σ²_within·(1 + 1/m_hist))，d̂ = μ̂_farm（DM）。
+          两种信息状态用同一个 μ_farm 流与同一组 θ 抽样评估（共同随机数），差值才是“本场历史”的信息作用。
+        replaced_definition: >-
+          旧定义“先验 SD = P0 SD × r；均值仍取 P0 均值”等于假定每个牧场的均值恰好等于数据库均值；
+          St-Pierre & Weiss 2015 显示农场间方差占总方差 70–90%（S6§2.1），旧定义会系统性低估真实值相对决策参考值的偏离，
+          使 IS-2 的风险与信息价值被人为改变（红队 high 发现；合同 §7.3、T7.4）。已废止。
+        m_hist:
+          value: null
+          status: "pending_user_decision"
+          note: "本场历史样本数（每窖/每批历史化验次数）无文献值；须作为研究情景设定并在冻结前登记网格"
+        ratio_table:
+          source: "数据可行性审计 §4.1 比值表（由 St-Pierre & Weiss 2015 表 3、4，Barrientos-Blanco 2024a 表 3、5，Weiss & St-Pierre 2009 表 2 自行计算，【推断】）"
+          entries:
+            - {ingredient: "corn_silage", horizon: "14 d", component: "true_only", DM: null, NDF: null, starch: null}
+            - {ingredient: "corn_silage", horizon: "14 d", component: "observed(true+sampling+analysis)", DM: null, NDF: null, starch: null}
+            - {ingredient: "corn_silage", horizon: "12 mo", component: "true_only", DM: null, NDF: null}
+            - {ingredient: "corn_silage", horizon: "12 mo", component: "residual(incl. sampling+analysis)", DM: null, NDF: null}
+            - {ingredient: "corn_silage", horizon: "feeding period", component: "within-farm total vs Dairy One multi-state SD", DM: null, NDF: null, starch: null}
+            - {ingredient: "legume_silage_mid（近似映射）", horizon: "feeding period", component: "同上", DM: null, NDF: null, CP: null}
+            - {ingredient: "legume_hay_mid", horizon: "single farm, single cutting", component: "vs commercial population", DM: null, NDF: null, CP: null}
+          min_registered_range: "至少覆盖 1/⟨withheld⟩ 到 1/⟨withheld⟩；单场单茬干草另设约 1/⟨withheld⟩ 一档（数据可行性审计 §0 Q2-3(e)）"
+          not_a_farm_ratio: "St-Pierre & Weiss 2015 的“⟨withheld⟩ 倍”是全国库对 11 场合并样本的比值，不是场内比值，不得使用（数据可行性审计 §4.1）"
+          per_cell_register_round3: >-
+            reports/sd_scaling_sources.csv（R3E，2026-09-25）：dev_case_v1 窄化场景 S2 的 48 个随机格逐格列出比值、来源（DOI + 表号，
+            或“借用 1/⟨withheld⟩”）、原料、时间尺度、适用假设与标签；另列登记但 S2 未用的比值及排除理由
+          identification_round3: >-
+            本表全部比值是项目由已发表汇总表自行计算的推断（【推断】），不是已识别的方差分解；用于生成场内 SD 时逐格标
+            variance_basis = unidentified、provenance_status = research_scenario_assumption（与 dev_case_v1 驱动 build_s2_spec 一致）
+          borrowed_ratio_round3: >-
+            S2 只有 3/48 个随机格（玉米青贮 DM、NDF、淀粉，14 d true_only）用到本表的同格比值；其余 45 格借用 1/⟨withheld⟩（= 玉米青贮
+            12 个月 DM 的 true_only 比值，本表中窄化最少的 true_only 比值），借用格没有该原料或该成分的来源，时间尺度也与另 3 格不同
+          sd_sensitivity_range_round3: >-
+            docs/uncertainty_data_layers.md §5：窄化 SD 的声明敏感性范围 = 逐格区间 [登记下端, 1]（玉米青贮 DM 1/⟨withheld⟩、NDF 1/⟨withheld⟩、
+            淀粉 1/⟨withheld⟩，其余格 1/⟨withheld⟩），只在区间内取预先声明的点，不向下外推、不与维度 a 的 s < 1 叠加
+        uncovered_ingredients: "其余原料没有场内比值依据 → H1 不适用（not_applicable），或借用并标 research_scenario_assumption"
+        limitation: "σ_P0 含历史采样与分析误差（DC-01），σ²_between 由差值得到，其中也混有这部分误差；农场间/场内的方差份额只来自少数研究（S6§2.1、§2.5），按情景使用"
+        rng_stream: "farm_mean（新增；与 test、outer_parameter 分开的具名子流）"
+        status: "research_scenario_assumption"
+        engine_status: "implemented（information_states.TwoLayerFarmModel；单元测试 unit_passed：两层合成后边际均值 = μ_P0、SD = s·σ_P0）"
+        engine_rng_streams: >-
+          farm_mean 与 farm_history 的子键为 (用途索引, 农场序号)，用途索引取 CORE_STREAMS（validation = 1，test = 2），
+          使验证期与测试期的农场世界不同（T5）；场内本批抽样用 model.draw(streams, 用途, n, 农场序号)。farm_history 为 G2 新增的具名流，
+          只供 H1-m 的 μ̂_farm 误差 e 使用（待总负责人确认，见 audit/_parts/G2_phase3_uncertainty_log_additions.md）
+        engine_rules: >-
+          DC-03 在代码中强制：TwoLayerFarmModel 只接受 true_only 比值生成 θ；observed/residual 比值只可作为决策先验的 SD，
+          此时先验方差基础记为 observed_incl_sampling_and_lab，与 information.signal.double_count_guard 对齐（叠加检测采样/实验室误差即判 violation）。
+          无比值的格须显式选 uncovered_cells = "P0"（不设农场层，保持 H0 先验）或 "error"，无默认。m_hist 为 None 时抛 PendingDecisionError。
+        double_count_rule: "用于生成真实 θ 时只能用 true_only 比值；observed 比值已含采样与分析误差，若再叠加 assays.yaml 的检测误差即双计数"
+        engine_correlation_scope:
+          value: null
+          status: "pending_user_decision"
+          decision_id: "D-19（相关结构集合）/ D-10（H1）"
+          options: ["within_only", "between_only", "within_and_between"]
+          note: >-
+            FIX5（红队 medium 发现）：C1、C4、C_CONS 等候选描述的是群体层面的相关（C1 limitation 自己写明含农场间）。G2 原实现的农场间层
+            对每个格单独抽均匀数（成分之间、原料之间永远独立），相关只进场内层；放进两层世界后边际相关被稀释到约 ρ·r_a·r_b
+            （高斯尺度，information_states.two_layer_marginal_rho；合成例 ρ = −0.8、r = 0.5 时边际约 −0.2），IS-1（单层 copula）与
+            IS-2（两层）在“同一相关情景”下其实是两个不同的联合世界。代码现要求给出相关结构时显式选 correlation_scope（无默认）；
+            between_correlation 用高斯 copula 抽农场均值。同一 R 放两层且两成分 r 相同时边际相关等于 ρ，r 不同时略小。
+            E3 选哪种、以及 IS-1 与 IS-2 是否可直接比较，由用户在 D-19 / D-10 决定；未定前 E3 须把两层世界的相关情景与 IS-1 分开报告。
+        engine_truth_side_guard: >-
+          FIX5（红队 medium 发现）：双计数防护原来只检查决策先验的口径。现 TwoLayerFarmModel.truth_sd_basis 声明生成真值 θ 所用 SD 的口径
+          （默认 observed_incl_sampling_and_lab = P0 原样，DC-01；声明 true_batch_state 必须给 truth_sd_source）；
+          assay_double_count_report(..., truth_model=...) 同时检查真值端，prior_deconvolved 声明只有在真值模型对该成分的生成 SD 为
+          true_batch_state 时才被接受，否则判 violation。仍未解决（保持可见）：σ²_between 由差值得到，P0 SD 为观测口径时
+          测量误差被整体吸收进农场间层，θ 的边际仍含测量误差（见 limitation）。
+        engine_h1_m_history_error:
+          value: null
+          status: "pending_user_decision"
+          decision_id: "D-FIX-5"
+          note: >-
+            H1-m 的历史均值误差 e ~ N(0, σ²_within/m_hist) 只用真实场内 SD，没有计入 m_hist 次历史化验本身的采样与实验室误差，
+            系统性偏向 H1（红队 medium 发现）。是否计入、按什么误差参数计入，是 D-FIX-5 的一部分；代码在 DecisionPrior.notes 中标注。
+        decision_id: "D-10"
+    information_states_for_E3:
+      - {id: "IS-0", name_zh: "只有成分表、边际汇总、成分独立", prior: "P0 + C0", decision_uses: "d̂ = P0 均值"}
+      - {id: "IS-1", name_zh: "成分表 + 假设的联合结构", prior: "P0 + C1/C4/C5", decision_uses: "同 IS-0；机会约束方法使用联合抽样", caveat: "联合结构来自群体相关假设，不是真实联合记录（主约束成分没有公开的多成分行级数据）"}
+      - {id: "IS-2", name_zh: "有本场历史", prior: "H1 两层结构：决策先验以 μ_farm（或 μ̂_farm）为中心、SD 为场内 SD", decision_uses: "d̂ = μ_farm 或 μ̂_farm（DM）；与 IS-0 在同一 μ_farm 流与同一 θ 抽样上比较", note: "旧写法“P0 均值 + H1 缩小 SD”已废止（见 H1_farm_history.replaced_definition）"}
+      - {id: "IS-3", name_zh: "参考 DM 与更新 DM", prior: "同 IS-0/IS-2", decision_uses: "t2 取得所选原料 DM 检测（assays.yaml PANEL-DM）后更新该原料 d̂；其余不变", note: "只有购买 DM 检测的政策才可更新 d̂（合同 §6.3）"}
+      - {id: "IS-4", name_zh: "当前批次多成分检测", prior: "同上", decision_uses: "t2 取得所选面板结果，按 assays.yaml 误差模型更新后验，在 t3 重新配方（合同 E4）"}
+    missing_info_rule: "缺失成分不得填零；插补基于开发数据并增加不确定性或标记不可辨识（合同 §11 E3）"
+
+  f_dm_channel:
+    modes:
+      - id: "DM-KNOWN"
+        definition: "受控子模型：d_i(θ) ≡ d̂_i（DM 视为已知），只研究化学成分不确定性"
+        status: "research_scenario_assumption"
+        naming: "标题、方法、结果须写明这是受控简化，不得据此声称 DM 误差已解决（合同 T2）"
+      - id: "DM-UNCERTAIN"
+        definition: "d_i(θ) 随机；q 在 t3 按 d̂ 固定；评估时 x_real = q·d(θ)，不重新归一化"
+        status: "research_scenario_assumption"
+    primary: null
+    primary_status: "pending_user_decision"
+    dev_start_proposal: "DM-UNCERTAIN 为主，DM-KNOWN 为对照（数据可行性审计 §5.3-2：DM 通道必须进入可靠性评估）"
+    protocol_field: "units_and_decisions.dry_matter_mode"
+
+  g_mean_shift:
+    meaning: "把 P0 均值按 ±k·SD 平移，检验“按表值配方”在均值错设时的违约；与 SD 放大分开报告"
+    targets: ["CP", "Ca", "P"]
+    k_grid: null
+    k_grid_status: "pending_user_decision"
+    k_grid_dev_start_proposal: [-1.0, -0.5, 0.5, 1.0]
+    k_grid_dev_start_status: "research_scenario_assumption"
+    k_grid_rationale: "幅度无文献直接给出，仅开发起点；方向依据见 motivation"
+    engine_status: "implemented（scaling.mean_shift、build_scenario_targets；决策名义值不变；越出物理区间的格默认报错，或标记为 NaN，绝不截断到边界；单元测试 unit_passed）"
+    engine_open_question:
+      item: "平移所用的 SD 是 P0 的 σ 还是缩放后的 s·σ（代码参数 shift_sd_basis 必须显式给出，phase3 构建用 P0）"
+      value: null
+      status: "pending_user_decision"
+      decision_id: "D-17"
+    motivation:
+      - "Kertz 1998：交付的谷物、油籽和副产品营养含量大多低于 NRC 值（S6§2.18，只读摘要）"
+      - "Duplessis et al. 2024：NASEM 2021 玉米青贮矿物均值约相当于魁北克 9 场样品的第 99 百分位（S6§2.10）"
+    decision_id: "D-17"
+
+# ---------------------------------------------------------------------------
+# U3：参数估计不确定性（外层重抽）
+# ---------------------------------------------------------------------------
+outer_parameter_draws:
+  purpose: >-
+    反映均值与 SD 本身的估计不确定性（U3）。印刷 N 较小（< 100）的单元（干甜菜粕 F14、麸皮、棉籽粕淀粉等，数据可行性审计 §2.2 要点 5）
+    证据更弱，但印刷 N 不能换算成 U3 的样本量（见 problem_with_naive_n、forbidden_schemes）。
+  problem_with_naive_n: >-
+    NASEM Table 19-1 的 N 是四家商业实验室客户送检的记录数（印刷 p.360，pdf p.380），不是独立批次数：同一牧场多次送检构成伪重复，
+    记录按牧场、实验室、年份聚类，并经 ±3.5 SD 与主成分得分截尾（印刷 p.361）。大宗原料的 N 在一万到五十多万之间，
+    SD/√N 只有 SD 的约 1/100 到 1/730（reports/data_audit.md §7.2）；用 σ̂²/N 与 χ²_{N−1} 得到的 U3 区间约为 0，
+    会把参数不确定性报成“几乎已知”，属于合同验收 E06 所说的聚类数据套独立模型（红队 B06、B10 与 low 发现）。
+  forbidden_schemes:
+    - id: "U3-NAIVE-PRINTED-N"
+      definition: "μ* ~ N(μ̂, σ̂²/N)，σ*² ~ σ̂²·χ²_{N−1}/(N−1)，N 为 Table 19-1 印刷 N；以及任何按印刷 N 计算的 SD/√N 区间"
+      status: "forbidden"
+      forbidden_since: "2026-09-24（W1）"
+      reason:
+        - "SD/√n 描述的是均值估计误差，不是新批次的离散程度（合同 01 §7.4）；把它用作 U3 刻度的前提是 n 个样本独立同分布，这里不成立"
+        - "印刷 N 是送检样本记录数，含同一牧场多次送检的伪重复和实验室、年份聚类，不代表独立批次；把它当样本量就是把技术重复当独立样本（验收 B10），也是聚类数据套独立模型（验收 E06）"
+        - "由此得到的区间接近 0，混淆了“均值估得多准”与“参数本身有多不确定”，违反均值、SD、SE 口径区分（验收 B06）"
+        - "与 reports/data_audit.md §7.2、§10 和 data/data_dictionary.md §5 第 9 条的禁令一致"
+      scope_of_ban: "不得用于抽样、区间、图表、诊断输出或任何结果文件；方法部分只可引用 reports/data_audit.md §7.2 的量级说明来解释为什么禁止"
+      replaced_history: "最初是 outer_parameter_draws 的唯一候选（红队 D 与 FIX_data 判 B10 配置层 FAIL）；FIX_docs 改名为 U3-NAIVE-DIAG（research_scenario_assumption，“只作诊断”）；W1 起一律禁止，诊断用途也不保留"
+  scheme_candidates:   # 允许的替代；都没有选定，都不从印刷 N 推导样本量
+    - id: "U3-NEFF"
+      mean: "μ* ~ N(μ̂, σ̂²/n_eff)"
+      sd: "σ*² ~ σ̂² · χ²_{n_eff−1}/(n_eff−1)"
+      n_eff: null
+      n_eff_status: "pending_user_decision"
+      n_eff_decision_id: "D-FIX-6"
+      n_eff_candidates_for_user: [4, 20]
+      n_eff_candidates_basis: >-
+        NASEM 2021 印刷 p.360（pdf p.380）：数据由 4 家商业实验室捐赠，2015 年春向每家索取了 5 年的数据 → 4 = 实验室数，
+        20 = 实验室 × 年份数。正文没有写年份区间（“2011–2015”只见于调研对 Tran 2020 的转述，本项目未核原文）。
+        把实验室或“实验室 × 年份”当作独立单元是研究情景假设（相当于把组内相关视为 1 的设计效应），不是估计值；取哪个值须用户定。
+      constraints: >-
+        n_eff 须 ≥ 2（χ² 自由度至少 1）且不大于该单元的印刷 N（有效样本量不会超过记录数）；
+        各单元实际来自几家实验室、几年，印刷表没有给出，同一个 n_eff 用于所有原料 × 成分本身也是假设，须在方法中写明
+      status: "pending_user_decision"
+      reporting_as: "有效样本量假设下的样本区间，必须注明 n_eff；不得称为 NASEM 数据的置信区间"
+    - id: "U3-OUTER-SCENARIO"
+      definition: >-
+        外层参数情景：不从任何 N 推导，直接把 (μ, σ) 设为预登记的有限组合，每个组合跑一次完整评估。
+        可直接沿用维度 a（SD 缩放 s）与维度 g（均值平移 k·SD）的网格；若沿用，U3 与维度 a、g 合并报告，不重复计数
+      grid: null
+      grid_status: "pending_user_decision"
+      decision_id: "D-FIX-6（与 D-17 一起定）"
+      status: "pending_user_decision"
+      reporting_as: "假设范围（合同 T8.3），不称样本区间或置信区间"
+    - id: "U3-LINEAGE"
+      definition: "用不同谱系（C 与取得许可并复核后的 A、B）之间的均值/SD 差异作为参数不确定性的范围"
+      status: "blocked"
+      blocked_by: "P0-9 许可 + P2-2 原始导出复核（A、B 数值目前未核）"
+      reporting_as: "假设范围（不称样本区间）"
+  fallback_rule: "若用户就 D-FIX-6 既不接受 U3-NEFF 也不接受 U3-OUTER-SCENARIO，且 U3-LINEAGE 仍 blocked，则在报告中声明“U3 不可识别”，只报告假设范围，不给样本区间（合同 T8.3）"
+  primary: null
+  primary_status: "pending_user_decision"
+  decision_id: "D-FIX-6"
+  status: "pending_user_decision"
+  n_outer: null
+  n_outer_status: "pending_user_decision"
+  reporting: "U3-NEFF 结果标注“有效样本量假设下的样本区间（n_eff = 用户所定值）”；U3-OUTER-SCENARIO、U3-LINEAGE 只称假设范围；三者都与 MC 区间分开报告（合同 T8.3）"
+
+# ---------------------------------------------------------------------------
+# 双计数防护（合同 §7.3 末段、T7.5；验收 F06、F07）
+# ---------------------------------------------------------------------------
+double_counting_guards:
+  - id: "DC-01"
+    rule: "P0 的 SD 来自历史实验室结果，已含历史采样与分析误差。生成“真实批次成分 θ”时不得再加检测噪声"
+  - id: "DC-02"
+    rule: >-
+      在 E4 中需要“潜在真值”先验时，令 τ² = (s·σ_P0)² − σ²_sampling,hist − σ²_lab,hist；若 τ² ≤ 0 记为不可辨识，
+      不截断成正数后继续。σ_*,hist 的来源与 assays.yaml 同源并逐项标注；缺乏识别数据时只报告情景范围（T7.5）
+    status: "research_scenario_assumption"
+  - id: "DC-03"
+    rule: "H1 本场历史状态只能用 true_only 比值生成 θ；observed/residual 比值只用于核对，不与检测误差叠加"
+    engine_status: "implemented（TwoLayerFarmModel 拒绝非 true_only 比值；information_states.assay_double_count_report / require_no_double_count 调用 information.signal.double_count_guard；H0 先验按 DC-01 记为 observed_incl_sampling_and_lab）"
+  - id: "DC-04"
+    rule: "同一研磨样本重复化验只缩小实验室重复性误差（1/√k），不缩小采样误差、实验室偏差或未来批次变异"
+  - id: "DC-05"
+    rule: "检测当前批次不会使未来批次波动变为零；结果只在有效期内作用于该批/该窖（合同 T1；数据可行性审计 §4.5）"
+  - id: "DC-06"
+    rule: "装料误差是独立误差源，不与检测价值混在一起；本研究主分析不建模装料误差，须在局限中写明（S6§2.20）"
+
+# ---------------------------------------------------------------------------
+# 抽样与随机流（具体规模见 configs/methods.yaml）
+# ---------------------------------------------------------------------------
+sampling:
+  draws_are_not_samples: "模拟次数只降低 MC 误差，不增加真实证据；随机种子不是统计单位（数据可行性审计 §0 Q2-1）"
+  stream_names: ["optimisation", "validation", "test", "outer_parameter", "assay_signal", "policy_evaluation", "farm_mean"]
+  stream_isolation: "numpy SeedSequence(master_seed).spawn 按名称固定顺序生成子流；见 methods.yaml rng"
+  engine_stream_names: >-
+    代码中的名称（uncertainty/streams.py）：optimisation → opt（索引 0）、validation（1）、test（2）、outer_parameter → outer（3）；
+    其余名称（assay_signal、farm_mean、farm_history、phase3_moment_check 等）由名称 sha256 派生索引（≥ 2³²），与创建顺序无关。
+    G2 抽样有效性核验与 MC 标准误规则见 reports/stage3_data_processing.md §6（开发期小规模核验，不是实验）。
+  common_random_numbers: "同一物理情景下所有方法共用同一组测试抽样（合同 T8.4 配对比较）"
+  stream_policy_round3: >-
+    configs/streams_policy.yaml（R3E，2026-09-25）：现有全部 opt / validation / test 流（根 1103 全部子流，及 2207、3301、1000–1399）
+    统归开发资料；为正式评估预留的新根本轮不得使用；新随机流仍不是新真实数据
+  ingredient_order_invariance: "重排原料/情景顺序不得改变物理结果（合同 §8 必需测试）"

@@ -1,0 +1,43 @@
+{
+ "pin_schema": "ration_reliability.reference_problem_freeze_pin/1",
+ "reference_problem": "reference_problem_v2",
+ "note": "reference problem v2 freeze (B5, D-542): premise planning row + plan-level domain reading; official settings OFFICIAL_SETTINGS/OFFICIAL_CONFIG; M1 energy-column fix (B-452); methods.yaml aligned (B-453)",
+ "pinned_utc": "2026-09-26T16:17:00+00:00",
+ "schema": "ration_reliability.reference_problem_fingerprint/1",
+ "digest_tag": "reference_problem_v2/spec_fingerprint/v1",
+ "files": {
+  "configs/dev_case_v1/animal.yaml": "withheld (public copy): the frozen bytes of this file differ from this tree or are not part of it; the hash would let the removed values be recovered by trial",
+  "configs/dev_case_v1/inventory.yaml": "1ac0ae555973a311535b1f2c41806afc64334b95a0f4f12b1a975f7b80782632",
+  "configs/dev_case_v1/prices.yaml": "withheld (public copy): the frozen bytes of this file differ from this tree or are not part of it; the hash would let the removed values be recovered by trial",
+  "configs/dev_case_v1/constraints.yaml": "withheld (public copy): the frozen bytes of this file differ from this tree or are not part of it; the hash would let the removed values be recovered by trial",
+  "configs/dev_case_v1/energy.yaml": "withheld (public copy): the frozen bytes of this file differ from this tree or are not part of it; the hash would let the removed values be recovered by trial",
+  "configs/dev_case_v1/README.md": "183091c40c0c0903d88588e41be6d1b781ab74c4dce58cea700b9eecad40a995",
+  "configs/dev_case_v1/reference_constraints.csv": "withheld (public copy): the frozen bytes of this file differ from this tree or are not part of it; the hash would let the removed values be recovered by trial",
+  "configs/animal_profile.yaml": "withheld (public copy): the frozen bytes of this file differ from this tree or are not part of it; the hash would let the removed values be recovered by trial",
+  "configs/methods.yaml": "483eab3f7f512bee476a74ac5553cf05866f11d85dbd4f2a6f85865c5d76f8f6",
+  "configs/uncertainty.yaml": "withheld (public copy): the frozen bytes of this file differ from this tree or are not part of it; the hash would let the removed values be recovered by trial",
+  "configs/streams_policy.yaml": "975a2f850e98ac8660af18ad48e3327bcbbcc476a5b1aa568482b4b8860e3901",
+  "reports/sd_scaling_sources.csv": "withheld (public copy): the frozen bytes of this file differ from this tree or are not part of it; the hash would let the removed values be recovered by trial",
+  "docs/uncertainty_data_layers.md": "withheld (public copy): the frozen bytes of this file differ from this tree or are not part of it; the hash would let the removed values be recovered by trial",
+  "src/ration_reliability/evaluation/reference.py": "ea46772c7e26f0cb37d6822156010014ca71a6bf1359d758c3d2ec8e91e3b4e4",
+  "src/ration_reliability/evaluation/evaluator.py": "76b604c3c633f51f71bcf595a2810a3d86823d4b4fd47c882417f492209c6f8d",
+  "src/ration_reliability/evaluation/stats.py": "b96f453a0f3d2b251285c920fd1e25bf4e371e2c01dc31bce11782d807e32a4e",
+  "src/ration_reliability/nutrition/energy_reference.py": "093a914c8ac93c460048c1ad0d12a09f4fd4e4da9717d68890f5b0a7636b1711",
+  "src/ration_reliability/nutrition/domain.py": "3ca97218c69e95ddbf2630ddddda65d684534a555b70cf69d7d9554f68f8e6c1",
+  "src/ration_reliability/nutrition/energy.py": "58e7a80a4fcb66dcbd7d02d1943ea7df199ea1eef3fa51870ff2883c5617f216",
+  "experiments/E1_cost_reliability/run_endpoint_ablation.py": "withheld (public copy): the frozen bytes of this file differ from this tree or are not part of it; the hash would let the removed values be recovered by trial",
+  "experiments/E0_verification/run_dev_case_v1.py": "withheld (public copy): the frozen bytes of this file differ from this tree or are not part of it; the hash would let the removed values be recovered by trial",
+  "experiments/E0_verification/smoke_pipeline.py": "5ab2d0a94111f08c714ab0943e5e6c65f39f0231fef7cf9f6762f63f3a99a3c5",
+  "experiments/E1_cost_reliability/official_v2.py": "withheld (public copy): the frozen bytes of this file differ from this tree or are not part of it; the hash would let the removed values be recovered by trial",
+  "configs/dev_case_v1/reference_constraints_v2.csv": "withheld (public copy): the frozen bytes of this file differ from this tree or are not part of it; the hash would let the removed values be recovered by trial",
+  "configs/protocol.yaml": "c0263b54bc44827bb8831d8a1d73abe382602afe094838baaf289c8531cf4bbd",
+  "docs/reference_problem_v2.md": "77770b0b931dabb341418b92445fe3a85cc0a9f75d866502e081f14e09da6b96",
+  "src/ration_reliability/optimization/safety_margin.py": "4520dba37deefffd09930957071949ad4c990bbf0baf406b686ccc96d03bbbc0",
+  "src/ration_reliability/uncertainty/streams.py": "3ec101efa82b7f827e83c265994b55c584919674efa20ec8620dceab4d86c93a"
+ },
+ "restricted_files_sha256_only": {
+  "data/restricted_local/dev_case_v1/build_report.json": "843be65a4b08a42aed866077f1b9e3721aacca56d2b3ec80be84f5843be154cf"
+ },
+ "digest": "withheld (public copy): the frozen bytes of this file differ from this tree or are not part of it; the hash would let the removed values be recovered by trial",
+ "missing": []
+}

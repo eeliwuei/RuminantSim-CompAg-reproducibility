@@ -1,0 +1,21 @@
+case,policy,independently_frozen_training_rules,failure_rate_min,failure_rate_max,adjusted_upper_min,adjusted_upper_max,unknown_count_min,unknown_count_max,interpretation,qualified_at_0.01,qualified_at_0.02,qualified_at_0.05,qualified_at_0.1,qualified_at_0.2
+dev_case_v3a,Q2_ideal_delta,3,0.01805,0.0199,0.022562706244257946,0.024614731534045073,0,0,range of three separately frozen rules; no pooled certificate,0,0,3,3,3
+dev_case_v3a,Q2_postUA_0p1,3,0.01985,0.02185,0.02455940593041136,0.02676711882582641,0,1,range of three separately frozen rules; no pooled certificate,0,0,3,3,3
+dev_case_v3a,Q2_postUA_0p5,3,0.03495,0.03655,0.04102615004050047,0.042749851616594406,5,9,range of three separately frozen rules; no pooled certificate,0,0,3,3,3
+dev_case_v3a,Q3_ideal_delta,3,0.0236,0.0248,0.028690650012835463,0.03000566273342331,5,9,range of three separately frozen rules; no pooled certificate,0,0,3,3,3
+dev_case_v3a,Q3_postUA_0p1,3,0.025,0.026,0.030224536490973355,0.03131769889031676,5,9,range of three separately frozen rules; no pooled certificate,0,0,3,3,3
+dev_case_v3a,Q3_postUA_0p5,3,0.0416,0.042,0.04817132823283149,0.04859962476036657,5,9,range of three separately frozen rules; no pooled certificate,0,0,3,3,3
+dev_case_v3a,Q3_postmean_0p1,3,0.02605,0.02625,0.0313723054746839,0.03159068387432717,5,9,range of three separately frozen rules; no pooled certificate,0,0,3,3,3
+dev_case_v3a,Q3_postmean_0p5,3,0.10405,0.10605,0.11387605333616702,0.1159551165867119,5,8,range of three separately frozen rules; no pooled certificate,0,0,0,0,3
+dev_case_v3a,Q3_raw_noise_0p1,3,0.02565,0.0261,0.030935317060813722,0.031426907251904036,5,9,range of three separately frozen rules; no pooled certificate,0,0,3,3,3
+dev_case_v3a,Q3_raw_noise_0p5,3,0.0622,0.0669,0.0700629402679356,0.07501971133759265,5,9,range of three separately frozen rules; no pooled certificate,0,0,0,3,3
+dev_case_v3c,Q2_ideal_delta,3,0.00625,0.00755,0.009080968336547169,0.010620755851951774,0,0,range of three separately frozen rules; no pooled certificate,2,3,3,3,3
+dev_case_v3c,Q2_postUA_0p1,3,0.00665,0.0083,0.009557236352062091,0.011499588629985012,2,3,range of three separately frozen rules; no pooled certificate,1,3,3,3,3
+dev_case_v3c,Q2_postUA_0p5,3,0.0161,0.01685,0.020387509336987512,0.021225740013340974,8,11,range of three separately frozen rules; no pooled certificate,0,0,3,3,3
+dev_case_v3c,Q3_ideal_delta,3,0.01045,0.012,0.013989002013187946,0.015761813965202688,0,11,range of three separately frozen rules; no pooled certificate,0,3,3,3,3
+dev_case_v3c,Q3_postUA_0p1,3,0.0112,0.0135,0.014848801315873274,0.017463644363587313,3,11,range of three separately frozen rules; no pooled certificate,0,3,3,3,3
+dev_case_v3c,Q3_postUA_0p5,3,0.02145,0.0239,0.026326416604076915,0.02901969399127898,8,11,range of three separately frozen rules; no pooled certificate,0,0,3,3,3
+dev_case_v3c,Q3_postmean_0p1,3,0.0119,0.0144,0.01564790502027318,0.01847916969634598,3,11,range of three separately frozen rules; no pooled certificate,0,3,3,3,3
+dev_case_v3c,Q3_postmean_0p5,3,0.06415,0.08435,0.07212088559974963,0.09333372628055214,6,11,range of three separately frozen rules; no pooled certificate,0,0,0,3,3
+dev_case_v3c,Q3_raw_noise_0p1,3,0.0115,0.0141,0.015191655333826593,0.018141090953282604,3,11,range of three separately frozen rules; no pooled certificate,0,3,3,3,3
+dev_case_v3c,Q3_raw_noise_0p5,3,0.04015,0.04495,0.04661742567232474,0.051753678093861256,5,11,range of three separately frozen rules; no pooled certificate,0,0,1,3,3

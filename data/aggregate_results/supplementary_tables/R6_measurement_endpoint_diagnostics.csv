@@ -1,0 +1,7 @@
+identity,case,training_root_index,world,scenario,endpoint_precomputations,all_quad_vec_success,max_relative_vector_error_estimate,evaluations,negative_variance_roundoff_floored,interpretation
+dev_case_v3a__SD-H0__C0__trainr0,dev_case_v3a,0,SD-H0,C0,168,True,1.5796076957133742e-13,40551,0,"saved deterministic quadrature diagnostics, not a formal global or posterior-moment error certificate"
+dev_case_v3a__SD-H0__C0__trainr1,dev_case_v3a,1,SD-H0,C0,168,True,1.5771282726213814e-13,40551,0,"saved deterministic quadrature diagnostics, not a formal global or posterior-moment error certificate"
+dev_case_v3a__SD-H0__C0__trainr2,dev_case_v3a,2,SD-H0,C0,168,True,1.57713105964003e-13,40551,0,"saved deterministic quadrature diagnostics, not a formal global or posterior-moment error certificate"
+dev_case_v3c__SD-H0__C0__trainr0,dev_case_v3c,0,SD-H0,C0,196,True,1.5790317754127472e-13,47166,0,"saved deterministic quadrature diagnostics, not a formal global or posterior-moment error certificate"
+dev_case_v3c__SD-H0__C0__trainr1,dev_case_v3c,1,SD-H0,C0,196,True,1.57712735585311e-13,47145,0,"saved deterministic quadrature diagnostics, not a formal global or posterior-moment error certificate"
+dev_case_v3c__SD-H0__C0__trainr2,dev_case_v3c,2,SD-H0,C0,196,True,1.5783014598333374e-13,47187,0,"saved deterministic quadrature diagnostics, not a formal global or posterior-moment error certificate"

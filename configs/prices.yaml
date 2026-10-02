@@ -1,0 +1,192 @@
+# 价格情景（prices）——draft，未冻结；本文件不含任何价格数值
+# 生成：P2b_constraints_units 子任务，2026-09-24
+# 状态（合同 §2.3）：implemented（结构与字段已起草）；价格值全部 null；未冻结。
+# 依据：
+#   - 内部资产没有任何有来源、有日期的原料价格（S8 §2.6；BLOCKERS B-005；DECISIONS D-009）。
+#   - 候选外部来源：数据可行性审计 §1.4 #27–28、§5.3-3/4、§10 P1-3。
+#   - 价格基础与换算规则：合同 02 T2.2；docs/decision_timing_and_units.md §6。
+# 规则：没有来源的价格一律 null；取得来源前，正文只能写“在所设情景价格下的成本差”（数据可行性审计 §5.3-4）。
+#       不得把固定价格下的成本差称为市场节约或动物收入（合同 T2.2）。
+
+schema_version: "0.1-draft"
+file_role: "price_scenarios"
+created_on: "2026-09-24"
+created_by: "P2b_constraints_units (subagent)"
+stage_status: "implemented"
+draft: true
+frozen: false
+
+# ---------------------------------------------------------------------------
+# 统一口径
+# ---------------------------------------------------------------------------
+price_basis:
+  internal_unit: "<CUR>/kg as-fed"
+  decision_link: "C(q) = Σ_i p_i q_i，单位 <CUR>/head/d（合同 02 T2）"
+  fixed_across_draws: true
+  fixed_across_draws_rule: "报价基准一旦固定，不随测试抽样变化；不得用抽到的 DM 重算价格（合同 T2.2）"
+  record_required: ["currency", "price_date_or_period", "market_or_location", "grade_or_spec", "quote_basis", "source_id", "access_date", "local_path", "sha256"]
+  conversions:
+    - id: "PC-01"
+      from: "<CUR>/metric tonne as-fed"
+      to: "<CUR>/kg as-fed"
+      rule: "除以 1000"
+      status: "sourced"
+      source: "SI 定义；合同 T2.2"
+    - id: "PC-02"
+      from: "<CUR>/short ton as-fed（美国报价常用 ton = 2000 lb）"
+      to: "<CUR>/kg as-fed"
+      rule: "除以 907.18474（= 2000 × 0.45359237 kg）"
+      status: "sourced"
+      source: "lb = 0.45359237 kg（NIST SP 811 App. B.8，已登记于 src/ration_reliability/normalization/units.py）；short ton = 2000 lb（同附录）"
+      caution: "ERS 表中的 ton 是否为 short ton 须在下载后按表头核实；不得默认为公吨"
+    - id: "PC-03"
+      from: "<CUR>/bushel"
+      to: "<CUR>/kg as-fed"
+      rule: "除以该商品的法定蒲式耳重量（kg/bu）"
+      bushel_weight_kg: null
+      status: "pending_user_decision"
+      rationale: "蒲式耳重量因作物而异，须引用 USDA 官方换算表（候选：USDA ERS/AMS《Weights, Measures, and Conversion Factors for Agricultural Commodities and Their Products》Ag Handbook 697，本轮未访问）后再填"
+    - id: "PC-04"
+      from: "<CUR>/kg DM"
+      to: "<CUR>/kg as-fed"
+      rule: "p_AF = p_DM × d_quote，d_quote 必须是报价本身声明的 DM 语义（合同 T2.2）"
+      status: "sourced"
+      source: "合同 T2.2；数据可行性审计 §5.3-3"
+      caution: "d_quote 不是情景抽样的 d_i(θ)；报价没有写明 DM 语义时不得换算"
+    - id: "PC-05"
+      from: "按实测 DM 结算的合同价"
+      to: "单独的合同情景"
+      rule: "不混入默认原物质计价模型（合同 T2.2）"
+      status: "sourced"
+  currency_and_year:
+    rule: "每个价格情景写明货币与价格日期/期间；跨年份比较需有来源的平减指数，否则不做通胀调整"
+    deflator: null
+    deflator_status: "pending_user_decision"
+
+# 注：source_id 为本文件内部简称；registry_source_id 对应 sources/source_registry.csv（阶段 1 来源登记）。
+# ---------------------------------------------------------------------------
+# 候选来源登记（均未下载；访问与批准状态见 audit/_parts/phase1_user_approvals.md）
+# ---------------------------------------------------------------------------
+candidate_sources:
+  - source_id: "SRC-ERS-FG-T16"
+    registry_source_id: "SRC-P-USDA-ERS-FG"
+    title: "USDA ERS Feed Grains Database, Yearbook Tables — Table 16 'Byproduct Feed Wholesale Prices'"
+    url: "https://www.ers.usda.gov/data-products/feed-grains-database/feed-grains-yearbook-tables"
+    content_confirmed: >-
+      月值为 AMS 日价的简单平均，数据来自 AMS 3510/3511/3512 周报；品种含豆粕 46.5–48%（伊利诺伊中部）、
+      棉籽粕 41%（孟菲斯）、玉米 DDG、玉米蛋白饲料 21%、玉米蛋白粉 60%、小麦次粉（堪萨斯城）、脱水苜蓿粉等；
+      年鉴页提供 CSV（17.67 MB）与 XLSX（859.37 KB），2026-09-14 更新
+    content_source: "数据可行性审计 §0 Q4、§1.4 #27（终审复核 ERS 文档页）"
+    unit_on_table: null
+    unit_status: "待下载后按表头核实（见 PC-02 caution）"
+    license: "美国政府数据【推断，未核】"
+    download_status: "not_downloaded"
+    approval_needed: "P1-3（批准下载 XLSX 或 CSV；先定地域基准 D-01）"
+  - source_id: "SRC-ERS-FG-GRAINS"
+    registry_source_id: "SRC-P-USDA-ERS-FG"
+    title: "USDA ERS Feed Grains Yearbook — 玉米、大麦等谷物价格表（表号未核）"
+    url: "https://www.ers.usda.gov/data-products/feed-grains-database/feed-grains-yearbook-tables"
+    content_confirmed: "年鉴覆盖 “four feed grains … hay, and related items”，按月、季或年（数据可行性审计 §1.4 #27）"
+    table_number: null
+    table_status: "待下载后核实"
+    download_status: "not_downloaded"
+    approval_needed: "P1-3"
+  - source_id: "SRC-ERS-FG-HAY"
+    registry_source_id: "SRC-P-USDA-ERS-FG"
+    title: "USDA ERS Feed Grains Yearbook — 干草农场收购价（表号未核）"
+    content_confirmed: "文档写明年鉴含干草农场收购价（年值按月价加权）；表号未核（数据可行性审计 §0 Q4、§11.2-14）"
+    table_number: null
+    download_status: "not_downloaded"
+    approval_needed: "P1-3"
+  - source_id: "SRC-AMS-FEED-WEEKLY"
+    registry_source_id: "SRC-P-USDA-AMS"
+    title: "USDA AMS Market News 饲料周报原文（3510/3511/3512）"
+    content_confirmed: null
+    status_note: "本轮访问超时，【未核】（数据可行性审计 §11.4）"
+    download_status: "not_downloaded"
+    approval_needed: "P1-3"
+  - source_id: "SRC-CN-MARA"
+    registry_source_id: "SRC-P-CN-MOA"
+    title: "中国农业农村部集贸市场周价（玉米、豆粕等）"
+    content_confirmed: null
+    status_note: "页面未渲染出来，【未核】（数据可行性审计 §1.4 #28）；是否用中国价格取决于 D-01"
+    download_status: "not_downloaded"
+    approval_needed: "P1-3 ②；D-01"
+  - source_id: "SRC-INTERNAL"
+    registry_source_id: ["SRC-INT-RFEU14", "SRC-INT-CYRP-PRICE", "SRC-P-JBZYW", "SRC-C-FEEDLIB-CN-V1"]
+    title: "旧项目内部价格（RFEU 硬编码、CYRP SEED/PROV、jbzyw.com 抓价、218 库 cost）"
+    status: "rejected"
+    reason: "无出处、无日期、无时间序列或全为 0（S8 §2.6；D-009）"
+
+# ---------------------------------------------------------------------------
+# 原料 × 候选来源 覆盖（只登记可能的映射与规格差异；无数值）
+# ---------------------------------------------------------------------------
+ingredient_price_mapping:
+  - {ingredient_id: "soybean_meal_48", candidate_source: "SRC-ERS-FG-T16", candidate_series: "豆粕 46.5–48%（伊利诺伊中部）", spec_match: "接近（NASEM F134 为 48% CP 溶剂浸提）", status: "pending_user_decision"}
+  - {ingredient_id: "cottonseed_meal", candidate_source: "SRC-ERS-FG-T16", candidate_series: "棉籽粕 41%（孟菲斯）", spec_match: "待核（NASEM F58 未注明 CP 档）", status: "pending_user_decision"}
+  - {ingredient_id: "ddgs", candidate_source: "SRC-ERS-FG-T16", candidate_series: "玉米 DDG（伊利诺伊）", spec_match: "待核（DDG 与 DDGS、脂肪档 F61/F59 的对应不明）", status: "pending_user_decision"}
+  - {ingredient_id: "corn_grain_dry_medium", candidate_source: "SRC-ERS-FG-GRAINS", candidate_series: "玉米（表号未核）", spec_match: "需 PC-03 蒲式耳换算；粉碎加工费不含", status: "pending_user_decision"}
+  - {ingredient_id: "barley_grain_dry_ground", candidate_source: "SRC-ERS-FG-GRAINS", candidate_series: "大麦（表号未核）", spec_match: "同上", status: "pending_user_decision"}
+  - {ingredient_id: "legume_hay_mid", candidate_source: "SRC-ERS-FG-HAY", candidate_series: "苜蓿干草农场价（表号未核）", spec_match: "质量等级未分；脱水苜蓿粉不是苜蓿干草", status: "pending_user_decision"}
+  - {ingredient_id: "cool_season_grass_hay_mid", candidate_source: "SRC-ERS-FG-HAY", candidate_series: "其他干草农场价（表号未核）", spec_match: "待核", status: "pending_user_decision"}
+  - {ingredient_id: "wheat_bran", candidate_source: null, note: "表 16 只有小麦次粉（KC），不是麸皮；不得互代", status: "pending_user_decision"}
+  - {ingredient_id: "corn_silage", candidate_source: null, note: "无市场报价序列；须用户提供牧场成本或引用有来源的估价方法", status: "pending_user_decision"}
+  - {ingredient_id: "legume_silage_mid", candidate_source: null, note: "同玉米青贮", status: "pending_user_decision"}
+  - {ingredient_id: "corn_grain_steam_flaked", candidate_source: null, note: "加工费无来源", status: "pending_user_decision"}
+  - {ingredient_id: "beet_pulp_dry", candidate_source: null, status: "pending_user_decision"}
+  - {ingredient_id: "soybean_hulls", candidate_source: null, status: "pending_user_decision"}
+  - {ingredient_id: "canola_meal", candidate_source: null, status: "pending_user_decision"}
+  - {ingredient_id: "cottonseed_whole_linted", candidate_source: null, status: "pending_user_decision"}
+  - {ingredient_id: "calcium_soaps", candidate_source: null, status: "pending_user_decision"}
+  - {ingredient_id: "limestone", candidate_source: null, status: "pending_user_decision"}
+  - {ingredient_id: "dicalcium_phosphate", candidate_source: null, status: "pending_user_decision"}
+  - {ingredient_id: "salt", candidate_source: null, status: "pending_user_decision"}
+  - {ingredient_id: "sodium_bicarbonate", candidate_source: null, status: "pending_user_decision"}
+  - {ingredient_id: "premix", candidate_source: null, status: "pending_user_decision"}
+  - {ingredient_id: "corn_gluten_feed_dry", candidate_source: "SRC-ERS-FG-T16", candidate_series: "玉米蛋白饲料 21%", note: "备选原料", status: "pending_user_decision"}
+  - {ingredient_id: "wheat_middlings", candidate_source: "SRC-ERS-FG-T16", candidate_series: "小麦次粉（KC）", note: "备选原料", status: "pending_user_decision"}
+coverage_note: >-
+  即使批准下载 ERS 年鉴，核心 21 种中能直接对上的也只有少数蛋白料与谷物、干草；青贮、甜菜粕、大豆皮、菜籽粕、
+  全棉籽、矿物与脂肪粉仍无来源。一个“全部有来源”的价格情景目前不可得；混合使用须逐项标 sourced /
+  research_scenario_assumption，并在正文说明。
+
+# ---------------------------------------------------------------------------
+# 价格情景槽位（≤ 3 组；合同 §10）
+# ---------------------------------------------------------------------------
+price_scenarios:
+  - price_id: "PRC-1"
+    name_zh: "美国历史价格（ERS 年鉴，选定月份或期间）"
+    currency: "USD"
+    price_date_or_period: null
+    is_scenario: false
+    items: null
+    status: "pending_user_decision"
+    requires: ["D-01（地域基准）", "P1-3（批准下载 ERS 年鉴）", "期间选择规则须在看结果前登记"]
+    period_rule_candidate: "取下载后最近一个完整年度的月均值；月份在开发阶段登记，不在看成本结果后挑选"
+    period_rule_status: "research_scenario_assumption"
+  - price_id: "PRC-2"
+    name_zh: "中国价格情景"
+    currency: "CNY"
+    price_date_or_period: null
+    is_scenario: null
+    items: null
+    status: "pending_user_decision"
+    requires: ["D-01", "P1-3 ②（中国价格来源）"]
+  - price_id: "PRC-3"
+    name_zh: "相对价格变动情景（同一来源内的历史极端月份）"
+    currency: "同 PRC-1"
+    price_date_or_period: null
+    is_scenario: false
+    items: null
+    status: "pending_user_decision"
+    construction_candidate: >-
+      在 PRC-1 同一序列内，预先规定一个价格比（例如蛋白料/能量料价格比）并取其历史高、低分位对应的真实月份，
+      而不是人为设定 ±x% 的价格。比值定义与分位点须在开发阶段登记。
+    construction_status: "research_scenario_assumption"
+    requires: ["PRC-1 可用"]
+
+fallback_if_no_prices:
+  statement: >-
+    若冻结前仍无有来源价格：RQ2 只能报告“在所设情景价格下”的成本差，并同时给出与价格无关的量
+    （例如同一可靠性下配方组成的变化、约束的影子价格结构）；不得宣称市场成本节约（合同 T2.2、T10）。
+  status: "planned"

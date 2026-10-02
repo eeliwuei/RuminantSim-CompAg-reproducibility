@@ -1,0 +1,154 @@
+arm,row_type,root_k,candidate,training_setting,training_label,max_regret_pp,argmax_evaluation_setting,own_world_rate_upper,tab_world_rate_upper,cost_premium_pct,is_minimax,a_pp,b_pp,pi_star,rule,cost_premium_pct_TAB,cost_premium_pct_NARROW,extra_cost_premium_pct_TAB_minus_t,max_regret_avoided_pp,tradeoff,regret_pp_per_pct_cost
+R0,max_regret,0,diagnostic_N128,SD-H0,TAB,9.28,SD-S2,0.7315,0.7315,1.7750642915209225,False,,,,,,,,,,
+R0,max_regret,0,diagnostic_N128,SD-SRC12,SRC12,1.8299999999999983,SD-H0,0.6932,0.7498,2.533954398813276,True,,,,,,,,,,
+R0,max_regret,0,diagnostic_N128,SD-SRC14,SRC14,8.709999999999996,SD-S2,0.6992,0.7751,2.3427995602633533,False,,,,,,,,,,
+R0,max_regret,0,diagnostic_N128,SD-12MO,MO12,8.119999999999994,SD-SRC14,0.6507,0.8125,2.96801626703711,False,,,,,,,,,,
+R0,max_regret,0,diagnostic_N128,SD-S2,NARROW,8.799999999999997,SD-H0,0.557,0.8195,3.544547805881604,False,,,,,,,,,,
+R0,break_even_prior_TAB_vs_NARROW,0,diagnostic_N128,,,,,,,,,8.68,8.799999999999997,0.49656750572082387,train on TAB iff P(TAB world) > pi_star,1.7750642915209225,3.544547805881604,,,,
+R0,cost_weighted_TAB_vs,0,diagnostic_N128,SD-SRC12,SRC12,,,,,,,,,,,,,-0.7588901072923537,-7.450000000000001,"TAB cheaper, higher max regret: pp extra regret per % saved",9.81696813334526
+R0,cost_weighted_TAB_vs,0,diagnostic_N128,SD-SRC14,SRC14,,,,,,,,,,,,,-0.5677352687424309,-0.5700000000000038,"TAB cheaper, higher max regret: pp extra regret per % saved",1.0039890621250103
+R0,cost_weighted_TAB_vs,0,diagnostic_N128,SD-12MO,MO12,,,,,,,,,,,,,-1.1929519755161877,-1.1600000000000055,"TAB cheaper, higher max regret: pp extra regret per % saved",0.9723777853656481
+R0,cost_weighted_TAB_vs,0,diagnostic_N128,SD-S2,NARROW,,,,,,,,,,,,,-1.7694835143606813,-0.4800000000000022,"TAB cheaper, higher max regret: pp extra regret per % saved",0.2712655959235808
+R0,break_even_prior_TAB_vs_NARROW,0,cheapest_qualified_a0.05,,,,,,,,,,,,not computable (candidate missing in TAB or NARROW),,,,,,
+R0,max_regret,1,diagnostic_N128,SD-H0,TAB,21.16,SD-S2,0.7124,0.7124,1.3934800569324057,False,,,,,,,,,,
+R0,max_regret,1,diagnostic_N128,SD-SRC12,SRC12,4.269999999999996,SD-S2,0.6765,0.7266,2.797216018670068,True,,,,,,,,,,
+R0,max_regret,1,diagnostic_N128,SD-SRC14,SRC14,4.820000000000002,SD-12MO,0.6391,0.7597,3.5548245340474516,False,,,,,,,,,,
+R0,max_regret,1,diagnostic_N128,SD-12MO,MO12,8.910000000000007,SD-SRC14,0.5895,0.7782,2.182048170679196,False,,,,,,,,,,
+R0,max_regret,1,diagnostic_N128,SD-S2,NARROW,9.819999999999995,SD-H0,0.5263,0.8106,3.3821962377889037,False,,,,,,,,,,
+R0,break_even_prior_TAB_vs_NARROW,1,diagnostic_N128,,,,,,,,,21.16,9.819999999999995,0.6830213040671402,train on TAB iff P(TAB world) > pi_star,1.3934800569324057,3.3821962377889037,,,,
+R0,cost_weighted_TAB_vs,1,diagnostic_N128,SD-SRC12,SRC12,,,,,,,,,,,,,-1.4037359617376621,-16.890000000000004,"TAB cheaper, higher max regret: pp extra regret per % saved",12.032177318512339
+R0,cost_weighted_TAB_vs,1,diagnostic_N128,SD-SRC14,SRC14,,,,,,,,,,,,,-2.161344477115046,-16.339999999999996,"TAB cheaper, higher max regret: pp extra regret per % saved",7.5601090770179145
+R0,cost_weighted_TAB_vs,1,diagnostic_N128,SD-12MO,MO12,,,,,,,,,,,,,-0.7885681137467904,-12.249999999999993,"TAB cheaper, higher max regret: pp extra regret per % saved",15.534485590338585
+R0,cost_weighted_TAB_vs,1,diagnostic_N128,SD-S2,NARROW,,,,,,,,,,,,,-1.988716180856498,-11.340000000000005,"TAB cheaper, higher max regret: pp extra regret per % saved",5.702171133900116
+R0,break_even_prior_TAB_vs_NARROW,1,cheapest_qualified_a0.05,,,,,,,,,,,,not computable (candidate missing in TAB or NARROW),,,,,,
+R0,max_regret,2,diagnostic_N128,SD-H0,TAB,21.650000000000002,SD-S2,0.6985,0.6985,0.8093420791806638,False,,,,,,,,,,
+R0,max_regret,2,diagnostic_N128,SD-SRC12,SRC12,4.410000000000003,SD-H0,0.6832,0.7426,3.411548416607735,True,,,,,,,,,,
+R0,max_regret,2,diagnostic_N128,SD-SRC14,SRC14,6.040000000000001,SD-12MO,0.6152,0.7562,3.778860699644726,False,,,,,,,,,,
+R0,max_regret,2,diagnostic_N128,SD-12MO,MO12,7.740000000000002,SD-H0,0.5829,0.7759,2.886119625222361,False,,,,,,,,,,
+R0,max_regret,2,diagnostic_N128,SD-S2,NARROW,11.48,SD-H0,0.5627,0.8133,3.7911591870578576,False,,,,,,,,,,
+R0,break_even_prior_TAB_vs_NARROW,2,diagnostic_N128,,,,,,,,,18.020000000000003,11.48,0.6108474576271187,train on TAB iff P(TAB world) > pi_star,0.8093420791806638,3.7911591870578576,,,,
+R0,cost_weighted_TAB_vs,2,diagnostic_N128,SD-SRC12,SRC12,,,,,,,,,,,,,-2.602206337427071,-17.24,"TAB cheaper, higher max regret: pp extra regret per % saved",6.6251471883840045
+R0,cost_weighted_TAB_vs,2,diagnostic_N128,SD-SRC14,SRC14,,,,,,,,,,,,,-2.9695186204640622,-15.610000000000001,"TAB cheaper, higher max regret: pp extra regret per % saved",5.25674427243044
+R0,cost_weighted_TAB_vs,2,diagnostic_N128,SD-12MO,MO12,,,,,,,,,,,,,-2.076777546041697,-13.91,"TAB cheaper, higher max regret: pp extra regret per % saved",6.697876730472276
+R0,cost_weighted_TAB_vs,2,diagnostic_N128,SD-S2,NARROW,,,,,,,,,,,,,-2.981817107877194,-10.170000000000002,"TAB cheaper, higher max regret: pp extra regret per % saved",3.4106719601056272
+R0,break_even_prior_TAB_vs_NARROW,2,cheapest_qualified_a0.05,,,,,,,,,,,,not computable (candidate missing in TAB or NARROW),,,,,,
+A,max_regret,0,diagnostic_N128,SD-H0,TAB,0.0,SD-H0,0.1583,0.1583,19.980619667642905,True,,,,,,,,,,
+A,max_regret,0,diagnostic_N128,SD-SRC12,SRC12,2.1900000000000004,SD-SRC14,0.0955,0.1751,16.895794255347752,False,,,,,,,,,,
+A,max_regret,0,diagnostic_N128,SD-SRC14,SRC14,13.879999999999997,SD-H0,0.0578,0.2971,19.64826311618255,False,,,,,,,,,,
+A,max_regret,0,diagnostic_N128,SD-12MO,MO12,47.449999999999996,SD-SRC14,0.0776,0.5572,12.596694354720906,False,,,,,,,,,,
+A,max_regret,0,diagnostic_N128,SD-S2,NARROW,41.38,SD-SRC14,0.0673,0.4872,11.285003127496962,False,,,,,,,,,,
+A,break_even_prior_TAB_vs_NARROW,0,diagnostic_N128,,,,,,,,,-6.7299999999999995,32.89,0.0,TAB-trained is never worse (dominates),19.980619667642905,11.285003127496962,,,,
+A,cost_weighted_TAB_vs,0,diagnostic_N128,SD-SRC12,SRC12,,,,,,,,,,,,,3.084825412295153,2.1900000000000004,"TAB dearer, lower max regret: pp avoided per % extra cost",0.7099267243038594
+A,cost_weighted_TAB_vs,0,diagnostic_N128,SD-SRC14,SRC14,,,,,,,,,,,,,0.3323565514603537,13.879999999999997,"TAB dearer, lower max regret: pp avoided per % extra cost",41.7623782020007
+A,cost_weighted_TAB_vs,0,diagnostic_N128,SD-12MO,MO12,,,,,,,,,,,,,7.383925312921999,47.449999999999996,"TAB dearer, lower max regret: pp avoided per % extra cost",6.426121336433572
+A,cost_weighted_TAB_vs,0,diagnostic_N128,SD-S2,NARROW,,,,,,,,,,,,,8.695616540145943,41.38,"TAB dearer, lower max regret: pp avoided per % extra cost",4.758719500676774
+A,max_regret,0,cheapest_qualified_a0.05,SD-SRC14,SRC14,0.0,SD-H0,0.0187,0.1676,17.067786989480304,True,,,,,,,,,,
+A,max_regret,0,cheapest_qualified_a0.05,SD-12MO,MO12,34.86,SD-SRC14,0.0202,0.3805,11.089072053188964,False,,,,,,,,,,
+A,max_regret,0,cheapest_qualified_a0.05,SD-S2,NARROW,31.990000000000002,SD-SRC14,0.0152,0.3516,10.978430808906015,False,,,,,,,,,,
+A,break_even_prior_TAB_vs_NARROW,0,cheapest_qualified_a0.05,,,,,,,,,,,,not computable (candidate missing in TAB or NARROW),,,,,,
+A,max_regret,1,diagnostic_N128,SD-H0,TAB,6.909999999999999,SD-SRC14,0.1523,0.1523,16.604597216727534,False,,,,,,,,,,
+A,max_regret,1,diagnostic_N128,SD-SRC12,SRC12,0.4299999999999998,SD-H0,0.0349,0.1566,23.802137647996567,True,,,,,,,,,,
+A,max_regret,1,diagnostic_N128,SD-SRC14,SRC14,3.040000000000001,SD-H0,0.0365,0.1827,16.950325761039764,False,,,,,,,,,,
+A,max_regret,1,diagnostic_N128,SD-12MO,MO12,45.09,SD-SRC14,0.0359,0.4772,11.028379291666802,False,,,,,,,,,,
+A,max_regret,1,diagnostic_N128,SD-S2,NARROW,49.12,SD-SRC14,0.0417,0.521,10.693404414949415,False,,,,,,,,,,
+A,break_even_prior_TAB_vs_NARROW,1,diagnostic_N128,,,,,,,,,-4.17,36.870000000000005,0.0,TAB-trained is never worse (dominates),16.604597216727534,10.693404414949415,,,,
+A,cost_weighted_TAB_vs,1,diagnostic_N128,SD-SRC12,SRC12,,,,,,,,,,,,,-7.197540431269033,-6.4799999999999995,"TAB cheaper, higher max regret: pp extra regret per % saved",0.9003075511529263
+A,cost_weighted_TAB_vs,1,diagnostic_N128,SD-SRC14,SRC14,,,,,,,,,,,,,-0.3457285443122302,-3.8699999999999983,"TAB cheaper, higher max regret: pp extra regret per % saved",11.19375320223768
+A,cost_weighted_TAB_vs,1,diagnostic_N128,SD-12MO,MO12,,,,,,,,,,,,,5.576217925060732,38.18000000000001,"TAB dearer, lower max regret: pp avoided per % extra cost",6.846934698949052
+A,cost_weighted_TAB_vs,1,diagnostic_N128,SD-S2,NARROW,,,,,,,,,,,,,5.911192801778119,42.21,"TAB dearer, lower max regret: pp avoided per % extra cost",7.140690790410863
+A,max_regret,1,cheapest_qualified_a0.05,SD-SRC14,SRC14,0.0,SD-H0,0.0175,0.1772,17.23358002312081,True,,,,,,,,,,
+A,max_regret,1,cheapest_qualified_a0.05,SD-12MO,MO12,35.699999999999996,SD-SRC14,0.0235,0.3863,10.669991887843722,False,,,,,,,,,,
+A,max_regret,1,cheapest_qualified_a0.05,SD-S2,NARROW,33.29,SD-SRC14,0.0264,0.3778,10.666240900555767,False,,,,,,,,,,
+A,break_even_prior_TAB_vs_NARROW,1,cheapest_qualified_a0.05,,,,,,,,,,,,not computable (candidate missing in TAB or NARROW),,,,,,
+A,max_regret,2,diagnostic_N128,SD-H0,TAB,3.6899999999999995,SD-SRC12,0.1488,0.1488,19.225429485290068,False,,,,,,,,,,
+A,max_regret,2,diagnostic_N128,SD-SRC12,SRC12,0.09,SD-12MO,0.041,0.1425,19.389807199849795,True,,,,,,,,,,
+A,max_regret,2,diagnostic_N128,SD-SRC14,SRC14,8.330000000000002,SD-H0,0.0308,0.2258,17.254068503495223,False,,,,,,,,,,
+A,max_regret,2,diagnostic_N128,SD-12MO,MO12,36.309999999999995,SD-SRC14,0.0262,0.4087,12.573207405924226,False,,,,,,,,,,
+A,max_regret,2,diagnostic_N128,SD-S2,NARROW,32.71,SD-SRC12,0.0251,0.4029,12.068713799774544,False,,,,,,,,,,
+A,break_even_prior_TAB_vs_NARROW,2,diagnostic_N128,,,,,,,,,-2.5100000000000002,25.41,0.0,TAB-trained is never worse (dominates),19.225429485290068,12.068713799774544,,,,
+A,cost_weighted_TAB_vs,2,diagnostic_N128,SD-SRC12,SRC12,,,,,,,,,,,,,-0.16437771455972694,-3.5999999999999996,"TAB cheaper, higher max regret: pp extra regret per % saved",21.900779005489415
+A,cost_weighted_TAB_vs,2,diagnostic_N128,SD-SRC14,SRC14,,,,,,,,,,,,,1.9713609817948452,4.640000000000002,"TAB dearer, lower max regret: pp avoided per % extra cost",2.353703884194496
+A,cost_weighted_TAB_vs,2,diagnostic_N128,SD-12MO,MO12,,,,,,,,,,,,,6.652222079365842,32.62,"TAB dearer, lower max regret: pp avoided per % extra cost",4.903624625098155
+A,cost_weighted_TAB_vs,2,diagnostic_N128,SD-S2,NARROW,,,,,,,,,,,,,7.156715685515524,29.020000000000003,"TAB dearer, lower max regret: pp avoided per % extra cost",4.054932636032137
+A,max_regret,2,cheapest_qualified_a0.05,SD-SRC14,SRC14,0.0,SD-H0,0.0237,0.2027,17.193369268251878,True,,,,,,,,,,
+A,max_regret,2,cheapest_qualified_a0.05,SD-12MO,MO12,37.79,SD-SRC14,0.0304,0.408,10.506869063471802,False,,,,,,,,,,
+A,max_regret,2,cheapest_qualified_a0.05,SD-S2,NARROW,37.18,SD-SRC14,0.0325,0.406,10.41785581160708,False,,,,,,,,,,
+A,break_even_prior_TAB_vs_NARROW,2,cheapest_qualified_a0.05,,,,,,,,,,,,not computable (candidate missing in TAB or NARROW),,,,,,
+B,max_regret,0,diagnostic_N128,SD-H0,TAB,13.119999999999997,SD-S2,0.6602,0.6602,4.57214668814645,False,,,,,,,,,,
+B,max_regret,0,diagnostic_N128,SD-SRC12,SRC12,2.9299999999999993,SD-H0,0.5982,0.6895,6.268643679842856,True,,,,,,,,,,
+B,max_regret,0,diagnostic_N128,SD-SRC14,SRC14,8.639999999999997,SD-12MO,0.468,0.7371,7.172717971351772,False,,,,,,,,,,
+B,max_regret,0,diagnostic_N128,SD-12MO,MO12,13.789999999999997,SD-SRC14,0.5133,0.7735,5.943560782410406,False,,,,,,,,,,
+B,max_regret,0,diagnostic_N128,SD-S2,NARROW,13.380000000000003,SD-H0,0.3395,0.794,7.218465621601466,False,,,,,,,,,,
+B,break_even_prior_TAB_vs_NARROW,0,diagnostic_N128,,,,,,,,,10.219999999999995,13.380000000000003,0.43305084745762695,train on TAB iff P(TAB world) > pi_star,4.57214668814645,7.218465621601466,,,,
+B,cost_weighted_TAB_vs,0,diagnostic_N128,SD-SRC12,SRC12,,,,,,,,,,,,,-1.6964969916964057,-10.189999999999998,"TAB cheaper, higher max regret: pp extra regret per % saved",6.006494588481732
+B,cost_weighted_TAB_vs,0,diagnostic_N128,SD-SRC14,SRC14,,,,,,,,,,,,,-2.600571283205322,-4.48,"TAB cheaper, higher max regret: pp extra regret per % saved",1.7226984043591367
+B,cost_weighted_TAB_vs,0,diagnostic_N128,SD-12MO,MO12,,,,,,,,,,,,,-1.3714140942639563,0.6699999999999999,"TAB dominates (not dearer, not higher max regret)",
+B,cost_weighted_TAB_vs,0,diagnostic_N128,SD-S2,NARROW,,,,,,,,,,,,,-2.6463189334550163,0.2600000000000051,"TAB dominates (not dearer, not higher max regret)",
+B,break_even_prior_TAB_vs_NARROW,0,cheapest_qualified_a0.05,,,,,,,,,,,,not computable (candidate missing in TAB or NARROW),,,,,,
+B,max_regret,1,diagnostic_N128,SD-H0,TAB,25.589999999999996,SD-S2,0.6272,0.6272,4.914268764920915,False,,,,,,,,,,
+B,max_regret,1,diagnostic_N128,SD-SRC12,SRC12,20.839999999999996,SD-S2,0.6173,0.6753,5.210027205900003,False,,,,,,,,,,
+B,max_regret,1,diagnostic_N128,SD-SRC14,SRC14,9.399999999999997,SD-H0,0.4303,0.7212,7.082709686790056,True,,,,,,,,,,
+B,max_regret,1,diagnostic_N128,SD-12MO,MO12,15.849999999999998,SD-SRC14,0.4793,0.7325,5.2494865216065945,False,,,,,,,,,,
+B,max_regret,1,diagnostic_N128,SD-S2,NARROW,14.219999999999999,SD-H0,0.3017,0.7694,6.774778123297764,False,,,,,,,,,,
+B,break_even_prior_TAB_vs_NARROW,1,diagnostic_N128,,,,,,,,,23.089999999999993,14.219999999999999,0.6188689359421066,train on TAB iff P(TAB world) > pi_star,4.914268764920915,6.774778123297764,,,,
+B,cost_weighted_TAB_vs,1,diagnostic_N128,SD-SRC12,SRC12,,,,,,,,,,,,,-0.2957584409790881,-4.75,"TAB cheaper, higher max regret: pp extra regret per % saved",16.060403835898814
+B,cost_weighted_TAB_vs,1,diagnostic_N128,SD-SRC14,SRC14,,,,,,,,,,,,,-2.1684409218691414,-16.189999999999998,"TAB cheaper, higher max regret: pp extra regret per % saved",7.466193723204885
+B,cost_weighted_TAB_vs,1,diagnostic_N128,SD-12MO,MO12,,,,,,,,,,,,,-0.33521775668567955,-9.739999999999998,"TAB cheaper, higher max regret: pp extra regret per % saved",29.055740054763305
+B,cost_weighted_TAB_vs,1,diagnostic_N128,SD-S2,NARROW,,,,,,,,,,,,,-1.8605093583768495,-11.369999999999997,"TAB cheaper, higher max regret: pp extra regret per % saved",6.111229674178819
+B,break_even_prior_TAB_vs_NARROW,1,cheapest_qualified_a0.05,,,,,,,,,,,,not computable (candidate missing in TAB or NARROW),,,,,,
+B,max_regret,2,diagnostic_N128,SD-H0,TAB,9.260000000000002,SD-S2,0.6711,0.6711,5.6529603390027106,False,,,,,,,,,,
+B,max_regret,2,diagnostic_N128,SD-SRC12,SRC12,7.320000000000004,SD-S2,0.5692,0.6497,6.210542295736277,False,,,,,,,,,,
+B,max_regret,2,diagnostic_N128,SD-SRC14,SRC14,6.869999999999998,SD-H0,0.4557,0.7184,6.593196020281611,True,,,,,,,,,,
+B,max_regret,2,diagnostic_N128,SD-12MO,MO12,7.429999999999993,SD-SRC12,0.4621,0.7225,6.260534538255547,False,,,,,,,,,,
+B,max_regret,2,diagnostic_N128,SD-S2,NARROW,9.809999999999997,SD-H0,0.287,0.7478,7.173251061166308,False,,,,,,,,,,
+B,break_even_prior_TAB_vs_NARROW,2,diagnostic_N128,,,,,,,,,9.260000000000002,7.669999999999999,0.5469580626107502,train on TAB iff P(TAB world) > pi_star,5.6529603390027106,7.173251061166308,,,,
+B,cost_weighted_TAB_vs,2,diagnostic_N128,SD-SRC12,SRC12,,,,,,,,,,,,,-0.557581956733566,-1.9399999999999977,"TAB cheaper, higher max regret: pp extra regret per % saved",3.4793091429373564
+B,cost_weighted_TAB_vs,2,diagnostic_N128,SD-SRC14,SRC14,,,,,,,,,,,,,-0.9402356812789003,-2.3900000000000032,"TAB cheaper, higher max regret: pp extra regret per % saved",2.541915870230692
+B,cost_weighted_TAB_vs,2,diagnostic_N128,SD-12MO,MO12,,,,,,,,,,,,,-0.6075741992528361,-1.830000000000009,"TAB cheaper, higher max regret: pp extra regret per % saved",3.011977799996198
+B,cost_weighted_TAB_vs,2,diagnostic_N128,SD-S2,NARROW,,,,,,,,,,,,,-1.5202907221635975,0.5499999999999954,"TAB dominates (not dearer, not higher max regret)",
+B,break_even_prior_TAB_vs_NARROW,2,cheapest_qualified_a0.05,,,,,,,,,,,,not computable (candidate missing in TAB or NARROW),,,,,,
+C,max_regret,0,diagnostic_N128,SD-H0,TAB,3.3100000000000005,SD-SRC14,0.1568,0.1568,20.467362949122435,True,,,,,,,,,,
+C,max_regret,0,diagnostic_N128,SD-SRC12,SRC12,3.8099999999999996,SD-H0,0.083,0.1949,23.367068950462322,False,,,,,,,,,,
+C,max_regret,0,diagnostic_N128,SD-SRC14,SRC14,3.420000000000001,SD-H0,0.054,0.191,17.278489742897275,False,,,,,,,,,,
+C,max_regret,0,diagnostic_N128,SD-12MO,MO12,33.589999999999996,SD-SRC12,0.0212,0.4331,13.75836977704008,False,,,,,,,,,,
+C,max_regret,0,diagnostic_N128,SD-S2,NARROW,32.720000000000006,SD-SRC14,0.0519,0.4432,12.285562010107508,False,,,,,,,,,,
+C,break_even_prior_TAB_vs_NARROW,0,diagnostic_N128,,,,,,,,,-5.15,28.64,0.0,TAB-trained is never worse (dominates),20.467362949122435,12.285562010107508,,,,
+C,cost_weighted_TAB_vs,0,diagnostic_N128,SD-SRC12,SRC12,,,,,,,,,,,,,-2.8997060013398865,0.4999999999999991,"TAB dominates (not dearer, not higher max regret)",
+C,cost_weighted_TAB_vs,0,diagnostic_N128,SD-SRC14,SRC14,,,,,,,,,,,,,3.1888732062251606,0.11000000000000032,"TAB dearer, lower max regret: pp avoided per % extra cost",0.034494943162137574
+C,cost_weighted_TAB_vs,0,diagnostic_N128,SD-12MO,MO12,,,,,,,,,,,,,6.708993172082355,30.279999999999994,"TAB dearer, lower max regret: pp avoided per % extra cost",4.513344882508147
+C,cost_weighted_TAB_vs,0,diagnostic_N128,SD-S2,NARROW,,,,,,,,,,,,,8.181800939014927,29.410000000000004,"TAB dearer, lower max regret: pp avoided per % extra cost",3.594563130931038
+C,max_regret,0,cheapest_qualified_a0.05,SD-SRC12,SRC12,0.0,SD-H0,0.0254,0.1197,23.291695678558067,True,,,,,,,,,,
+C,max_regret,0,cheapest_qualified_a0.05,SD-SRC14,SRC14,8.93,SD-H0,0.0318,0.209,17.009109229881545,False,,,,,,,,,,
+C,max_regret,0,cheapest_qualified_a0.05,SD-12MO,MO12,39.269999999999996,SD-SRC14,0.0321,0.416,10.578549748518572,False,,,,,,,,,,
+C,max_regret,0,cheapest_qualified_a0.05,SD-S2,NARROW,33.48,SD-SRC14,0.0318,0.3645,10.434213782246605,False,,,,,,,,,,
+C,break_even_prior_TAB_vs_NARROW,0,cheapest_qualified_a0.05,,,,,,,,,,,,not computable (candidate missing in TAB or NARROW),,,,,,
+C,max_regret,1,diagnostic_N128,SD-H0,TAB,0.63,SD-SRC14,0.1142,0.1142,20.297920365842394,True,,,,,,,,,,
+C,max_regret,1,diagnostic_N128,SD-SRC12,SRC12,6.25,SD-H0,0.0579,0.1767,20.145832786837058,False,,,,,,,,,,
+C,max_regret,1,diagnostic_N128,SD-SRC14,SRC14,4.150000000000001,SD-H0,0.0305,0.1557,17.644485975712755,False,,,,,,,,,,
+C,max_regret,1,diagnostic_N128,SD-12MO,MO12,44.34,SD-SRC14,0.0368,0.4839,10.939099148627784,False,,,,,,,,,,
+C,max_regret,1,diagnostic_N128,SD-S2,NARROW,42.370000000000005,SD-SRC12,0.0403,0.4964,10.856486748641569,False,,,,,,,,,,
+C,break_even_prior_TAB_vs_NARROW,1,diagnostic_N128,,,,,,,,,-4.03,38.22,0.0,TAB-trained is never worse (dominates),20.297920365842394,10.856486748641569,,,,
+C,cost_weighted_TAB_vs,1,diagnostic_N128,SD-SRC12,SRC12,,,,,,,,,,,,,0.15208757900533598,5.62,"TAB dearer, lower max regret: pp avoided per % extra cost",36.95239306691063
+C,cost_weighted_TAB_vs,1,diagnostic_N128,SD-SRC14,SRC14,,,,,,,,,,,,,2.6534343901296396,3.5200000000000014,"TAB dearer, lower max regret: pp avoided per % extra cost",1.3265826406312702
+C,cost_weighted_TAB_vs,1,diagnostic_N128,SD-12MO,MO12,,,,,,,,,,,,,9.35882121721461,43.71,"TAB dearer, lower max regret: pp avoided per % extra cost",4.6704599848108925
+C,cost_weighted_TAB_vs,1,diagnostic_N128,SD-S2,NARROW,,,,,,,,,,,,,9.441433617200826,41.74,"TAB dearer, lower max regret: pp avoided per % extra cost",4.420938778191079
+C,max_regret,1,cheapest_qualified_a0.05,SD-SRC12,SRC12,0.0,SD-H0,0.024,0.1293,21.683223091800286,True,,,,,,,,,,
+C,max_regret,1,cheapest_qualified_a0.05,SD-SRC14,SRC14,2.0100000000000007,SD-H0,0.0223,0.1494,17.028151754153043,False,,,,,,,,,,
+C,max_regret,1,cheapest_qualified_a0.05,SD-12MO,MO12,42.29,SD-SRC14,0.0262,0.4378,10.909815649592037,False,,,,,,,,,,
+C,max_regret,1,cheapest_qualified_a0.05,SD-S2,NARROW,38.32,SD-SRC14,0.0221,0.399,10.711563833955928,False,,,,,,,,,,
+C,break_even_prior_TAB_vs_NARROW,1,cheapest_qualified_a0.05,,,,,,,,,,,,not computable (candidate missing in TAB or NARROW),,,,,,
+C,max_regret,2,diagnostic_N128,SD-H0,TAB,4.66,SD-SRC14,0.1301,0.1301,20.034703878493442,False,,,,,,,,,,
+C,max_regret,2,diagnostic_N128,SD-SRC12,SRC12,0.11000000000000176,SD-H0,0.0315,0.1312,24.631207933750243,True,,,,,,,,,,
+C,max_regret,2,diagnostic_N128,SD-SRC14,SRC14,8.730000000000002,SD-H0,0.021,0.2174,20.507968942380316,False,,,,,,,,,,
+C,max_regret,2,diagnostic_N128,SD-12MO,MO12,32.989999999999995,SD-SRC14,0.0185,0.3747,12.087660174709725,False,,,,,,,,,,
+C,max_regret,2,diagnostic_N128,SD-S2,NARROW,34.459999999999994,SD-SRC14,0.0196,0.3861,11.286415888623003,False,,,,,,,,,,
+C,break_even_prior_TAB_vs_NARROW,2,diagnostic_N128,,,,,,,,,-1.94,25.6,0.0,TAB-trained is never worse (dominates),20.034703878493442,11.286415888623003,,,,
+C,cost_weighted_TAB_vs,2,diagnostic_N128,SD-SRC12,SRC12,,,,,,,,,,,,,-4.596504055256801,-4.549999999999998,"TAB cheaper, higher max regret: pp extra regret per % saved",0.9898827337694571
+C,cost_weighted_TAB_vs,2,diagnostic_N128,SD-SRC14,SRC14,,,,,,,,,,,,,-0.47326506388687406,4.070000000000002,"TAB dominates (not dearer, not higher max regret)",
+C,cost_weighted_TAB_vs,2,diagnostic_N128,SD-12MO,MO12,,,,,,,,,,,,,7.9470437037837165,28.329999999999995,"TAB dearer, lower max regret: pp avoided per % extra cost",3.5648476409550414
+C,cost_weighted_TAB_vs,2,diagnostic_N128,SD-S2,NARROW,,,,,,,,,,,,,8.74828798987044,29.799999999999994,"TAB dearer, lower max regret: pp avoided per % extra cost",3.406380772387138
+C,max_regret,2,cheapest_qualified_a0.05,SD-SRC12,SRC12,0.0,SD-H0,0.0153,0.1046,22.770578736396253,True,,,,,,,,,,
+C,max_regret,2,cheapest_qualified_a0.05,SD-SRC14,SRC14,8.5,SD-H0,0.0197,0.1896,16.97563119720136,False,,,,,,,,,,
+C,max_regret,2,cheapest_qualified_a0.05,SD-12MO,MO12,41.54,SD-SRC14,0.033,0.4309,10.677797166834345,False,,,,,,,,,,
+C,max_regret,2,cheapest_qualified_a0.05,SD-S2,NARROW,37.82,SD-SRC14,0.027,0.404,10.449163150355535,False,,,,,,,,,,
+C,break_even_prior_TAB_vs_NARROW,2,cheapest_qualified_a0.05,,,,,,,,,,,,not computable (candidate missing in TAB or NARROW),,,,,,

@@ -1,0 +1,158 @@
+{
+  "status": "PRIVATE_CANDIDATE_NOT_EXTERNALLY_RELEASED",
+  "files": 30,
+  "entries": [
+    {
+      "path": "CORE_DEPENDENCY.json",
+      "bytes": 496,
+      "sha256": "015dad701d0505e53e3920dc1b64d1ba360e0ed9f7f854e61ba61c6908b164f2"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1810,
+      "sha256": "447aa94095c698eeb587245d88310cb8d8502fe00cebed7bc9786086a84fdc42"
+    },
+    {
+      "path": "descriptive/README.md",
+      "bytes": 5881,
+      "sha256": "1e99626cbf13a43fb848e92bd67f2cb430e1bd5d5819e566519a5653a82429c9"
+    },
+    {
+      "path": "descriptive/check_mathematical_examples.py",
+      "bytes": 1695,
+      "sha256": "2b9795fc1690404c084c7f59be867b1809e136842f4d26ec8cb3618a1c210496"
+    },
+    {
+      "path": "descriptive/comparison_inputs/normalized_severity.csv",
+      "bytes": 292996,
+      "sha256": "3cc5996f272da838e7c0a46355d02ab865c12248e8f3e6e10f12458405883ed5"
+    },
+    {
+      "path": "descriptive/comparison_inputs/top5_is_rescaled_mean_864.csv",
+      "bytes": 124300,
+      "sha256": "4febd4862ba1bcadb571d1b567e2d5744e1c2522620c2b08a04d23596fc6c20c"
+    },
+    {
+      "path": "descriptive/expected_safe_results/NEL_frequency_conditional_severity_96.csv",
+      "bytes": 33469,
+      "sha256": "0194724191488d66721a694dd019adc7bc5c07d88775a0b23d62a1c71706b6cf"
+    },
+    {
+      "path": "descriptive/expected_safe_results/common_defined_comparisons_42.csv",
+      "bytes": 7083,
+      "sha256": "1a9290593d6344ada7383f7b3c9a7270006ee9b3be36c1539408b086c9b0d6b2"
+    },
+    {
+      "path": "descriptive/expected_safe_results/compression_full_information_decomposition_6.csv",
+      "bytes": 597,
+      "sha256": "11ec5e8af9afba252e650ddf1aa55fc6e42d9827ba952ad9a6a38d52dbef9717"
+    },
+    {
+      "path": "descriptive/expected_safe_results/fullQ2_vs_Q3_energy_frequency_and_severity_36.csv",
+      "bytes": 20773,
+      "sha256": "422fe4e85fdd7200cddc47d1a33841f05f8af7f9f46614e1d5dae11b77468c22"
+    },
+    {
+      "path": "descriptive/expected_safe_results/high_noise_energy_frequency_and_conditional_severity_6.csv",
+      "bytes": 4402,
+      "sha256": "4e3fc2a7a25c7b0a21a756fb2615c17022723dec1c0c634ca280f433b4e132ae"
+    },
+    {
+      "path": "descriptive/expected_safe_results/top5_identity_and_occurrence_864.csv",
+      "bytes": 228041,
+      "sha256": "a9e3caaa925865ac89469ef1e28a2493a3cafb6b30aa282a7a9735c01f350ea1"
+    },
+    {
+      "path": "descriptive/mathematical_identity_checks_v2.json",
+      "bytes": 1961,
+      "sha256": "6145564cdbcb0fc00623205257a5b4c03d3381807fb4709c5dc959f61f81944d"
+    },
+    {
+      "path": "descriptive/mathematical_interpretation.md",
+      "bytes": 6528,
+      "sha256": "5305d45a696b2b46427f2ebeef768ffff7ecfa159f438e22761bfea6ddec4e44"
+    },
+    {
+      "path": "descriptive/reanalyse_saved_descriptive.py",
+      "bytes": 13632,
+      "sha256": "58974e63d8dc9290c27e1b8dcb9dbec5b3099b5d8a14f0864a41f1c82cc7d64d"
+    },
+    {
+      "path": "qualification/combined_addon_binding.json",
+      "bytes": 3472,
+      "sha256": "cded91e40ccc3906b73980b11e75ac105409fd54bd1fd09e2c296bf492aeffca"
+    },
+    {
+      "path": "qualification/descriptive_relocated_receipt.json",
+      "bytes": 43840,
+      "sha256": "6c6fafaa872afad0fb07b18f3d657de78f1646d697c03e1afae150868680eaf8"
+    },
+    {
+      "path": "qualification/sensitivity_portable_qualification.json",
+      "bytes": 2030,
+      "sha256": "1d0825055c76bc6d2a930c8f76d050f30e87f91e8287aadc35bd289611be35b7"
+    },
+    {
+      "path": "qualification/sensitivity_runtime_paths.json",
+      "bytes": 45926,
+      "sha256": "7967065916f01f4d5180b8c71a7e133fa6464104b5594b0be3932c12a419a72e"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 41,
+      "sha256": "25dd45bc060fe6e5b42e4bfe6c36fefafda148fd3bff477956a217a24b59db26"
+    },
+    {
+      "path": "sensitivity/README.md",
+      "bytes": 2698,
+      "sha256": "1422a31b3b6c5835b8294f275d162c0bbde38e2fd94538676619bfe329b9d139"
+    },
+    {
+      "path": "sensitivity/bound_inputs_frozen.json",
+      "bytes": 126106,
+      "sha256": "634193881d7c69e5025b2a55d80d05546d10701e170fe6703bab54d94b4b3452"
+    },
+    {
+      "path": "sensitivity/expected_safe_results/final_fMCP_descriptive_pairs_360.csv",
+      "bytes": 98019,
+      "sha256": "6e85b2ed8771172d73afc9bdd56ee30f0bc83b420329d23649aa984da50a1f70"
+    },
+    {
+      "path": "sensitivity/expected_safe_results/final_fMCP_descriptive_ranges.csv",
+      "bytes": 39603,
+      "sha256": "4aba961a43962c92ae5603d7425e3317100d9fb188f4c61c70435159ad8a9d49"
+    },
+    {
+      "path": "sensitivity/expected_safe_results/final_fMCP_pair_directions.csv",
+      "bytes": 6318,
+      "sha256": "654259c8b67883b355549c9344184122e0af8d624e290f83caf1be66da5c9f5c"
+    },
+    {
+      "path": "sensitivity/expected_safe_results/final_fMCP_sensitivity_480.csv",
+      "bytes": 208176,
+      "sha256": "6fe22cde7aecfb7cf9e4daa39ec7669775cc5d946abb3630ae1a89371a4bf9bb"
+    },
+    {
+      "path": "sensitivity/freeze_receipt_v2.json",
+      "bytes": 281,
+      "sha256": "c1afd2e17b1d5b269e7f344fd68e8a34dd1eda4357cc281df2975f4796570dd4"
+    },
+    {
+      "path": "sensitivity/protocol_v2.json",
+      "bytes": 4203,
+      "sha256": "477b0375c74fca82e7ca0db75d38bb66385eb9a1943e7a663261a3ed09621c27"
+    },
+    {
+      "path": "sensitivity/reproduce_final_fmcp_sensitivity.py",
+      "bytes": 15707,
+      "sha256": "95364065f2670b9ba1c2eb40e2dbff2c5592166f1283a721e23d3b80364c6908"
+    },
+    {
+      "path": "sensitivity/requirements.txt",
+      "bytes": 41,
+      "sha256": "25dd45bc060fe6e5b42e4bfe6c36fefafda148fd3bff477956a217a24b59db26"
+    }
+  ],
+  "exclusions": [],
+  "manifest_self_excluded": true
+}

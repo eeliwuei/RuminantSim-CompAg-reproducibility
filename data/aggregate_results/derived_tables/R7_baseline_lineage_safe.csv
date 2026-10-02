@@ -1,0 +1,7 @@
+case_id,training_rep_id,actual_parent_protocol,actual_parent_policy,menu_id,n_actions,n_original_Q0,n_new_actions,Q0_relation,parent_equals_Q0,parent_equals_round2_menu,old_subset_new,n_legal_old,n_new_only,saved_states,old_legalold_actions_equal,old_legalold_all_outcome_arrays_equal
+R0,r0,RRS-ATTRIBUTION-20261002-V1,Q3_delta,RRS-ATTRIBUTION-20261002-V1:R0:C0:r0:Q3,6,8,14,intersection=4; Q0_only=4; parent_only=2,False,False,True,6,8,20000,True,True
+R0,r1,RRS-ATTRIBUTION-20261002-V1,Q3_delta,RRS-ATTRIBUTION-20261002-V1:R0:C0:r1:Q3,8,8,12,intersection=4; Q0_only=4; parent_only=4,False,False,True,8,4,20000,True,True
+R0,r2,RRS-ATTRIBUTION-20261002-V1,Q3_delta,RRS-ATTRIBUTION-20261002-V1:R0:C0:r2:Q3,9,8,15,intersection=4; Q0_only=4; parent_only=5,False,False,True,9,6,20000,True,True
+B,r0,RRS-ATTRIBUTION-20261002-V1,Q3_delta,RRS-ATTRIBUTION-20261002-V1:B:C0:r0:Q3,5,1,13,intersection=1; Q0_only=0; parent_only=4,False,True,True,5,8,20000,True,True
+B,r1,RRS-ATTRIBUTION-20261002-V1,Q3_delta,RRS-ATTRIBUTION-20261002-V1:B:C0:r1:Q3,5,1,13,intersection=1; Q0_only=0; parent_only=4,False,True,True,5,8,20000,True,True
+B,r2,RRS-ATTRIBUTION-20261002-V1,Q3_delta,RRS-ATTRIBUTION-20261002-V1:B:C0:r2:Q3,5,1,13,intersection=1; Q0_only=0; parent_only=4,False,True,True,5,8,20000,True,True

@@ -1,0 +1,65 @@
+{
+  "id": "RRS-R72-FINAL-FMCP-POSTHOC-20261002-V2",
+  "defined_utc": "2026-10-02T14:45:47.172918+00:00",
+  "design": "Post-hoc sensitivity execution plan frozen after R7.1 results and scientific-content review; not prospective experiment registration",
+  "source_original_sensitivity_protocol_sha256": "c49b398a65d9ce84a0ea30daa0e67e0afe34df6246665c7a18d647f20e73e8dd",
+  "core_manifest_sha256": "65527b679a2158123b95f7f74b0ce983be29bd3f20d3255c54ce7a970e632571",
+  "levels": {
+    "base_g_per_kg_DMI": 16.5,
+    "multipliers": [
+      0.8,
+      0.9,
+      1.0,
+      1.1,
+      1.2
+    ],
+    "interpretation": "same previously used hypothetical fixed-fMCP levels; not measured range, calibrated microbial distribution, external demonstration offsets or complete-NASEM sensitivity"
+  },
+  "population": "All 96 latest coverage/measurement policy-cell records; coverage18 cells x2 rules, measurement6 cells x10 rules; 20000 original saved states per record",
+  "invariants": [
+    "fixed saved actions",
+    "fixed saved states",
+    "fixed original target quantities",
+    "fixed original tolerances",
+    "fixed all other row and domain definitions",
+    "fixed original unknown masks",
+    "no draw, retrain, reseed, selection or original-file write"
+  ],
+  "transformation": "NEL_margin(m) = saved_margin - 0.00218724 * saved_actual_supplied_DM * 16.5 * (m - 1); mathematically equivalent expression uses (16.5*m - 16.5) for inherited numerical implementation",
+  "nonenergy_proof": "fMCP enters DE and urinary energy affinely; no fMCP argument in nonenergy/domain/support predicates; positive finite hypothetical levels cannot change structural undefined causes",
+  "risk": "known_violation OR unknown; event unknown excludes known violations",
+  "rates_error_family": {
+    "alpha_total": 0.05,
+    "budget_claims": 10000,
+    "planned_upper_bounds": 480,
+    "per_upper_alpha": 5e-06,
+    "method": "One-sided exact Clopper-Pearson upper used only as post-hoc diagnostic; separately declared family with old numerical budget, not fresh validation/certification, measured robustness or original experiment certification",
+    "thresholds": [
+      0.01,
+      0.02,
+      0.05,
+      0.1,
+      0.2
+    ],
+    "classification": "same thresholds applied to each new-family upper; baseline original upper also retained and identity checked"
+  },
+  "pair_error_family": {
+    "method": "Descriptive paired counts and empirical difference only; no new paired interval, significance classification or confidence family"
+  },
+  "pairs": "18 coverage fullQ2 vsQ3; each of6measurement cells: Q2ideal vsQ3ideal and at each .1/.5 noise Q3UA vsraw, Q3UA vsmean, Q3mean vsraw, Q2UA vsQ3UA; five levels, no cross-cell or cross-protocol pairs",
+  "severity_metrics": [
+    "NEL positive-deficit occurrence among defined and classified energy violation among total",
+    "normalized mean among defined zero-inclusive",
+    "normalized mean and P95 among original-tolerance classified violations",
+    "normalized max",
+    "zero-inclusive P95 and largest ceil5pct mean with rescaled-mean identity diagnostic",
+    "unknown row count and event unknown count separately"
+  ],
+  "validation": "All96 baseline exact saved labels and aggregate risk upper match; canonical evaluate_reference spot validation at all5levels on deterministic33even indices plus10nearest-to-energy-threshold perlevel plus all energy undefined states plus actualDM extrema (union perpolicy); compare energy margins, energy defined/violated and event masks; original input SHA before and after; all labels within1e-10 of energy threshold covered by validation; no sampling",
+  "outputs": "safe normalized aggregateCSV; private margin/error/hash validation; portable standalone script referencing unmodified extracted R7core; no private exact animal, recipe or target magnitudes in safe tables",
+  "revision_before_computation": {
+    "timestamp_utc": "2026-10-02T14:46:27.599064+00:00",
+    "reason": "Root clarified inferential scope: diagnostic CP upper bounds only, all pairs descriptive; no new certificate or significance claim",
+    "previous_protocol_sha256": "4ca44b330b017e15bb1ac5c220ee1030fc1d35b288feedb2e4177145c6f7d188"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "core_archive": "R7_核心结果受控审稿候选_未外发.zip",
+  "core_archive_bytes": 1833433288,
+  "core_archive_sha256": "e803ec2243c584b6ecde2637f18c10b92bdefa9ec6593c15e0e23de4ab5e3ac4",
+  "core_input_manifest_sha256": "65527b679a2158123b95f7f74b0ce983be29bd3f20d3255c54ce7a970e632571",
+  "core_scientific_arrays_and_protocols_changed": false,
+  "external_release": false,
+  "actual_external_download_location": null,
+  "source_specific_distribution_permission_established": false
+}

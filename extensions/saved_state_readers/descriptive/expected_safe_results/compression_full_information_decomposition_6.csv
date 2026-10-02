@@ -1,0 +1,7 @@
+case,training_rep_id,n_total,Q2_actions,Q3_actions,Q2_total_failures,Q3_total_failures,Q3_minus_Q2_total_failures,Q2_full_information_all_fail,Q3_full_information_all_fail,Q3_minus_Q2_full_information_all_fail,Q2_oracle_excess_failures,Q3_oracle_excess_failures,Q3_minus_Q2_oracle_excess_failures
+A,0,20000,599,24,426,499,73,217,296,79,209,203,-6
+A,1,20000,599,21,390,473,83,193,278,85,197,195,-2
+A,2,20000,599,18,408,541,133,196,287,91,212,254,42
+C,0,20000,978,13,133,218,85,73,136,63,60,82,22
+C,1,20000,978,15,159,284,125,68,145,77,91,139,48
+C,2,20000,978,11,140,225,85,59,135,76,81,90,9

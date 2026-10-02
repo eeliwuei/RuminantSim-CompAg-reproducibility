@@ -1,0 +1,380 @@
+# 参考动物画像（第一篇唯一画像）——未冻结草案
+# 生成：P2a_profile_requirements 子任务，2026-09-24
+# 状态用语按合同 §2.3：本文件 = implemented（已起草），不是 protocol_frozen。
+# 规则：每个字段写 source（NASEM 2021 印刷页码/方程号/表号），或显式标 research_scenario_assumption /
+#       pending_user_decision 并写理由。没有来源的数值一律 null。
+# 版权说明：本文件只含 NASEM 2021 的少量引用数值（示例牛输入、方程系数），逐项标页码，用于核验。
+#           Table 19-1/19-3 成分数值未写入本文件。对外公开前按 BLOCKERS/P0-7 核对许可。
+# 手算过程与核验表：reports/model_audit.md（§2–§8）。
+
+schema_version: "0.1-draft"
+profile_id: "HOL_MULTI_DIM200_NASEM21T21_v0"
+created_on: "2026-09-24"
+created_by: "P2a_profile_requirements (subagent)"
+stage_status: "implemented"        # 合同 §2.3 枚举；仅表示文件已起草
+frozen: false
+primary_profile_count: 1           # 合同 T6 / 专家意见第四节：第一篇只一个画像
+
+# ---------------------------------------------------------------------------
+# 营养体系与页码约定
+# ---------------------------------------------------------------------------
+nutrition_standard:
+  name: "NASEM 2021, Nutrient Requirements of Dairy Cattle, 8th revised edition"
+  doi: "10.17226/25806"
+  local_pdf: "data/restricted_local/nasem_dairy_2021_ncbi_bookshelf.pdf"
+  local_pdf_sha256: "e03e9415807b5e5f623cc84b54ab772b82f474d0dd874a7020a930154a95d49e"
+  license_note: "Copyright 2021 NAS, All rights reserved；仅限本地研究只读"
+  page_convention: >-
+    locator 一律写印刷页码 p.N。本地 PDF 页 = 印刷页 + 20。已抽查 p.12→PDF32、p.30→PDF50、
+    p.63→PDF83、p.106→PDF126、p.113→PDF133、p.423→PDF443、p.455→PDF475、p.471→PDF491。
+  model_version_for_B_layer:
+    package: "nasem_dairy"
+    version: "1.0.2"
+    installed: false
+    status: "pending_user_decision"
+    reason: "安装需用户批准（数据可行性审计 §10 P1-7）；本画像的 NEL/MP 不在此计算"
+
+# ---------------------------------------------------------------------------
+# 画像来源基准
+# ---------------------------------------------------------------------------
+provenance_base:
+  primary_example: >-
+    NASEM 2021 Table 21-1（p.471）"Lactating Cows by Parity ... Mature (700 kg)" 的 DIM 200 列，
+    以及同一头牛在 Table 21-3（p.473）中的乳蛋白 ⟨withheld⟩%。
+  why_this_example: >-
+    (1) 书中自带的示例牛，除 BCS 外输入都有出处；(2) DIM 200 已过泌乳高峰，属于稳定泌乳；
+    妊娠 ⟨withheld⟩ d（<190 d），按第 7 章规则 Ca、P 妊娠项为 0，不引入晚孕需要；
+    (3) 同列给出 DMI、Ca%、P%、CP% 等，可作外部对照锚点。
+  alternatives_considered:
+    - option: "Table 21-1 Mature DIM 100 列（产奶 ⟨withheld⟩ kg，乳脂 ⟨withheld⟩%，乳蛋白 ⟨withheld⟩%（T21-3），妊娠 ⟨withheld⟩ d）"
+      note: "产奶量高、接近高峰采食期；按 NY/T 草案分期属泌乳前期末（22–100 d）"
+    - option: "按中国牧场水平另设画像"
+      note: "没有带出处的完整输入，现阶段不设；需用户决定地域基准（审计 §11.2 第 1 条）"
+  selection_status: "pending_user_decision"   # 推荐默认值，待用户确认
+  selection_reason: "画像选择影响全部需要量；合同要求画像字段有出处或由用户确认"
+
+claim_scope:
+  requirement_semantics: >-
+    NASEM 的“requirement”相当于 EAR（群体平均需要），委员会不给 RDA 式安全系数（p.5）。
+    本研究的“可靠性”只针对原料成分不确定性，不包括牛与牛之间的需要量差异。
+  not_claimed:
+    - "完整营养充足性（NEL、MP/AA、微量元素、维生素不在 A 层）"
+    - "产奶量、健康、繁殖等动物效果"
+    - "设定产奶量不是优化后的预测值"
+
+# ---------------------------------------------------------------------------
+# 画像字段
+# status 取值：sourced_nasem_example | sourced_nasem_default | sourced_nasem_text |
+#              derived_by_equation | research_scenario_assumption | pending_user_decision
+# ---------------------------------------------------------------------------
+fields:
+
+  species:
+    value: "dairy_cattle"
+    status: "sourced_nasem_text"
+    source: "合同 §6、专家意见第四节（稳定泌乳奶牛）"
+
+  breed:
+    value: "Holstein"
+    status: "sourced_nasem_example"
+    source:
+      - "Table 21-1 标题 'Holstein Cattle'（p.471）"
+      - "Eq 2-1 只用荷斯坦数据建立，最适用于荷斯坦（p.13）"
+    model_input: {nasem_name: "An_Breed", value: "Holstein", locator: "p.415 输入项 1"}
+
+  physiological_state:
+    value: "Lactating Cow"
+    status: "sourced_nasem_text"
+    source: "p.415 输入项 2（An_StatePhys）"
+
+  parity:
+    value: "multiparous"
+    status: "sourced_nasem_example"
+    source: "Table 21-1 'Mature (700 kg)' 列（p.471）；合同要求多胎"
+    eq2_1_parity_indicator:
+      value: 1
+      source: "Eq 2-1 的 parity 取 0（全部头胎）到 1（全部经产）（p.12）"
+    nasem_model_An_Parity:
+      value: 2
+      source: "p.415 输入项 9（1=头胎，2=经产）；Eq 20-21 用 (An_Parity − 1)（p.423）"
+
+  days_in_milk:
+    value: null
+    unit: "d"
+    status: "sourced_nasem_example"
+    source: "Table 21-1 Mature 列 Days-in-Milk = 200（p.471）"
+    decision_status: "pending_user_decision"
+    notes: >-
+      NY/T《奶牛营养需要量》2025 征求意见稿表 6 把 101–200 d 定为泌乳中期（PDF 第 13–14 页），
+      DIM 200 在该期上边界。Eq 2-1 的 DIM 校正项在 200 d 时为 0.99999（见 model_audit §3）。
+
+  body_weight_kg:
+    value: null
+    unit: "kg"
+    status: "sourced_nasem_example"
+    source: "Table 21-1 'Mature (700 kg)'（p.471）"
+
+  mature_body_weight_kg:
+    value: 700
+    unit: "kg"
+    status: "sourced_nasem_text"
+    source: "现代荷斯坦 MatBW 约 700 kg（p.32，引 Tempelman et al. 2015）"
+    used_in: "Ca、P 生长项的 (MatBW/BW)^0.22 缩放（Eq 7-2、7-6；Eq 20-374、20-387）；本画像比值 = 1"
+
+  body_condition_score:
+    value: 3.0
+    unit: "1–5 scale"
+    status: "research_scenario_assumption"
+    rationale: >-
+      Table 21-1 没有列 BCS。取 3.0 的依据：Eq 2-1 建模数据的 BCS 均值 3.03 ± 0.459（p.12）；
+      NASEM 模型把空腹体重标准化到 BCS 3.0（Eq 20-245/20-246，p.444）。
+    sensitivity: >-
+      Eq 2-1 对经产牛的 BCS 斜率为 −2.559 kg/d 每单位 BCS（见 model_audit §3.4）。
+      若要让 Eq 2-1 复现 Table 21-1 的 DMI ⟨withheld⟩，需 BCS≈⟨withheld⟩；按 Eq 20-21 字面写法则需 BCS≈⟨withheld⟩。
+      Table 21-1 实际用的 BCS 未知。
+
+  milk_yield_kg_d:
+    value: null
+    unit: "kg/d"
+    status: "sourced_nasem_example"
+    source: "Table 21-1 Mature DIM 200 'Milk, kg' = ⟨withheld⟩（p.471）"
+    role: "fixed_scenario_input"
+    notes: >-
+      设定产奶量是情景输入（相当于 NASEM 的 Trg_MilkProd，mProd_eqn=0，p.415 输入项 23/27），
+      不是优化结果，也不是模型预测；任何配方都不据此宣称产奶效果。
+
+  milk_fat_pct:
+    value: null
+    unit: "% of milk"
+    status: "sourced_nasem_example"
+    source: "Table 21-1 Mature DIM 200 'Fat %'（p.471）"
+
+  milk_true_protein_pct:
+    value: null
+    unit: "% of milk"
+    status: "sourced_nasem_example"
+    source:
+      - "Table 21-3 Mature DIM 200 'Milk protein, %' = ⟨withheld⟩；同表乳蛋白产量 ⟨withheld⟩ g/d = ⟨withheld⟩ × ⟨withheld⟩%（p.473）"
+      - "Table 21-1 同列印为 ⟨withheld⟩（四舍五入值，p.471）"
+    basis_note: >-
+      按真蛋白处理：NASEM 模型的乳蛋白输入是真蛋白（Trg_MilkTPp，p.415 输入项 25），
+      但 Table 21-3 表头只写 'Milk protein'。这一点是解读，不是原文明示。
+    sensitivity: "若用 ⟨withheld⟩：MilkE ⟨withheld⟩ Mcal/d（DMI ⟨withheld⟩ kg/d），Ca 泌乳项 ⟨withheld⟩ g/d，P 泌乳项 ⟨withheld⟩ g/d（见 model_audit §8 注）"
+
+  milk_lactose_pct:
+    value: 4.85
+    unit: "% of milk"
+    status: "sourced_nasem_default"
+    source: "乳糖未测时取 0.0485 kg/kg（p.30，Eq 3-14 说明）"
+
+  pregnancy:
+    status_value: "pregnant"
+    days_pregnant:
+      value: null
+      unit: "d"
+      status: "sourced_nasem_example"
+      source: "Table 21-1 脚注 a：DIM 100、150、200 的妊娠天数分别设为 ⟨withheld⟩、⟨withheld⟩、⟨withheld⟩（p.471）"
+    gestation_length_d:
+      value: 280
+      status: "sourced_nasem_text"
+      source: "足月按 280 d 计，软件同样使用（p.31）"
+      used_in: "仅 B 层（能量/蛋白妊娠需要）"
+    calf_birth_weight_kg:
+      value: 44
+      status: "sourced_nasem_text"
+      source: "经产荷斯坦犊牛初生重平均 44 kg（p.31）"
+      used_in: "仅 B 层"
+    mineral_gestation_rule: >-
+      Ca：Eq 7-3 只适用于妊娠 190 d 以后（p.106–107）；P：妊娠 <190 d 时模型取 0（p.112）。
+      本画像 ⟨withheld⟩ d → Ca、P 妊娠项取 0。Eq 20-375/20-388 印刷式没有写出 190 d 条件（p.455），
+      nasem_dairy 是否设该条件待核（pending_user_decision：需安装批准后查代码）。
+
+  body_weight_change:
+    frame_gain_kg_d:
+      value: null
+      status: "sourced_nasem_example"
+      source: "Table 21-1 脚注 a：经产牛生长 ⟨withheld⟩ kg/d（p.471）"
+    reserves_gain_kg_d:
+      value: null
+      status: "sourced_nasem_example"
+      source: "Table 21-1 脚注 a：体储变化按组依次为 ⟨withheld⟩、⟨withheld⟩、⟨withheld⟩、⟨withheld⟩、⟨withheld⟩、⟨withheld⟩ kg/d；Mature DIM 200 为第 6 个值（p.471）"
+    An_BWgain_kg_d:
+      value: null
+      status: "derived_by_equation"
+      source: "An_BWgain = Frm_Gain + Rsrv_Gain（Eq 20-247，p.444）"
+    use_in_mineral_growth_terms:
+      value: null
+      status: "pending_user_decision"
+      options:
+        A: "按 NASEM 模型（Eq 20-374、20-387 以 An_BWgain 驱动）：⟨withheld⟩ kg/d → Ca ⟨withheld⟩ g/d，P ⟨withheld⟩ g/d"
+        B: "按第 7 章本意（生长项针对生长牛，Eq 7-2、7-6 用 ADG）：成年牛取 0"
+      recommended_default: "A（与固定版本模型、B 层评价器口径一致）"
+      principle_conflict_note: >-
+        2026-09-24 红队发现：本项“与软件一致”的理由，与 DMI 采用 Eq 2-1（与“软件很可能实现字面式 Eq 20-21”的证据相反，
+        model_audit §3.5）的取舍原则不一致。两项必须按同一原则定案（PUD-P2a-08）：
+        原则 SW（以 nasem_dairy 1.0.2 代码为准）→ 生长项 A + DMI 按代码（证据指向 Eq 20-21 字面式 ⟨withheld⟩）；
+        原则 TXT（以正文方程为准）→ 生长项 B（第 7 章生长项针对生长牛）+ DMI Eq 2-1（⟨withheld⟩）。
+        现行组合“A + Eq 2-1”只是开发起点（smoke 使用），不是推荐定案。
+      notes: "Table 21-1 脚注只说能量、蛋白按生长和体储调整，没有说矿物是否调整；两个选项的差异见 model_audit §4–§5"
+
+  activity_and_housing:
+    housing: "confinement, TMR, non-grazing"
+    status: "research_scenario_assumption"
+    rationale: >-
+      Eq 2-1 建模数据全部为舍饲、每日一次 TMR（p.12）；NASEM 的维持需要已包含非放牧牛的正常活动，
+      放牧时才另加活动量（p.5、p.30–31）。Table 5-1 的适用条件之一也是 TMR 饲喂（p.63）。
+    env_DistParlor_m:
+      value: null
+      status: "pending_user_decision"
+      notes: "只影响 B 层维持 NEL（Eq 20-275，p.447）；NASEM 认为舍饲时忽略步行成本误差很小（p.447）"
+    env_TripsParlor_per_d:
+      value: null
+      status: "pending_user_decision"
+      notes: "同上；挤奶次数未设定"
+    env_Topo_m_d:
+      value: null
+      status: "pending_user_decision"
+      notes: "只影响 B 层（Eq 20-276，p.447）"
+
+  environment:
+    thermal_state: "thermoneutral (no heat stress)"
+    status: "research_scenario_assumption"
+    rationale: >-
+      NASEM 奶牛维持需要不含热应激调整（p.31）；环境温度的维持成本只对 BW < 100 kg 的犊牛计算
+      （Eq 20-273，p.447）；热应激时按热中性建立的 DMI 方程会高估采食（p.31）。
+      因此本画像限定热中性，热应激不在第一篇范围（专家意见第四节）。
+    env_temperature_C:
+      value: null
+      status: "not_applicable"
+      notes: "NASEM 2021 对泌乳牛不使用该输入计算需要量（依据同上）"
+
+  age_days:
+    value: null
+    status: "pending_user_decision"
+    notes: "nasem_dairy 输入 An_AgeDay；A 层不用；B 层若需要再定"
+
+  herd_305d_milk_true_protein_kg:
+    value: null
+    status: "not_applicable"
+    notes: "只用于乳蛋白预测方程；本研究产奶量与乳成分是固定输入（p.415 输入项 5、28）"
+
+# ---------------------------------------------------------------------------
+# DMI：固定情景值（A 层）
+# ---------------------------------------------------------------------------
+dry_matter_intake:
+  value_ref: "withheld (public copy): Eq 2-1 (p.12) evaluated at the Table 21-1 (p.471) reference-cow inputs of configs/animal_profile.yaml fields.*; holder value in build_report.json"
+  equation: "NASEM 2021 Eq 2-1（仅动物因素，p.12）"
+  model_equivalent: "Eq 20-21（p.423）；印刷括号与 Eq 2-1 不一致，见 model_audit §3.3"
+  equation_form: >-
+    DMI = [3.7 + 5.7·Parity + 0.305·MilkE + 0.022·BW + (−0.689 − 1.87·Parity)·BCS]
+          × [1 − (0.212 + 0.136·Parity)·exp(−0.053·DIM)]
+  disambiguation_source: >-
+    p.13 写明 BCS 每升 1 单位，头胎、经产 DMI 分别降 0.70、2.6 kg/d，
+    与 (−0.689 − 1.87·Parity)·BCS 的写法一致（斜率 −0.689 / −2.559）。
+  inputs:
+    value_ref: "withheld (public copy): NASEM 2021 Table 21-1 (p.471) / Table 21-3 (p.473), reference-cow column 'Mature (700 kg)', DIM 200 -- read from a licensed copy; withheld (public copy): computed from the Table 21-1/21-3 (p.471-473) reference-cow inputs with the equations named in this block (Eq 2-1, Eq 3-13...3-20, Eq 7-1...7-8, Eq 20-373...20-389)"
+    Parity: 1
+    BW_kg: null
+    BCS: 3.0
+    DIM_d: null
+    MilkE_Mcal_d: null
+  milk_energy:
+    value_ref: "withheld (public copy): computed from the Table 21-1/21-3 (p.471-473) reference-cow inputs with the equations named in this block (Eq 2-1, Eq 3-13...3-20, Eq 7-1...7-8, Eq 20-373...20-389)"
+    equation: "Eq 3-14b（p.30）：NEL(Mcal/kg) = 9.29·脂肪 + 5.85·真蛋白 + 3.95·乳糖（均为 kg/kg）；模型式 Eq 20-218/20-221（p.441）"
+    NEL_milk_Mcal_per_kg: null
+    MilkE_Mcal_d: null
+  computed_value_kg_d: null
+  status: "derived_by_equation"
+  role: >-
+    固定情景 DMI：计划日粮总 DM 供给按此值设定，不随配方变化（数据可行性审计 §5.1）。
+    这是“供给”而非实测采食；假定全部采食、无剩料，对所有方法一致（合同 §6.3、C04）。
+  sensitivity_plus_minus_10pct_kg_d: [null, null]
+  reference_values_not_used:
+    - value: null
+      source: "Table 21-1 Mature DIM 200（p.471）"
+      note: "与本值差 ⟨withheld⟩%；用本画像输入无法复现，原因未定（model_audit §3.5）"
+    - value: null
+      source: "按 Eq 20-21 印刷括号字面计算（p.423）"
+      note: "与 p.13 的 BCS 斜率描述矛盾，但它是唯一能复现 Table 21-1 头胎两列的写法（model_audit §3.5）；暂不作开发起点，代码核对前与 Eq 2-1 并报（version_bundle_until_code_check，PUD-P2a-06/-08）"
+  version_bundle_until_code_check:
+    status: "pending_user_decision"
+    decision_ids: ["PUD-P2a-06", "PUD-P2a-08"]
+    rule: >-
+      nasem_dairy 代码核对（PUD-P2a-06）之前，DMI 与依赖 DMI 的量同时报告两个版本；取舍原则须与矿物生长项统一（PUD-P2a-08）。
+      不在两者之间凭“哪个结果更好看”挑选。
+    versions:
+      eq2_1:
+        value_ref: "withheld (public copy): computed from the Table 21-1/21-3 (p.471-473) reference-cow inputs with the equations named in this block (Eq 2-1, Eq 3-13...3-20, Eq 7-1...7-8, Eq 20-373...20-389)"
+        DMI_kg_d: null
+        Ca_abs_fixed_DMI_total_A_g_d: null
+        Ca_abs_fixed_DMI_total_B_g_d: null
+        P_abs_fixed_DMI_total_A_g_d: null
+        P_abs_fixed_DMI_total_B_g_d: null
+      eq20_21_literal:
+        value_ref: "withheld (public copy): computed from the Table 21-1/21-3 (p.471-473) reference-cow inputs with the equations named in this block (Eq 2-1, Eq 3-13...3-20, Eq 7-1...7-8, Eq 20-373...20-389)"
+        DMI_kg_d: null
+        Ca_abs_fixed_DMI_total_A_g_d: null
+        Ca_abs_fixed_DMI_total_B_g_d: null
+        P_abs_fixed_DMI_total_A_g_d: null
+        P_abs_fixed_DMI_total_B_g_d: null
+        derivation: "维持项 Ca 0.9·DMI、P 1.0·DMI + 0.0006·BW；泌乳、生长项与 absorbed_mineral_requirements_g_d 相同（本修复手算，2026-09-24）"
+    note_actual_D_option: "若 Ca/P 维持项按实际 DM 供给 D(q,θ)（PUD-P2a-05 的推荐），右端项 R_Ca = ⟨withheld⟩ / R_P = ⟨withheld⟩ 与 DMI 版本无关；DMI 版本只通过 SH-DM-PLAN 的计划 DM 供给进入"
+    evidence: "model_audit §3.4–§3.5：只有 Eq 20-21 字面式能复现 Table 21-1 头胎两列（⟨withheld⟩ 对 ⟨withheld⟩、⟨withheld⟩ 对 ⟨withheld⟩，与 BCS 无关）；按 Eq 2-1 需 BCS ⟨withheld⟩–⟨withheld⟩，生理上不合理；经产列字面式所需 BCS ⟨withheld⟩–⟨withheld⟩"
+  equation_index_note: >-
+    书中 DMI 方程编号自相矛盾：输入列表写 8 = 泌乳牛动物因素方程（p.416–417 输入项 31），
+    Eq 20-23 写 9 = Dt_DMIn_Lact1（p.423）。调用 nasem_dairy 时须按代码确认。
+
+# ---------------------------------------------------------------------------
+# 吸收 Ca、P 需要量（析因法）——手算值，详见 model_audit §4–§5
+# 选项 A = 生长项用 An_BWgain ⟨withheld⟩ kg/d；选项 B = 生长项取 0
+# ---------------------------------------------------------------------------
+absorbed_mineral_requirements_g_d:
+  value_ref: "withheld (public copy): Eq 2-1 (p.12) evaluated at the Table 21-1 (p.471) reference-cow inputs of configs/animal_profile.yaml fields.*; holder value in build_report.json"
+  status: "derived_by_equation"
+  DMI_used_kg_d: null
+  calcium:
+    value_ref: "withheld (public copy): computed from the Table 21-1/21-3 (p.471-473) reference-cow inputs with the equations named in this block (Eq 2-1, Eq 3-13...3-20, Eq 7-1...7-8, Eq 20-373...20-389)"
+    maintenance:  {value: null, equation: "Eq 7-1 / Eq 20-373: 0.9·DMI", locator: "p.106; p.454"}
+    lactation:    {value: null, equation: "Eq 7-4 / Eq 20-376: (0.295 + 0.239·TP%)·Milk", locator: "p.107; p.455", milk_Ca_g_per_kg: null}
+    growth_A:     {value: null, equation: "Eq 7-2 / Eq 20-374: 9.83·(MatBW/BW)^0.22·BWgain", locator: "p.106; p.455"}
+    growth_B:     {value: 0.0}
+    gestation:    {value: 0.0, rule: "只在妊娠 >190 d 计（p.106–107）", literal_eq_value_at_110d: null, value_ref: "withheld (public copy): computed from the Table 21-1/21-3 (p.471-473) reference-cow inputs with the equations named in this block (Eq 2-1, Eq 3-13...3-20, Eq 7-1...7-8, Eq 20-373...20-389)"}
+    total_A: null
+    total_B: null
+  phosphorus:
+    value_ref: "withheld (public copy): computed from the Table 21-1/21-3 (p.471-473) reference-cow inputs with the equations named in this block (Eq 2-1, Eq 3-13...3-20, Eq 7-1...7-8, Eq 20-373...20-389)"
+    maintenance:  {value: null, equation: "Eq 7-5b / Eq 20-384–20-386: 1.0·DMI + 0.0006·BW", locator: "p.112; p.455", fecal: null, urinary: null}
+    lactation:    {value: null, equation: "Eq 20-389: (0.48 + 0.13·TP%)·Milk", locator: "p.456", milk_P_g_per_kg: null}
+    lactation_alt_eq7_8b: {value: null, equation: "Eq 7-8b: (0.49 + 0.13·TP%)·Milk", locator: "p.113", note: "两处常数不一致，见 model_audit §5.2"}
+    growth_A:     {value: null, equation: "Eq 7-6 / Eq 20-387: (1.2 + 4.635·(MatBW/BW)^0.22)·BWgain", locator: "p.112; p.455"}
+    growth_B:     {value: 0.0}
+    gestation:    {value: 0.0, rule: "妊娠 <190 d 取 0（p.112）", literal_eq_value_at_110d: null, value_ref: "withheld (public copy): computed from the Table 21-1/21-3 (p.471-473) reference-cow inputs with the equations named in this block (Eq 2-1, Eq 3-13...3-20, Eq 7-1...7-8, Eq 20-373...20-389)"}
+    total_A: null
+    total_B: null
+  absorption_coefficient_handling: >-
+    需要量是“吸收量”。配方约束以“各原料含量 × 各原料固定 AC”的吸收量形式写成线性约束（model_audit §6）。
+    Ca 的原料类别 AC 见 Table 7-1（p.109）与正文（p.108–109），矿物原料见 Table 19-3（p.408–413）；
+    P 的基础饲料 AC 由无机/有机 P 分部计算（⟨withheld⟩），无分部数据时默认 ⟨withheld⟩（p.113）；
+    各基础饲料的 P AC 在电子饲料库中，本地 PDF 未印出 → pending（需 nasem_dairy 饲料库，P1-7）。
+
+# ---------------------------------------------------------------------------
+# 待用户决定（本文件范围内）
+# ---------------------------------------------------------------------------
+pending_user_decisions:
+  - id: "PUD-P2a-01"
+    item: "确认参考牛 = Table 21-1 Mature DIM 200（或改 DIM 100 列 / 另设地域画像）"
+  - id: "PUD-P2a-02"
+    item: "BCS = 3.0 这一研究情景假设"
+  - id: "PUD-P2a-03"
+    item: "矿物生长项用 An_BWgain ⟨withheld⟩（选项 A）还是 0（选项 B）"
+  - id: "PUD-P2a-04"
+    item: "P 泌乳常数取 0.48（Eq 20-389）还是 0.49（Eq 7-8b）"
+  - id: "PUD-P2a-05"
+    item: "Ca/P 维持项里的 DMI 用固定情景值 ⟨withheld⟩，还是用该情景实际 DM 供给 D(q,θ)"
+  - id: "PUD-P2a-06"
+    item: "批准安装 nasem_dairy 1.0.2，用代码核对 Eq 2-1 括号、DMI 方程编号、妊娠 190 d 条件、饲料 P AC"
+  - id: "PUD-P2a-07"
+    item: "B 层才需要的输入：到挤奶厅距离、挤奶次数、爬坡、年龄"
+  - id: "PUD-P2a-08"
+    item: "统一取舍原则：DMI 方程版本与矿物生长项都“以固定版本软件为准”（SW：代码核对后多半为 Eq 20-21 字面式 + 生长项 A），或都“以正文方程为准”（TXT：Eq 2-1 + 生长项 B）；代码核对前两版本并报（version_bundle_until_code_check）"
+    added: "2026-09-24，红队发现（animal_profile 取舍原则不一致）"

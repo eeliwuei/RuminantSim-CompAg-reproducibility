@@ -1,0 +1,13 @@
+identity,case,training_root_index,world,scenario,multiplier,values,finite_values,clipped_low,clipped_high,missing_preserved,operation,truth_modified,independently_recomputed
+dev_case_v3a__SD-H0__C0__trainr0,dev_case_v3a,0,SD-H0,C0,0.1,1120000,1120000,2032,0,0,"saved truth + lambda*exact-point-aware trainSD*saved normal, observed values censored [0,1]",False,True
+dev_case_v3a__SD-H0__C0__trainr0,dev_case_v3a,0,SD-H0,C0,0.5,1120000,1120000,8499,0,0,"saved truth + lambda*exact-point-aware trainSD*saved normal, observed values censored [0,1]",False,True
+dev_case_v3a__SD-H0__C0__trainr1,dev_case_v3a,1,SD-H0,C0,0.1,1120000,1120000,1983,0,0,"saved truth + lambda*exact-point-aware trainSD*saved normal, observed values censored [0,1]",False,True
+dev_case_v3a__SD-H0__C0__trainr1,dev_case_v3a,1,SD-H0,C0,0.5,1120000,1120000,8558,0,0,"saved truth + lambda*exact-point-aware trainSD*saved normal, observed values censored [0,1]",False,True
+dev_case_v3a__SD-H0__C0__trainr2,dev_case_v3a,2,SD-H0,C0,0.1,1120000,1120000,1973,0,0,"saved truth + lambda*exact-point-aware trainSD*saved normal, observed values censored [0,1]",False,True
+dev_case_v3a__SD-H0__C0__trainr2,dev_case_v3a,2,SD-H0,C0,0.5,1120000,1120000,8521,0,0,"saved truth + lambda*exact-point-aware trainSD*saved normal, observed values censored [0,1]",False,True
+dev_case_v3c__SD-H0__C0__trainr0,dev_case_v3c,0,SD-H0,C0,0.1,1260000,1260000,3295,0,0,"saved truth + lambda*exact-point-aware trainSD*saved normal, observed values censored [0,1]",False,True
+dev_case_v3c__SD-H0__C0__trainr0,dev_case_v3c,0,SD-H0,C0,0.5,1260000,1260000,13158,0,0,"saved truth + lambda*exact-point-aware trainSD*saved normal, observed values censored [0,1]",False,True
+dev_case_v3c__SD-H0__C0__trainr1,dev_case_v3c,1,SD-H0,C0,0.1,1260000,1260000,3309,0,0,"saved truth + lambda*exact-point-aware trainSD*saved normal, observed values censored [0,1]",False,True
+dev_case_v3c__SD-H0__C0__trainr1,dev_case_v3c,1,SD-H0,C0,0.5,1260000,1260000,13203,0,0,"saved truth + lambda*exact-point-aware trainSD*saved normal, observed values censored [0,1]",False,True
+dev_case_v3c__SD-H0__C0__trainr2,dev_case_v3c,2,SD-H0,C0,0.1,1260000,1260000,3266,0,0,"saved truth + lambda*exact-point-aware trainSD*saved normal, observed values censored [0,1]",False,True
+dev_case_v3c__SD-H0__C0__trainr2,dev_case_v3c,2,SD-H0,C0,0.5,1260000,1260000,13273,0,0,"saved truth + lambda*exact-point-aware trainSD*saved normal, observed values censored [0,1]",False,True

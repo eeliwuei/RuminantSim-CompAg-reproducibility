@@ -1,0 +1,263 @@
+# 开发案例 v1：约束集（R4 第 6、7 项）——每条约束都有表达式、单位、界值（或受限值引用）、来源页码/URL、状态
+# 状态（合同 §2.3）：implemented。状态字段只用 sourced / research_scenario_assumption（值块状态）；没有 null 界值。
+# 受限界值（NASEM 表值：Table 21-3、Table 5-1，以及由 Table 19-3 含量推导的矿物上限）写作 value_ref，
+#   数值在 data/restricted_local/dev_case_v1/restricted_values.yaml；由方程推导的界值与正文给出的界值直接写出。
+# 引擎语法见 docs/ENGINE_API.md §3；DM 分母一律用该情景自己的 D（合同 T2、C07）。
+
+schema: ration_reliability.dev_case/0.1
+case_id: dev_case_v1
+file_role: constraints
+stage_status: implemented
+frozen: false
+
+joint_event:
+  members: [PN-NEL-FIXEDDMI, PN-CP-SUP, PN-CP-HI, PN-EE-HI, PN-CA-ABS, PN-P-ABS, PN-T1, PN-T2, PN-T3, PN-T4, PN-T5]
+  definition: "I(q,θ) = 1{至少一条 probabilistic_nutrition 行的缺口 > 其 numerical_tolerance}（合同 T3）"
+  status: research_scenario_assumption
+  rationale: "开发案例纳入全部有界值的营养行；主终点成员的正式选择（原 D-09）留给协议冻结"
+declared_alternative_joint_events:
+  - id: S2_sourced_rows
+    added_by: "FIX_B（第二轮红队 B 第 1 条，2026-09-25）"
+    status: research_scenario_assumption
+    scope: "只用于开发场景 S2（experiments/E0_verification/run_dev_case_v1.py 的 RUN_CONFIG.S2）；不替代上面的 joint_event（H0 主事件），S2 与 H0 不可比"
+    members: [PN-CP-SUP, PN-T1, PN-T2, PN-T3, PN-T4, PN-T5]
+    rule: "probabilistic_nutrition 行中界值状态为 sourced 者（运行时核对）"
+    other_rows: >-
+      PN-NEL-FIXEDDMI、PN-CP-HI、PN-EE-HI、PN-CA-ABS、PN-P-ABS 在 S2 中以表值与 d̂ 作计划行（structural_hard，编号 SH-PLAN-*，
+      不受风险预算放松）施加，其情景形式保留为 diagnostic_only 行并逐行报告违约率；没有删除任何行，界值、方向与数值容差不变。
+    why: >-
+      红队 B 要求在不删行、不改 α、不放宽容差的前提下声明一个至少一个目标 α 可达的开发场景，以真正执行一次校准与同风险比较；
+      只在 opt 流上的筛查表明单靠方差口径或逐行机会约束都不可达，只把有来源的行放进联合事件而不施加其余行会得到能量缺约 22 % 的
+      配方（不是合理日粮），故其余行按计划值施加（复核报告 §5“固定合理基础日粮附近的部分成分规格稳健性分析”）。筛查全表见
+      RUN_CONFIG.S2.screening_opt_only。
+structural_separate: "structural_hard 行由 q 与 d̂ 确定性检查，不受风险预算放松（合同 C09）"
+diagnostic_separate: "diagnostic_only 行只报告，不进入 I"
+decision_variable: "q_i，kg 原物质/头/日；x_i = q_i d_i(θ) 为该情景实际 DM；隐藏 DM 不用于事后重新投料（合同 T2.1）"
+
+constraints:
+  # ============================ structural_hard ============================
+  - id: SH-DM-PLAN
+    class: structural_hard
+    expression: "Σ_i q_i d̂_i = DMI_scn"
+    engine: {kind: supply, terms: {DM: 1.0}, sense: eq, unit: kg/d, basis: DM, dm_source: decision_estimate}
+    bound: {value: null, unit: kg/d, value_ref: "withheld (public copy): Eq 2-1 (p.12) evaluated at the Table 21-1 (p.471) reference-cow inputs of configs/animal_profile.yaml fields.*; holder value in build_report.json"}
+    status: research_scenario_assumption
+    source: "Eq 2-1（p.12；nasem_dairy calculate_Dt_DMIn_Lact1 同式，commit 9b0b28e）；BCS 3.0 为研究假设"
+    numerical_tolerance: 1.0e-6
+    claim_scope: "计划 DM 供给 = 情景 DMI；供给不等于观测采食，假定全部采食（C04）"
+  - id: SH-INCL-LIMESTONE-MAX
+    class: structural_hard
+    expression: "q_LS d̂_LS / DMI_scn ≤ u_LS（计划 DM 占比）"
+    engine: {kind: concentration, terms: {"DM:limestone_ground": 1.0}, sense: le, unit: "%", basis: DM, dm_source: decision_estimate}
+    bound: {value_ref: "restricted_values.yaml#limestone_max_planned_dm_pct", unit: "%"}
+    status: research_scenario_assumption
+    source: "Ca MTL 1.5 % DM（p.110，引 NRC 2005）÷ 石粉 Ca 含量（Table 19-3，p.409，受限）：单一石粉不能使日粮 Ca 超过 MTL"
+    numerical_tolerance: 1.0e-6
+  - id: SH-INCL-DCP-MAX
+    class: structural_hard
+    expression: "q_DCP d̂_DCP / DMI_scn ≤ u_DCP"
+    engine: {kind: concentration, terms: {"DM:dicalcium_phosphate": 1.0}, sense: le, unit: "%", basis: DM, dm_source: decision_estimate}
+    bound: {value_ref: "restricted_values.yaml#dcp_max_planned_dm_pct", unit: "%"}
+    status: research_scenario_assumption
+    source: "min(Ca MTL 1.5 % ÷ 磷酸氢钙 Ca 含量, P MTL 0.7 % DM（p.115，引 NRC 2005）÷ 磷酸氢钙 P 含量)（含量见 Table 19-3 p.408，受限）；P 限更紧"
+    numerical_tolerance: 1.0e-6
+  - id: SH-INCL-SOYHULLS-MAX
+    class: structural_hard
+    expression: "q_SH d̂_SH / DMI_scn ≤ 30 %"
+    engine: {kind: concentration, terms: {"DM:soybean_hulls": 1.0}, sense: le, unit: "%", basis: DM, dm_source: decision_estimate}
+    bound: {value: 30.0, unit: "%"}
+    status: research_scenario_assumption
+    source: "NASEM p.36 引 Boerman et al. 2015 的 30 % DM 替代水平（文献锚点，非推荐值）"
+    numerical_tolerance: 1.0e-6
+  - id: SH-NONNEG
+    class: structural_hard
+    expression: "q_i ≥ 0"
+    engine: {kind: builtin_variable_bound}
+    bound: {value: 0.0, unit: kg/d}
+    status: sourced
+    source: "定义性约束（合同 T2）；评估器内置"
+    numerical_tolerance: 1.0e-9
+  # 其余原料的添加上限：无单独数值上限（100 %），理由见 inventory.yaml inclusion_bounds.others；下限全部 0。
+
+  # ============================ probabilistic_nutrition ============================
+  - id: PN-NEL-FIXEDDMI
+    class: probabilistic_nutrition
+    expression: "Σ_i q_i d_i(θ) e_i(θ) ≥ NEL_req − C0"
+    engine: {kind: supply, terms: {NEL_fixedDMI: 1.0}, sense: ge, unit: Mcal/d, basis: none, dm_source: scenario}
+    bound: {value: null, unit: Mcal/d, derivation: "NEL_req ⟨withheld⟩ − C0 ⟨withheld⟩（energy.yaml）", value_ref: "withheld (public copy): NASEM 2021 Chapter 3 requirement (Eq 3-13...3-20, p.29-35) at the Table 21-1 reference-cow inputs; C0 = 0.66 x 0.0146 x 160 x milk CP (Eq 3-10a, p.28)"}
+    status: research_scenario_assumption
+    source: "NASEM 2021 第 3 章 Eq 3-1…3-20（p.22–35）；固定 DMI 与 S_ref = PN-T4 淀粉上限的线性化为声明假设"
+    numerical_tolerance: 1.0e-6
+    claim_scope: "模型 NEL 供给对 NASEM 需要量；不预测产奶或能量平衡"
+  - id: PN-CP-SUP
+    class: probabilistic_nutrition
+    expression: "Σ_i q_i d_i(θ) CP_i(θ) ≥ CP_req（kg/d）"
+    engine: {kind: supply, terms: {CP: 1.0}, sense: ge, unit: kg/d, basis: none, dm_source: scenario}
+    bound: {value_ref: "restricted_values.yaml#cp_supply_min_kg_d", unit: kg/d}
+    status: sourced
+    source: "NASEM 2021 Table 21-3（p.473）本参考牛的日蛋白（CP）摄入量；该值由 MP 需要按预期 MP/CP 比推算（p.470）"
+    why_supply_form: >-
+      NASEM 说明表中浓度 = 需要量 ÷ 预测 DMI，DMI 不同则所需浓度不同（p.470）。本案例 DMI（Eq 2-1，BCS 3.0）低于该表 DMI，
+      直接套表中 CP % 会少供约 2 % 的 CP；故按克/日需要量写成供给约束（固定 DMI 下的等效浓度略高于表中 CP %）。
+      〔FIX_B〕“把表中 DMI 下的 g/d 原样搬到本案例 DMI”这一步本身是建模选择，见 transfer_across_dmi。
+    transfer_across_dmi:
+      status: research_scenario_assumption
+      added_by: "FIX_B（第二轮红队 B，2026-09-25）；界值本身的状态仍为 sourced"
+      statement: >-
+        Table 21-3 本列的日蛋白摄入量 = RDP + RUP 两行之和；其中 RDP 按浓度定义（Table 21-1 的 RDP % DM × 表中 DMI），
+        p.470 也说明代谢粪等需要量随 DMI 变化。把表中 DMI 下的 g/d 原样用于本案例较低的 DMI，会使 RDP 部分多要求一些
+        （按 RDP 随 DMI 换算时，本案例的界值约低 1.3 %），MP 中与 DMI 相关的部分也略被高估。这不是书中直接给出的值，是建模选择；
+        它影响的正是报告点名的冲突对之一（PN-CP-SUP 对 PN-CP-HI）。
+      e5_sensitivity:
+        id: E5-CP-SUP-RDP-SCALED
+        status: planned
+        definition: "CP_req' = RUP_table（g/d） + RDP_table / DMI_table × DMI_case；输入与数值只在 data/restricted_local/dev_case_v1/fixb_cp_sup_rdp_scaling.yaml（Table 21-1/21-3 受限值）"
+        alternative: "用 nasem_dairy 在案例 DMI 下重算 MP 与 CP 需要量（需要安装并运行该包，B-109 的执行部分，未做）"
+      dev_run_diagnostic: "FIX_B 的开发运行在诊断中并报替代界值下 M0 的成本、test 违约率与 N = 128 最小违约数（公开输出只含相对差，数值在受限目录）"
+    numerical_tolerance: 1.0e-6
+    claim_scope: "CP 配方规格；不等于 MP 或可代谢 EAA 充足（合同 §2.1、C03）"
+  - id: PN-CP-HI
+    class: probabilistic_nutrition
+    expression: "CP(q,θ)/D(q,θ) ≤ 19.0 % DM"
+    engine: {kind: concentration, terms: {CP: 1.0}, sense: le, unit: "%", basis: DM, dm_source: scenario}
+    bound: {value: 19.0, unit: "%"}
+    status: research_scenario_assumption
+    source: "NASEM 无泌乳牛 CP 数值上限（model_audit §10.1）；p.96 只有定性说法（超过合理余量的 RDP 应尽量减少；MP 相对 ME 过量应避免）"
+    rationale: >-
+      取 19.0 % DM：略高于 PN-CP-SUP 在固定 DMI 下的等效浓度（该浓度由 Table 21-3 受限值推导，差值只记在受限
+      build_report.json），给配方留出可行空间，同时阻止把 CP 当廉价填充物；它是研究设定的上限，不是营养标准。
+      E5 建议 18.5 % / 20.0 % / 不设上限三档敏感性。
+    numerical_tolerance: 1.0e-6
+  - id: PN-EE-HI
+    class: probabilistic_nutrition
+    expression: "EE(q,θ)/D(q,θ) ≤ 7.0 % DM"
+    engine: {kind: concentration, terms: {EE: 1.0}, sense: le, unit: "%", basis: DM, dm_source: scenario}
+    bound: {value: 7.0, unit: "%"}
+    status: research_scenario_assumption
+    source: "NASEM：日粮总 FA 一般不超过 7 % DM（p.41，引 NRC 2001；p.52 小结）"
+    rationale: >-
+      NASEM 的界值针对 FA；本案例多个原料 TFA 无 SD，故把 7 % 施加在有 SD 的粗脂肪（EE）上。粗脂肪含非 FA 成分（p.40），
+      入选原料的表均值均满足 TFA ≤ EE（干中粉碎玉米两者相等，其余 TFA < EE），因此在表均值处“EE ≤ 7 %”蕴含“FA ≤ 7 %”，
+      是保守的替代口径（映射为研究假设，界值有来源）。〔FIX_B 更正〕这一蕴含只在表均值处成立：EE 是随机列而 FA 固定在均值，
+      单个情景里“EE ≤ 7 %”不必然推出“FA ≤ 7 %”（本案例 EE 余量大，影响可忽略，但表述须准确）。
+    numerical_tolerance: 1.0e-6
+  - id: PN-CA-ABS
+    class: probabilistic_nutrition
+    expression: "Σ_i q_i d_i(θ) (10 Ca_i(θ) AC_Ca,i − 0.9) ≥ Ca_lact + Ca_growth + Ca_gest（g/d）"
+    engine: {kind: supply, terms: {"C:AC_Ca:Ca": 1.0, DM: -0.0009}, sense: ge, unit: g/d, basis: none, dm_source: scenario}
+    bound: {value: null, unit: g/d, derivation: "⟨withheld⟩ + ⟨withheld⟩ + ⟨withheld⟩（animal.yaml version_adjudication）", value_ref: "withheld (public copy): computed from the Table 21-1/21-3 (p.471-473) reference-cow inputs with the equations named in this block (Eq 2-1, Eq 3-13...3-20, Eq 7-1...7-8, Eq 20-373...20-389)"}
+    status: research_scenario_assumption
+    source: "Eq 7-1/20-373、7-2/20-374、7-4/20-376、20-375（p.106–107、454–455）；Eq 20-370/20-371 吸收量形式（p.454）；AC：Table 7-1（p.109）、p.108 类别、Table 19-3（p.408–409）与饲料库；逐原料 AC 数值只在受限表"
+    code_path: "requirements.requirement_version_from_config → ca_requirement_factorial → absorbed_mineral_row(maintenance_basis=actual_D).to_constraint_spec"
+    numerical_tolerance: 1.0e-6
+    claim_scope: "固定 AC 下吸收 Ca 对 NASEM 需要（EAR 性质，p.5）；不含牛间差异；不代表骨骼或健康结果"
+  - id: PN-P-ABS
+    class: probabilistic_nutrition
+    expression: "Σ_i q_i d_i(θ) (10 P_i(θ) AC_P,i − 1.0) ≥ P_urinary + P_lact + P_growth + P_gest（g/d）"
+    engine: {kind: supply, terms: {"C:AC_P:P": 1.0, DM: -0.001}, sense: ge, unit: g/d, basis: none, dm_source: scenario}
+    bound: {value: null, unit: g/d, derivation: "⟨withheld⟩ + ⟨withheld⟩ + ⟨withheld⟩ + ⟨withheld⟩", value_ref: "withheld (public copy): computed from the Table 21-1/21-3 (p.471-473) reference-cow inputs with the equations named in this block (Eq 2-1, Eq 3-13...3-20, Eq 7-1...7-8, Eq 20-373...20-389)"}
+    status: research_scenario_assumption
+    source: "Eq 7-5b/20-384–386、20-389、7-6/20-387、20-388（p.112、455–456）；Eq 20-381/20-382（p.455）；基础饲料 P AC 按 p.113 规则（无机 P 与有机 P 各自的 AC，按饲料库 P 分部加权）；磷酸氢钙用 Table 19-3 值（p.408；与 p.113 一致）；逐原料 AC 数值只在受限表"
+    numerical_tolerance: 1.0e-6
+    claim_scope: "同 PN-CA-ABS；NASEM 的 P AC 为最大吸收率，过量时高估吸收但不影响“达到需要所需的量”（p.113）"
+  - id: PN-T1
+    class: probabilistic_nutrition
+    expression: "fNDF/D ≥ T1 界值（% DM）"
+    engine: {kind: concentration, terms: {"G:forage:NDF": 1.0}, sense: ge, unit: "%", basis: DM, dm_source: scenario}
+    bound: {value_ref: "restricted_values.yaml#table5_1_fndf_min_pct", unit: "%"}
+    status: sourced
+    source: "NASEM 2021 Table 5-1 与 p.63 文字规则 → 连续线性化（model_audit §9.2）"
+    forage_ndf_rule: "只有 forage_weight = 1 的原料（玉米青贮、豆科干草；饲料库 Fd_Conc = 0，Eq 20-29 p.424）计入 fNDF；大豆皮等非粗饲料 NDF 不计（R4 第 6 项）"
+    numerical_tolerance: 1.0e-6
+  - id: PN-T2
+    class: probabilistic_nutrition
+    expression: "NDF/D ≥ T2 界值（% DM）"
+    engine: {kind: concentration, terms: {NDF: 1.0}, sense: ge, unit: "%", basis: DM, dm_source: scenario}
+    bound: {value_ref: "restricted_values.yaml#table5_1_ndf_min_pct", unit: "%"}
+    status: sourced
+    source: "Table 5-1（p.63）"
+    numerical_tolerance: 1.0e-6
+  - id: PN-T3
+    class: probabilistic_nutrition
+    expression: "(NDF + 2 fNDF)/D ≥ T3 界值（% DM）"
+    engine: {kind: concentration, terms: {NDF: 1.0, "G:forage:NDF": 2.0}, sense: ge, unit: "%", basis: DM, dm_source: scenario}
+    bound: {value_ref: "restricted_values.yaml#table5_1_ndf_plus_2fndf_min_pct", unit: "%"}
+    status: sourced
+    source: "Table 5-1 与 p.63 规则（fNDF 每低于表中最高一行 1 个百分点，总 NDF 下限升 2）"
+    numerical_tolerance: 1.0e-6
+  - id: PN-T4
+    class: probabilistic_nutrition
+    expression: "starch/D ≤ T4 界值（% DM）"
+    engine: {kind: concentration, terms: {starch: 1.0}, sense: le, unit: "%", basis: DM, dm_source: scenario}
+    bound: {value_ref: "restricted_values.yaml#table5_1_starch_max_pct", unit: "%"}
+    status: sourced
+    source: "Table 5-1（p.63）"
+    numerical_tolerance: 1.0e-6
+  - id: PN-T5
+    class: probabilistic_nutrition
+    expression: "(starch − 2 fNDF)/D ≤ T5 界值（% DM）"
+    engine: {kind: concentration, terms: {starch: 1.0, "G:forage:NDF": -2.0}, sense: le, unit: "%", basis: DM, dm_source: scenario}
+    bound: {value_ref: "restricted_values.yaml#table5_1_starch_minus_2fndf_max_pct", unit: "%"}
+    status: sourced
+    source: "Table 5-1 与 p.63 规则（fNDF 每低于表中最高一行 1 个百分点，淀粉上限降 2）"
+    numerical_tolerance: 1.0e-6
+
+  # ============================ diagnostic_only ============================
+  - id: DIAG-DM-REAL-LO
+    class: diagnostic_only
+    expression: "D(q,θ) ≥ 0.9 × DMI_scn"
+    engine: {kind: supply, terms: {DM: 1.0}, sense: ge, unit: kg/d, basis: DM, dm_source: scenario}
+    bound: {value: null, unit: kg/d, value_ref: "withheld (public copy): 0.9 x SH-DM-PLAN"}
+    status: research_scenario_assumption
+    source: "±10 % 为报告带宽（configs/constraints.yaml DIAG-DM-REAL），不是 NASEM 误差带"
+    numerical_tolerance: 1.0e-6
+  - id: DIAG-DM-REAL-HI
+    class: diagnostic_only
+    expression: "D(q,θ) ≤ 1.1 × DMI_scn"
+    engine: {kind: supply, terms: {DM: 1.0}, sense: le, unit: kg/d, basis: DM, dm_source: scenario}
+    bound: {value: null, unit: kg/d, value_ref: "withheld (public copy): 1.1 x SH-DM-PLAN"}
+    status: research_scenario_assumption
+    source: "同上"
+    numerical_tolerance: 1.0e-6
+  - id: DIAG-CA-MTL
+    class: diagnostic_only
+    expression: "Ca/D ≤ 1.5 % DM"
+    engine: {kind: concentration, terms: {Ca: 1.0}, sense: le, unit: "%", basis: DM, dm_source: scenario}
+    bound: {value: 1.5, unit: "%"}
+    status: sourced
+    source: "p.110（NRC 2005 MTL）"
+    numerical_tolerance: 1.0e-6
+  - id: DIAG-P-MTL
+    class: diagnostic_only
+    expression: "P/D ≤ 0.7 % DM"
+    engine: {kind: concentration, terms: {P: 1.0}, sense: le, unit: "%", basis: DM, dm_source: scenario}
+    bound: {value: 0.7, unit: "%"}
+    status: sourced
+    source: "p.115（NRC 2005 MTL）"
+    numerical_tolerance: 1.0e-6
+  - id: DIAG-T51-DGC-STARCH-SHARE
+    class: diagnostic_only
+    expression: "Σ_i x_i St_i (1{i = 干粉碎玉米} − 0.5) ≥ 0，即干粉碎玉米籽粒淀粉占日粮淀粉 ≥ 50 %"
+    engine: {kind: supply, terms: {"C:dgc_starch_share_w:starch": 1.0}, sense: ge, unit: kg/d, basis: none, dm_source: scenario,
+             coefficient: "dgc_starch_share_w_i = 0.5（玉米）/ −0.5（其他）"}
+    bound: {value: 0.0, unit: kg/d}
+    status: research_scenario_assumption
+    source: "Table 5-1 前提“干粉碎玉米为主要淀粉源”（p.63）；“主要” = ≥ 50 % 是操作化（model_audit §9.6 选项 a）"
+    why_diagnostic: >-
+      本案例已通过原料选择满足前提：谷物淀粉只来自干粉碎玉米，快速发酵淀粉源（压片玉米、高水分玉米、大麦、小麦副产品）全部剔除；
+      32–37 % DM 玉米青贮的籽粒淀粉基础消化率与干中粉碎玉米相同（Table 3-1，p.25）。仍报告玉米籽粒占比，作为适用性的透明记录，不作硬约束。
+    numerical_tolerance: 1.0e-6
+  - id: DIAG-NEL-LINEARISATION-RESIDUAL
+    class: diagnostic_only
+    expression: "线性 NEL − 完整第 3 章链 NEL（每个评估情景）"
+    engine: {kind: post_hoc, function: "ration_reliability.nutrition.energy.nonlinear_diet_nel"}
+    bound: {value: 0.0, unit: Mcal/d, note: "只报告分布，不判违约"}
+    status: research_scenario_assumption
+    source: "energy.yaml applicability"
+    numerical_tolerance: 1.0e-6
+
+not_included:
+  - {item: "Mg、K、Na、Cl、S、微量元素、维生素", reason: "Mg AC 非线性（p.456）；Na/K/Cl 主要来自未建模的确定性添加物；第一篇收窄（model_audit §7）；不声称其充足"}
+  - {item: "MP / 可代谢 EAA", reason: "C 层；CP 约束不等于 MP（合同 §2.1）"}
+  - {item: "peNDF / 粒度", reason: "Table 5-1 的“粗饲料粒度适宜”前提只能写入局限（model_audit §9.6）"}
+  - {item: "批次库存（SH-INV）", reason: "inventory.yaml：本案例库存不受限（研究假设）"}

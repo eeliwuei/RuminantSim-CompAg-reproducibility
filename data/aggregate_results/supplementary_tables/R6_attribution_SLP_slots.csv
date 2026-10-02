@@ -1,0 +1,13 @@
+identity,case,world,root,n_states,slot,status,recipe_available,scope
+dev_case_v3a__SD-H0__C0__r0,dev_case_v3a,SD-H0,r0,20000,Q0_SLP_reference_local_saa,training_budget_met,True,"continuous search, menu is initialization only"
+dev_case_v3a__SD-H0__C0__r0,dev_case_v3a,SD-H0,r0,20000,Q2_SLP_reference_local_saa,training_budget_met,True,"continuous search, menu is initialization only"
+dev_case_v3a__SD-H0__C0__r1,dev_case_v3a,SD-H0,r1,20000,Q0_SLP_reference_local_saa,training_budget_not_met,True,"continuous search, menu is initialization only"
+dev_case_v3a__SD-H0__C0__r1,dev_case_v3a,SD-H0,r1,20000,Q2_SLP_reference_local_saa,training_budget_not_met,True,"continuous search, menu is initialization only"
+dev_case_v3a__SD-H0__C0__r2,dev_case_v3a,SD-H0,r2,20000,Q0_SLP_reference_local_saa,training_budget_met,True,"continuous search, menu is initialization only"
+dev_case_v3a__SD-H0__C0__r2,dev_case_v3a,SD-H0,r2,20000,Q2_SLP_reference_local_saa,training_budget_met,True,"continuous search, menu is initialization only"
+dev_case_v3c__SD-H0__C0__r0,dev_case_v3c,SD-H0,r0,20000,Q0_SLP_reference_local_saa,training_budget_met,True,"continuous search, menu is initialization only"
+dev_case_v3c__SD-H0__C0__r0,dev_case_v3c,SD-H0,r0,20000,Q2_SLP_reference_local_saa,training_budget_met,True,"continuous search, menu is initialization only"
+dev_case_v3c__SD-H0__C0__r1,dev_case_v3c,SD-H0,r1,20000,Q0_SLP_reference_local_saa,training_budget_met,True,"continuous search, menu is initialization only"
+dev_case_v3c__SD-H0__C0__r1,dev_case_v3c,SD-H0,r1,20000,Q2_SLP_reference_local_saa,training_budget_met,True,"continuous search, menu is initialization only"
+dev_case_v3c__SD-H0__C0__r2,dev_case_v3c,SD-H0,r2,20000,Q0_SLP_reference_local_saa,training_budget_met,True,"continuous search, menu is initialization only"
+dev_case_v3c__SD-H0__C0__r2,dev_case_v3c,SD-H0,r2,20000,Q2_SLP_reference_local_saa,training_budget_met,True,"continuous search, menu is initialization only"

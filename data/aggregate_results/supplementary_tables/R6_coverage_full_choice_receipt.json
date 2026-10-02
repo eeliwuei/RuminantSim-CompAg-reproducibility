@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "cells": 18,
+  "all_saved_test_states": 360000,
+  "all_action_state_positions": 283860000,
+  "action_mismatch": 0,
+  "fallback_mismatch": 0,
+  "selected_score_max_error": 5.828670879282072e-16,
+  "new_draws": 0,
+  "scope": "every saved coverage test nutrient observation, every retained Q2 action, original proxy and tie/fallback rules, actual saved test DM never exposed to selector. No independent algebraic/global floating proof or risk optimality claim."
+}

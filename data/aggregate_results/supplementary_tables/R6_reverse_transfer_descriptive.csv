@@ -1,0 +1,13 @@
+case,training_root_index,policy,reference_target,target,reference_failure_rate,target_failure_rate,descriptive_target_minus_reference,cross_target_paired,cross_target_significance_claim,interpretation
+dev_case_v3a,0,historical_C2_expanded_static,C2_Corn4D_author,C0,0.06425,0.06955,0.005299999999999999,False,False,descriptive change across independent new target tests of the same frozen rule
+dev_case_v3a,0,historical_C2_expanded_delta,C2_Corn4D_author,C0,0.0224,0.0249,0.0024999999999999988,False,False,descriptive change across independent new target tests of the same frozen rule
+dev_case_v3a,1,historical_C2_expanded_static,C2_Corn4D_author,C0,0.0616,0.07835,0.01675,False,False,descriptive change across independent new target tests of the same frozen rule
+dev_case_v3a,1,historical_C2_expanded_delta,C2_Corn4D_author,C0,0.02275,0.03085,0.0081,False,False,descriptive change across independent new target tests of the same frozen rule
+dev_case_v3a,2,historical_C2_expanded_static,C2_Corn4D_author,C0,0.06175,0.0766,0.014850000000000002,False,False,descriptive change across independent new target tests of the same frozen rule
+dev_case_v3a,2,historical_C2_expanded_delta,C2_Corn4D_author,C0,0.0184,0.0252,0.0068000000000000005,False,False,descriptive change across independent new target tests of the same frozen rule
+dev_case_v3c,0,historical_C2_expanded_static,C2_Corn4D_author,C0,0.04115,0.04675,0.005600000000000001,False,False,descriptive change across independent new target tests of the same frozen rule
+dev_case_v3c,0,historical_C2_expanded_delta,C2_Corn4D_author,C0,0.00865,0.00875,0.00010000000000000113,False,False,descriptive change across independent new target tests of the same frozen rule
+dev_case_v3c,1,historical_C2_expanded_static,C2_Corn4D_author,C0,0.04455,0.05055,0.005999999999999998,False,False,descriptive change across independent new target tests of the same frozen rule
+dev_case_v3c,1,historical_C2_expanded_delta,C2_Corn4D_author,C0,0.0111,0.0131,0.002,False,False,descriptive change across independent new target tests of the same frozen rule
+dev_case_v3c,2,historical_C2_expanded_static,C2_Corn4D_author,C0,0.0443,0.0514,0.007100000000000002,False,False,descriptive change across independent new target tests of the same frozen rule
+dev_case_v3c,2,historical_C2_expanded_delta,C2_Corn4D_author,C0,0.0123,0.0128,0.0005000000000000004,False,False,descriptive change across independent new target tests of the same frozen rule

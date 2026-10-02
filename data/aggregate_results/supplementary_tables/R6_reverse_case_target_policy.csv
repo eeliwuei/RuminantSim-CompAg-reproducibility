@@ -1,0 +1,9 @@
+case,target,policy,independent_trained_rules,failure_rate_min,failure_rate_max,adjusted_upper_min,adjusted_upper_max,unknown_count_min,unknown_count_max,interpretation,qualified_at_0.01,qualified_at_0.02,qualified_at_0.05,qualified_at_0.1,qualified_at_0.2
+dev_case_v3a,C0,historical_C2_expanded_delta,3,0.0249,0.03085,0.030115109879865414,0.03659393463330355,0,9,range over three separately frozen trained rules; no pooled risk certificate,0,0,3,3,3
+dev_case_v3a,C0,historical_C2_expanded_static,3,0.06955,0.07835,0.07780954620415301,0.08705094867175776,6,9,range over three separately frozen trained rules; no pooled risk certificate,0,0,0,3,3
+dev_case_v3a,C2_Corn4D_author,historical_C2_expanded_delta,3,0.0184,0.02275,0.022951741732905998,0.027757260840505376,0,12,range over three separately frozen trained rules; no pooled risk certificate,0,0,3,3,3
+dev_case_v3a,C2_Corn4D_author,historical_C2_expanded_static,3,0.0616,0.06425,0.06942930741738583,0.07222636621944621,6,12,range over three separately frozen trained rules; no pooled risk certificate,0,0,0,3,3
+dev_case_v3c,C0,historical_C2_expanded_delta,3,0.00875,0.0131,0.012024050141689929,0.017011013130864804,0,0,range over three separately frozen trained rules; no pooled risk certificate,0,3,3,3,3
+dev_case_v3c,C0,historical_C2_expanded_static,3,0.04675,0.0514,0.05367439395903329,0.05862416445085027,4,7,range over three separately frozen trained rules; no pooled risk certificate,0,0,0,3,3
+dev_case_v3c,C2_Corn4D_author,historical_C2_expanded_delta,3,0.00865,0.0123,0.011907675357850072,0.016103184400663505,0,0,range over three separately frozen trained rules; no pooled risk certificate,0,3,3,3,3
+dev_case_v3c,C2_Corn4D_author,historical_C2_expanded_static,3,0.04115,0.04455,0.04768930752380242,0.051326472764506505,5,12,range over three separately frozen trained rules; no pooled risk certificate,0,0,1,3,3

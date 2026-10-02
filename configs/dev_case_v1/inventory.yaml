@@ -1,0 +1,155 @@
+# 开发案例 v1：原料库存（R4 第 1、5、7 项）
+# 状态（合同 §2.3）：implemented。受限数值（Table 19-1/19-3 成分、SD、n、AC、饲料库值）不写在本文件，
+#   逐原料数值在 data/restricted_local/dev_case_v1/ingredient_parameters.csv（由构建脚本从双录入核心表与饲料库摘录生成）。
+# 原则：选来源最完整的小原料集；缺 AC 或定义有风险的原料剔除或换，不补 0；矿物用来源清楚的点值原料。
+# 本文件不写任何 AC 数值、Table 3-1 / Table 19-x 表值（B-318 待定前不在跟踪文件新增），只写依据与定位。
+
+schema: ration_reliability.dev_case/0.1
+case_id: dev_case_v1
+file_role: inventory
+stage_status: implemented
+frozen: false
+
+inventory_id: DEV-INV-V1-8
+batch_inventory:
+  limit: none
+  status: research_scenario_assumption
+  rationale: "开发案例只研究单日配方；批次库存 B_i、头数 H、天数 T 无来源（原 SH-INV 待定），本案例明写“库存不受限（B_i = ∞）”，不做 H×T 换算"
+
+data_sources:
+  composition: {source_id: SRC-C-NASEM21-T19, table: "Table 19-1（p.364–394）、Table 19-3（p.408–413）",
+                file: "data/restricted_local/nasem_t19_1_core.csv（278 个双录入一致单元）", fields: "mean、SD、n（逐原料逐成分）"}
+  b_layer: {file: "data/restricted_local/nasem_t19_1_blayer_reconciled.csv", fields: "RUP（% CP）、dRUP（% RUP）、DE base（仅核对用）",
+            use_note: "该表 use_status 为 not_for_formal_use_until_protocol_decision；本开发案例只用于能量链的原料参数，并与饲料库逐值对照"}
+  feed_library:
+    source_id: SRC-NASEM-DAIRY-PY-9b0b28e
+    url: "https://raw.githubusercontent.com/CNM-University-of-Guelph/NASEM-Model-Python/9b0b28ef9a6013ac278bde72e58e01395c2ac6dc/src/nasem_dairy/data/feed_library/NASEM_feed_library.csv"
+    extract: "data/restricted_local/dev_case_v1/nasem_feed_library_extract_9b0b28e.csv（12 行原文；sha256 见 README）"
+    fields_used: "Fd_Conc（粗饲料/精料分类，Eq 20-29）、Fd_Pinorg_P / Fd_Porg_P（P 无机/有机分部）、Fd_acCa_input、Fd_acPtot_input（石粉 P 的 AC）"
+    licence_note: "仓库代码 MIT；饲料库数值来自 NASEM，按受限值处理，只存 restricted_local"
+  consistency_check: "构建脚本逐项核对饲料库与 Table 19-1 转录值（DM、NDF、CP、淀粉、TFA、EE、灰分、Ca、P）：差值须在印刷舍入内"
+
+ingredients:
+  # ---------------- 粗饲料（forage，计入 fNDF）----------------
+  - ingredient_id: corn_silage_typical
+    nasem_feed: {name: "Corn Silage, Typical", id: NRC16F48}
+    category: forage
+    forage_weight: {value: 1.0, source: "饲料库 Fd_Conc = 0 → Eq 20-29（p.424）fNDF = NDF", status: sourced}
+    is_stochastic: true
+    inclusion_reason: "核心随机原料；Table 19-1 n 最大（DM、CP、NDF 等 n > 3×10^5）；AC Ca 有表类别值；P AC 可由饲料库 P 分部按 p.113 规则计算；定价规则有文献（prices.yaml）"
+    starch_source_note: "青贮玉米籽粒淀粉；Table 3-1 中 32–37 % DM 青贮与干中粉碎玉米的基础消化率为同一表值（p.25）"
+    ac: {Ca: "饲料库 Fd_acCa_input，与 Table 7-1 玉米青贮类别值一致（p.109）", P: "p.113 规则：无机 P 与有机 P 各自的 AC 按饲料库中的无机/有机 P 分部加权"}
+  - ingredient_id: legume_hay_mid
+    nasem_feed: {name: "Legume Hay, Mid-Maturity", id: NRC16F93}
+    category: forage
+    forage_weight: {value: 1.0, source: "饲料库 Fd_Conc = 0 → Eq 20-29", status: sourced}
+    is_stochastic: true
+    inclusion_reason: "核心随机原料；n 约 10^5；AC Ca 为 Table 7-1 豆科类别；有 USDA AMS 苜蓿干草价格且可按 AMS 等级指南（RFV/ADF/NDF）映射"
+    ac: {Ca: "Table 7-1 豆科粗饲料（p.109）= 饲料库值", P: "p.113 规则 + 饲料库 P 分部"}
+  # ---------------- 精料 ----------------
+  - ingredient_id: corn_grain_dry_ground_medium
+    nasem_feed: {name: "Corn Grain Dry, Medium Grind", id: NRC16F44}
+    category: energy_concentrate
+    forage_weight: {value: 0.0, source: "Fd_Conc = 100", status: sourced}
+    is_stochastic: true
+    inclusion_reason: "唯一谷物淀粉源；干粉碎玉米正是 Table 5-1 的适用前提（p.63）；n > 10^4；AMS 玉米价格"
+    ac: {Ca: "谷物与蛋白补充料类别值（p.108）= 饲料库值", P: "p.113 规则 + 饲料库 P 分部"}
+  - ingredient_id: soybean_meal_solvent_48cp
+    nasem_feed: {name: "Soybean Meal, Solvent Extracted, 48% CP", id: NRC16F134}
+    category: protein_concentrate
+    forage_weight: {value: 0.0, source: "Fd_Conc = 100", status: sourced}
+    is_stochastic: true
+    inclusion_reason: "主要蛋白源；n > 10^3；AMS 周报有日期价格（46.5–48 %）"
+    ac: {Ca: "谷物与蛋白补充料类别值（p.108）= 饲料库值", P: "p.113 规则 + 饲料库 P 分部"}
+  - ingredient_id: canola_meal_solvent
+    nasem_feed: {name: "Canola Meal, Solvent Extracted", id: NRC16F28}
+    category: protein_concentrate
+    forage_weight: {value: 0.0, source: "Fd_Conc = 100", status: sourced}
+    is_stochastic: true
+    inclusion_reason: "第二蛋白源（价格/能量权衡）；n > 10^3；AMS 周报 Canola Meal 36 %"
+    ac: {Ca: "谷物与蛋白补充料类别值（p.108）= 饲料库值", P: "p.113 规则 + 饲料库 P 分部"}
+  - ingredient_id: soybean_hulls
+    nasem_feed: {name: "Soybean Hulls", id: NRC16F144}
+    category: nonforage_fiber
+    forage_weight: {value: 0.0, source: "Fd_Conc = 100：非粗饲料 NDF 不计入 fNDF（R4 第 6 项）", status: sourced}
+    is_stochastic: true
+    inclusion_reason: "非粗饲料纤维源，用来检验 fNDF 规则只计粗饲料 NDF；n ≈ 10^3；AMS 周报价格"
+    ac: {Ca: "饲料库 Fd_acCa_input（旧受限 AC 表中为推断类别，现有饲料库值作依据；与谷物/蛋白补充料类别值相同）", P: "p.113 规则 + 饲料库 P 分部"}
+  # ---------------- 矿物（确定性点值原料）----------------
+  - ingredient_id: limestone_ground
+    nasem_feed: {name: "Limestone, ground", id: NRC16F1013}
+    category: mineral
+    forage_weight: {value: 0.0, source: "Fd_Conc = 100", status: sourced}
+    is_stochastic: false
+    inclusion_reason: "Ca 源；Table 19-3（p.409）Ca 含量与 AC 均有；与饲料库一致"
+    organic_fractions: {value: 0, source: "Table 19-3 脚注 e（灰分 100 %，p.413）；饲料库 NDF/CP/淀粉/FA 显式为 0", status: sourced}
+    p_content:
+      value: 0.0
+      status: research_scenario_assumption
+      rationale: >-
+        Table 19-3 脚注 b（p.413）：浓度 < 1 % 的矿物未列出，即石粉 P ∈ [0, 1 %)。PN-P-ABS 是下限约束，取该区间的保守端 0
+        只会低估 P 供给；这不是把缺失值当 0，而是对有来源区间取保守端。饲料库 Fd_P 同为空。
+    ac: {Ca: "Table 19-3（p.409）= 饲料库", P: "饲料库 Fd_acPtot_input（含量取 0 时不起作用，仅为编译完整性给出有来源的值）"}
+  - ingredient_id: dicalcium_phosphate
+    nasem_feed: {name: "Calcium phosphate (dibasic), CaHPO4", id: NRC16F1007}
+    category: mineral
+    forage_weight: {value: 0.0, source: "Fd_Conc = 100", status: sourced}
+    is_stochastic: false
+    inclusion_reason: "P 源；Table 19-3（p.408）Ca、P 含量与 AC 均有"
+    organic_fractions: {value: 0, source: "Table 19-3 脚注 e；饲料库显式 0", status: sourced}
+    ac:
+      Ca: "Table 19-3（p.408）"
+      P: "Table 19-3（p.408），与正文 p.113（磷酸氢钙沿用 NRC 2001 值）一致"
+      book_vs_library: "饲料库的 Ca、P AC 均高于书值（数值见受限表）；书内表与正文一致，按原则（animal.yaml）用书值，饲料库值作敏感性"
+
+stochastic_components:
+  nutrients: [DM, CP, NDF, starch, EE, ash, Ca, P]
+  source: "Table 19-1 mean/SD（双录入核心表）；矿物为点值（SD = 0）"
+  not_stochastic: {lignin: "只进 Eq 3-3a 消化率（固定于均值）", TFA: "多个入选原料 SD 缺失（受限表）；能量链用均值"}
+  distribution_family_and_correlation: "由 R3 统一工厂（configs/uncertainty.yaml / UncertaintySpec）决定，本文件不定"
+  variance_basis_note: "Table 19-1 SD 是送检结果的 SD，已含采样与分析误差（model_audit / INFORMATION_VALUE_DESIGN §5.3）；信息价值分析须按 R2 声明 observed_incl_sampling_and_lab 或 unidentified"
+
+inclusion_bounds:                                     # 计划 DM 占比（structural_hard，用 d̂）；下限全部为 0
+  lower_all: {value: 0.0, status: research_scenario_assumption, rationale: "不强制任何原料；由营养约束决定是否使用"}
+  upper:
+    limestone_ground:
+      value_ref: "restricted_values.yaml#limestone_max_planned_dm_pct"
+      derivation: "Ca 最大耐受水平 1.5 % DM（p.110，引 NRC 2005）÷ 石粉 Ca 含量（Table 19-3，受限）：单一石粉不能使日粮 Ca 超过 MTL"
+      status: research_scenario_assumption
+    dicalcium_phosphate:
+      value_ref: "restricted_values.yaml#dcp_max_planned_dm_pct"
+      derivation: "min(Ca MTL 1.5 % ÷ Ca 含量, P MTL 0.7 % DM（p.115，引 NRC 2005）÷ P 含量)（含量见 Table 19-3，受限）；P 限更紧"
+      status: research_scenario_assumption
+    soybean_hulls:
+      value_pct_planned_DM: 30.0
+      derivation: "NASEM 正文引用的试验中大豆皮在日粮中的最高替代水平（p.36，Boerman et al. 2015：干粉碎玉米替代 30 % DM 大豆皮）；这是有文献锚点的研究上限，不是 NASEM 推荐值"
+      status: research_scenario_assumption
+    others:
+      value_pct_planned_DM: 100.0
+      applies_to: [corn_silage_typical, legume_hay_mid, corn_grain_dry_ground_medium, soybean_meal_solvent_48cp, canola_meal_solvent]
+      status: research_scenario_assumption
+      rationale: >-
+        NASEM 2021 第 21 章只给营养浓度表，没有示例日粮的原料组成（全文检索），无可作锚点的逐原料添加量；这些原料由有来源的营养约束间接限制：
+        粗饲料受 PN-NEL 与 Table 5-1（PN-T1–T5）限制，玉米受淀粉上限 PN-T4/T5，蛋白料受 PN-CP-HI。不另设无依据的数值上限。
+
+excluded:
+  - {ingredient_id: corn_grain_steam_flaked, reason: "Table 5-1 前提要求干粉碎玉米为主要淀粉源；蒸汽压片玉米发酵快（p.63–64），会使 PN-T1–T5 适用性变弱（R4 第 7 项）"}
+  - {ingredient_id: barley_grain_dry_ground, reason: "同上：大麦为快速发酵淀粉源（p.63–64）"}
+  - {ingredient_id: corn_grain_high_moisture_coarse, reason: "同上（高水分玉米，p.63–64）；另为 alternate 角色"}
+  - {ingredient_id: corn_grain_high_moisture_fine, reason: "同上"}
+  - {ingredient_id: wheat_bran, reason: "小麦来源淀粉发酵快（p.63–64）；Table 19-1 n 小（10^2 量级；具体值受限）；本案例不需要"}
+  - {ingredient_id: wheat_middlings, reason: "同上（alternate 角色）"}
+  - {ingredient_id: legume_silage_mid, reason: "无有日期的公开价格（非交易品），也没有像玉米青贮那样的文献定价规则；不编价格"}
+  - {ingredient_id: grass_hay_cool_season_mid, reason: "价格映射有定义风险：AMS 报告只有 Mixed Grass，且草类等级只按 CP 划分（>13 % 为 Premium），与 NASEM 冷季禾草中等成熟度无法确认对应"}
+  - {ingredient_id: ddgs_high_fat, reason: "AMS 价格品名“Corn Distillers Dried Grain 10%”未标明脂肪等级，无法映射到 NASEM 高脂/低脂两条目（定义风险）；另 p.332 近 30 % DM 酒糟的乳脂下降观察"}
+  - {ingredient_id: ddgs_low_fat, reason: "同上"}
+  - {ingredient_id: cottonseed_meal, reason: "区域内无价格（AMS 只有 Memphis/Arkansas/加州）；本案例已有两种蛋白源；游离棉酚未建模"}
+  - {ingredient_id: cottonseed_whole_linted, reason: "中西部无价格（AMS 只有加州）；原 D-07（是否计入 fNDF）虽可由饲料库 Fd_Conc = 100 判为精料，但价格区域不一致；p.340 棉酚观察"}
+  - {ingredient_id: corn_gluten_feed_dry, reason: "alternate 角色；TFA SD 缺失；本案例不需要"}
+  - {ingredient_id: beet_pulp_dry_f14, reason: "Table 19-1 n 小（10^1 量级；具体值受限）；本轮未取得有日期的公开价格"}
+  - {ingredient_id: beet_pulp_dry_molasses, reason: "同上"}
+  - {ingredient_id: wheat_straw, reason: "alternate 角色；只有按捆报价（Missouri），无 $/ton；泌乳牛高产案例不需要"}
+  - {ingredient_id: fat_calcium_soaps, reason: "印刷 Table 19-1（F25）CP/NDF/淀粉/Ca/P 为空；饲料库虽有值，但本轮无有日期的公开价格——不编价格。后果：无脂肪补充料，能量余量小（审计报告 §6.4）"}
+  - {ingredient_id: salt_nacl, reason: "Na、Cl、DCAD 不在模型内（主约束集不含），加入只会被 LP 设为 0；不声称 Na/Cl 充足"}
+  - {ingredient_id: sodium_bicarbonate, reason: "同上；缓冲剂效应未建模"}
+  - {ingredient_id: premix_unspecified, reason: "无产品成分；微量元素与维生素不在模型内，不声称其充足"}

@@ -1,0 +1,7 @@
+{
+  "protocol_sha256": "477b0375c74fca82e7ca0db75d38bb66385eb9a1943e7a663261a3ed09621c27",
+  "input_manifest_sha256": "634193881d7c69e5025b2a55d80d05546d10701e170fe6703bab54d94b4b3452",
+  "bound_input_files": 460,
+  "policy_cells": 96,
+  "scientific_calculations_started": false
+}

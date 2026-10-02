@@ -1,0 +1,160 @@
+# 随机流政策（streams policy）
+# 编写：R3E_uncertainty_layers（项目记录），2026-09-25；依据第三轮复核执行指令 E.5 与复核报告 §9 第 5 条。
+# 状态（合同 §2.3）：implemented（政策文件）；代码尚未读取本文件，没有代码层强制（见 reserved_formal_streams.enforcement）；frozen: false。
+# 本文件只登记流的归属与预留，不抽取任何随机数；本轮没有使用下面预留的正式评估根。
+# 用语：证据层级 code_tested / holder_verified / independently_reproduced / assumption_only / blocked；阶段状态沿用合同枚举。
+
+schema: "ration_reliability.streams_policy/0.1"
+file_role: "streams_policy"
+created_on: "2026-09-25"
+created_by: "R3E_uncertainty_layers (project note)"
+stage_status: "implemented"
+frozen: false
+authority: >-
+  随机流“属于开发资料还是正式评估”以本文件为准；configs/methods.yaml rng 与 configs/uncertainty.yaml sampling 只描述命名与隔离规则。
+  configs/protocol.yaml splits.test_previously_seen 目前为 null（本任务无权修改 protocol.yaml）：按本文件，开发流的该项应为 true，
+  由总负责人决定是否改写协议字段。
+related_docs:
+  data_layers: "docs/uncertainty_data_layers.md（数据层级与结论措辞；§6 摘要本文件）"
+
+stream_mechanics:
+  implementation: "src/ration_reliability/uncertainty/streams.py（RandomStreams）"
+  seed_sequence: "numpy.random.SeedSequence(entropy = root_seed, spawn_key = (stream_index(name), *sub_keys))，生成器 PCG64"
+  core_indices: {opt: 0, validation: 1, test: 2, outer: 3}
+  named_index_rule: "其他流名的索引 = 2**32 + sha256(name) 前 4 字节（大端）；与创建顺序无关"
+  stream_id_format: "root=<root_seed>/<name>[/<sub_key>...]（RandomStreams.stream_id；写入 DrawSet、SolveResult.streams_used 与运行记录）"
+  note: "root_seed 或 spawn_key 不同的流互相独立；同一 root_seed、同一流名、同一子键 = 逐位相同的随机数"
+
+principles:
+  - id: "SP-1"
+    rule: >-
+      模拟抽样次数与随机种子不是统计单位。新随机流只降低同一声明分布下的 Monte Carlo 误差，不是新的真实数据：
+      不增加饲料样品、牧场或动物证据，不能充当外部批次验证、留牧场验证或 E1–E5 外检。
+  - id: "SP-2"
+    rule: >-
+      凡已被用于开发、诊断、选参、筛查、或已看过其结果的流，一律归“开发资料”（development_material）；
+      不得在任何报告、稿件或状态页中称为“未接触的保留测试集 / hold-out”。
+  - id: "SP-3"
+    rule: >-
+      正式评估只可使用 reserved_formal_streams 中的根，且须同时满足其 use_conditions；满足之前，任何代码、测试、脚本、
+      smoke、--dry-run 或诊断都不得用这些根抽样。
+  - id: "SP-4"
+    rule: >-
+      不得通过更换根、子键或抽样次数来挑选有利结果。正式根一经使用即写入运行记录，不再更换；若因实现缺陷必须重跑，
+      沿用同一根，旧结果保留并如实披露。
+  - id: "SP-5"
+    rule: >-
+      同一物理情景下各方法共用同一组 test 抽样（共同随机数，合同 T8.4）。不同母分布（H0、窄化 SD、C1 等）用同一根与同一流名，
+      状态字节不要求相同，但须记录各世界的模型指纹与生成方式（执行指令 C.6）。
+
+# ---------------------------------------------------------------------------------------------------------------
+# 开发资料：截至 2026-09-25 已使用的根与流
+# ---------------------------------------------------------------------------------------------------------------
+development_material:
+  classification: "development_material"
+  summary: >-
+    项目中已出现的全部 opt / validation / test 流——dev_case_v1 开发运行、两次被取代的 K7 运行、两次评估重放、全部 smoke、
+    阶段 3 构建与不确定性工厂审计脚本所用的流——都已用于开发诊断；root=1103/test 上 H0、C1、S2 的结果已被查看（D-453 披露）。
+    它们统归开发资料，今后只能作开发、回归与重放用途。
+  whole_roots:
+    - root_seed: 1103
+      scope: "该根下所有流名、所有子键（不论下面是否逐条列出）"
+      role: "configs/methods.yaml rng.development_seeds 第 1 个；全部开发运行、重放与 smoke 的根"
+    - root_seed: 2207
+      scope: "该根下所有流名、所有子键"
+      role: "开发种子 2；只用于阶段 3 的流独立性核验（均匀随机数，未抽取案例世界）"
+    - root_seed: 3301
+      scope: "该根下所有流名、所有子键"
+      role: "开发种子 3；同上"
+    - root_seed_range: [1000, 1399]
+      scope: "区间内每个根的所有流"
+      role: "scripts/build_phase3_tables.py 的零假设频率核验（8 个流名的均匀随机数，未抽取案例世界）"
+  engineering_test_roots:
+    classification: "code_test_only"
+    rule: >-
+      tests/ 与合成审计脚本中出现的其他整数根只驱动合成模型，不是案例数据；它们同样不得被选作正式根——正式根必须与仓库中
+      出现过的任何根不同（见 reserved_formal_streams.uniqueness_check）。
+  used_stream_ids_root_1103:
+    dev_case_v1_worlds:
+      ids: ["root=1103/opt", "root=1103/validation", "root=1103/test"]
+      draws: {opt: 512, validation: 20000, test: 10000}
+      crn_group: "CRN-main（H0、C1、S2 三个世界共用）"
+      used_by:
+        - "pilot-20260924T205621Z-93d8654c（现行开发运行；holder_reported，复核方未取得受限输入与产物）"
+        - "pilot-20260924T192615Z-1fc52728、pilot-20260924T190634Z-8faf25eb（K7，已被取代）"
+        - "smoke-20260924T221654Z-36356850、smoke-20260924T225711Z-9f74780d（评估重放：重建同一世界，只用 test 抽样）"
+      note: "test 流已用于 H0 / C1 / S2 的深度诊断且结果已被查看；评估重放在同一 test 流上逐位重算，不能再当保留测试"
+    information_value:
+      ids: ["root=1103/opt/1", "root=1103/opt/2"]
+      draws: {"opt/1": 2000, "opt/2": 512}
+      crn_group: "CRN-iv-prior（opt/1）、CRN-iv-design（opt/2）；H0 与 S2 共用"
+    h1_farm_worlds_fixb:
+      ids: "root=1103/{opt,validation,test}/1000 至 /1005（农场 0–5；子键 = 1000 + 农场序号）"
+      draws: {opt: 128, validation: 20000, test: 10000}
+    h1_farm_worlds_k7_superseded:
+      ids: "root=1103/{opt,validation,test}/0 至 /5（K7 两次运行；农场 1、2 与 opt/1、opt/2 同键，FIX_B 已改用偏移）"
+    h1_farm_means:
+      ids: "root=1103/farm_mean/2/0 至 /2/5（用途索引 2 = test）"
+    smoke:
+      ids: ["root=1103/opt", "root=1103/test"]
+      used_by: "results/smoke/ 下 12 条运行记录（含已被取代者）"
+    build_and_audit_scripts:
+      - script: "data/restricted_local/dev_case_v1/build_dev_case_v1.py（工厂预检，不是运行）"
+        ids: ["root=1103/opt"]
+      - script: "scripts/build_phase3_tables.py（--seed 默认 1103）"
+        ids:
+          - "root=1103/phase3_moment_check/<格序号>/<分布族序号>"
+          - "root=1103/phase3_copula_check/<原料序号>/<分布族序号>"
+          - "root=1103/farm_mean/1/0 至 /1/199 与 root=1103/validation/0 至 /199（两层结构核验：200 个农场 × 每场 50 次）"
+          - "流独立性核验：root=1103/{opt, validation, test, outer, assay_signal}、farm_mean/1/0、farm_mean/2/0、farm_history/1/0"
+          - "MC 精度核验：root=1103/test/0 至 /399"
+      - script: "scripts/audit_uncertainty_factory.py（--seed 默认 1103；以合成模型为主）"
+        ids: ["root=1103/factory_audit_moment_check", "root=1103/test", "root=1103/validation", "root=1103/opt"]
+  evidence_of_use: >-
+    results/pilot/pilot-20260924T205621Z-93d8654c/stream_registry.json（37 次抽样、29 个流 id、碰撞检查通过）；各运行目录
+    run_record.json 的 rng_streams；上列脚本源码。清单由 R3E 于 2026-09-25 读文件整理（code 与记录的静态核对，不是重跑）。
+
+# ---------------------------------------------------------------------------------------------------------------
+# 为将来正式评估预留的新根（本轮不得使用）
+# ---------------------------------------------------------------------------------------------------------------
+reserved_formal_streams:
+  status: "reserved_not_used"
+  reserved_on: "2026-09-25"
+  used_in_this_round: false
+  generation:
+    method: "root_k = int.from_bytes(sha256(label_k 的 ASCII 字节).digest()[:8], 'big') >> 1（63 位，可放入 int64）"
+    label_template: "ration_reliability_study/formal_evaluation/root/v1/k={k}"
+    reproduce: >-
+      python3 -c "import hashlib; print(int.from_bytes(hashlib.sha256(b'ration_reliability_study/formal_evaluation/root/v1/k=0').digest()[:8], 'big') >> 1)"
+    why_fixed_now: >-
+      在任何正式结果出现之前固定、与结果无关，防止事后挑种子；不从协议文件的哈希派生（否则改一下协议文字就能重抽一套流）。
+      计算根值只用了 sha256，没有用这些根创建任何生成器或抽样。
+  roots:
+    - {k: 0, root_seed: 2970760983403232347, role: "正式评估主根"}
+    - {k: 1, root_seed: 4113203358134278580, role: "种子重复 1（仅当冻结协议规定多根时使用）"}
+    - {k: 2, root_seed: 9187226783059820865, role: "种子重复 2（同上）"}
+  stream_names_under_formal_roots: >-
+    沿用 RandomStreams 的核心名 opt / validation / test / outer，以及冻结协议登记的具名流与子键规则（例如信息价值先验与设计子流、
+    H1 农场子键偏移）；具体子键表与抽样次数在冻结时写入协议，本文件不预设。
+  uniqueness_check:
+    date: "2026-09-25"
+    method: >-
+      在项目工作树全部文件（含 results/ 与 data/restricted_local/）中逐字搜索三个根的十进制串：写入本文件之前 0 处出现；
+      与 src/、experiments/、scripts/、tests/ 中所有整数种子字面量比较：均不相同。今后除本文件外，根值只可出现在正式运行的记录中。
+    evidence_status: "static_check_in_session（R3E 会话内执行的文本搜索，脚本未入库；不是 code_tested）"
+  use_conditions:
+    - "configs/protocol.yaml freeze.is_frozen = true，且冻结记录含代码清单哈希（合同 T6；执行指令 F.1）"
+    - "run_type = official；运行前后有效代码与配置哈希相等，否则该运行降为调试（执行指令 F.1）"
+    - >-
+      方法、网格、选参规则、α、参考事件与适用域、分布族、相关结构与 SD 情景（含 docs/uncertainty_data_layers.md §5 的窄化范围与
+      声明点）全部在冻结前固定；方法内部的校准只用正式根的 opt / validation，test 只做最终评估，不回流影响任何选择
+    - "运行记录 rng_streams 写出正式根与全部流 id；流登记无碰撞（沿用 dev_case_v1 驱动的 StreamRegistry 规则）"
+  forbidden_before_freeze: ["单元测试", "smoke", "--dry-run", "诊断或探索脚本", "筛查", "任何“先看一眼”"]
+  enforcement:
+    status: "not_enforced_in_code"
+    note: >-
+      本任务只写政策文件，没有改代码。建议另立任务：在 RandomStreams 或运行记录层对 run_type != official 或协议未冻结时拒绝
+      reserved 根，并加回归测试（由总负责人分派）。
+  what_new_streams_are_not: >-
+    新随机流仍是同一营养模型、同一声明分布下的模拟：它只保证正式评估不与开发期已看过的抽样重叠，不提供新的饲料样品、牧场或
+    动物数据，不构成外部验证，也不能把“给定模型/假设下的可靠性”升级为真实世界的可靠性。

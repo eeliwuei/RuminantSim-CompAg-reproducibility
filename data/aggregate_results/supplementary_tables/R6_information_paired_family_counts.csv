@@ -1,0 +1,12 @@
+policy,comparator,cells,improved,worse,includes_zero,observed_difference_min,observed_difference_max
+I0_no_observation,Q3_static4000,18,0,12,6,0.00025,0.0405
+I1_true_DM,I0_no_observation,18,15,0,3,-0.0554,-0.00315
+I1_true_DM,I3_ideal_nutrients,18,0,12,6,0.003,0.0406
+I2_DM_noise_0p1,I1_true_DM,18,0,0,18,-0.0007,0.00155
+I2_DM_noise_0p5,I1_true_DM,18,0,12,6,0.0034,0.01605
+I2_DM_noise_0p5,I2_DM_noise_0p1,18,0,12,6,0.00335,0.01505
+I3_ideal_nutrients,I0_no_observation,18,18,0,0,-0.08085,-0.024
+I3_ideal_nutrients,Q3_delta,18,0,14,4,0.0019,0.02695
+I4_nutrient_noise_0p1,I3_ideal_nutrients,18,0,2,16,5e-05,0.00505
+I4_nutrient_noise_0p5,I3_ideal_nutrients,18,0,18,0,0.0108,0.06705
+I4_nutrient_noise_0p5,I4_nutrient_noise_0p1,18,0,18,0,0.0094,0.062

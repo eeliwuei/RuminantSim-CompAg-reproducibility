@@ -1,0 +1,305 @@
+{
+  "file": "fixed_rations_released.csv",
+  "units": "kg as-fed per head per day (q_i, the executed decision vector; docs/ENGINE_API.md: q_i = kg as-fed/head/d); one decimal; NA = ingredient not in the case inventory",
+  "total_column": "total_as_fed_kg_d = sum of the unrounded ingredient amounts, then rounded to one decimal (may differ from the sum of the rounded columns by up to n_ingredients*0.05 kg)",
+  "case_map": {
+    "R0": "dev_case_v1",
+    "A": "dev_case_v3a",
+    "B": "dev_case_v3b",
+    "C": "dev_case_v3c"
+  },
+  "selection_rules": {
+    "Qk_static": "attribution protocol RRS-ATTRIBUTION-20261002-V1, TAB (SD-H0), C0: q[baselines[Qk]] = the pool member with minimum 4,000-state training failure count, ties by original-price cost then coefficient hash (run_ablation.py frozen_menus; select_all assigns Qk_static = baselines[Qk])",
+    "new_trainingbest_static": "generated-ration experiment (continuous_formal): parent.new_q[parent.new_static] = minimum full canonical 4,000-state training failure count, ties by recorded single-q price dot product then raw q SHA-256"
+  },
+  "integrity_checks": {
+    "sha256_of_each_extracted_q_reproduces_stored_key": true,
+    "streaming_parser_cross_checked_with_json_load_for_files_le_300KB": true,
+    "ingredient_axis_training_states_equals_manifest": true
+  },
+  "rounding": {
+    "max_abs_change_kg": 0.049239,
+    "any_change_greater_than_0_05_kg": false,
+    "statement": "Rounding to one decimal moves every ingredient amount by at most 0.05 kg as-fed (half the last retained digit); no vector is changed by more than 0.05 kg in any ingredient."
+  },
+  "per_case": {
+    "R0": {
+      "case_id": "dev_case_v1",
+      "source": "generated-ration new fixed rule x 3 replicates",
+      "n_vectors": 3,
+      "n_distinct_vectors_full_precision": 3,
+      "n_distinct_vectors_one_decimal": 3,
+      "identical_vector_groups": [],
+      "n_ingredients": 8,
+      "n_ingredients_nonzero_in_released_vectors": 7,
+      "ingredients_never_used_in_released_vectors": [
+        "canola_meal_solvent"
+      ],
+      "numpy_matrix_rank_one_decimal": 3,
+      "numpy_matrix_rank_full_precision": 3,
+      "rank_full_precision_solver_tolerance": 3,
+      "rank_robust_to_rounding": 2,
+      "rank_full_precision_solver_tolerance_rule": "singular values above 1e-8 x largest; numpy default tolerance (~1e-14 relative) counts solver-tolerance residuals of the planned-DM equality as rank",
+      "rank_robust_to_rounding_rule": "number of singular values of the one-decimal matrix exceeding 0.05*sqrt(rows*cols), the Weyl bound on the spectral norm of the rounding perturbation; directions below it cannot be distinguished from zero after rounding",
+      "full_column_rank_one_decimal": false,
+      "homogeneous_rank_one_decimal_Q_minus_1": 3,
+      "homogeneous_rank_full_precision_Q_minus_1": 3,
+      "homogeneous_rank_full_precision_solver_tolerance": 3,
+      "homogeneous_rank_robust_to_rounding": 2
+    },
+    "A": {
+      "case_id": "dev_case_v3a",
+      "source": "attribution fixed rules Q0-Q4 x 3 replicates",
+      "n_vectors": 15,
+      "n_distinct_vectors_full_precision": 4,
+      "n_distinct_vectors_one_decimal": 4,
+      "identical_vector_groups": [
+        [
+          "r0:Q0_static",
+          "r2:Q0_static"
+        ],
+        [
+          "r0:Q1_static",
+          "r0:Q2_static",
+          "r0:Q3_static",
+          "r0:Q4_static",
+          "r1:Q1_static",
+          "r1:Q2_static",
+          "r1:Q3_static",
+          "r1:Q4_static"
+        ],
+        [
+          "r2:Q1_static",
+          "r2:Q2_static",
+          "r2:Q3_static",
+          "r2:Q4_static"
+        ]
+      ],
+      "n_ingredients": 8,
+      "n_ingredients_nonzero_in_released_vectors": 8,
+      "ingredients_never_used_in_released_vectors": [],
+      "numpy_matrix_rank_one_decimal": 4,
+      "numpy_matrix_rank_full_precision": 4,
+      "rank_full_precision_solver_tolerance": 4,
+      "rank_robust_to_rounding": 4,
+      "rank_full_precision_solver_tolerance_rule": "singular values above 1e-8 x largest; numpy default tolerance (~1e-14 relative) counts solver-tolerance residuals of the planned-DM equality as rank",
+      "rank_robust_to_rounding_rule": "number of singular values of the one-decimal matrix exceeding 0.05*sqrt(rows*cols), the Weyl bound on the spectral norm of the rounding perturbation; directions below it cannot be distinguished from zero after rounding",
+      "full_column_rank_one_decimal": false,
+      "homogeneous_rank_one_decimal_Q_minus_1": 4,
+      "homogeneous_rank_full_precision_Q_minus_1": 4,
+      "homogeneous_rank_full_precision_solver_tolerance": 4,
+      "homogeneous_rank_robust_to_rounding": 4
+    },
+    "B": {
+      "case_id": "dev_case_v3b",
+      "source": "generated-ration new fixed rule x 3 replicates",
+      "n_vectors": 3,
+      "n_distinct_vectors_full_precision": 3,
+      "n_distinct_vectors_one_decimal": 3,
+      "identical_vector_groups": [],
+      "n_ingredients": 9,
+      "n_ingredients_nonzero_in_released_vectors": 8,
+      "ingredients_never_used_in_released_vectors": [
+        "canola_meal_solvent"
+      ],
+      "numpy_matrix_rank_one_decimal": 3,
+      "numpy_matrix_rank_full_precision": 3,
+      "rank_full_precision_solver_tolerance": 3,
+      "rank_robust_to_rounding": 2,
+      "rank_full_precision_solver_tolerance_rule": "singular values above 1e-8 x largest; numpy default tolerance (~1e-14 relative) counts solver-tolerance residuals of the planned-DM equality as rank",
+      "rank_robust_to_rounding_rule": "number of singular values of the one-decimal matrix exceeding 0.05*sqrt(rows*cols), the Weyl bound on the spectral norm of the rounding perturbation; directions below it cannot be distinguished from zero after rounding",
+      "full_column_rank_one_decimal": false,
+      "homogeneous_rank_one_decimal_Q_minus_1": 3,
+      "homogeneous_rank_full_precision_Q_minus_1": 3,
+      "homogeneous_rank_full_precision_solver_tolerance": 3,
+      "homogeneous_rank_robust_to_rounding": 2
+    },
+    "C": {
+      "case_id": "dev_case_v3c",
+      "source": "attribution fixed rules Q0-Q4 x 3 replicates",
+      "n_vectors": 15,
+      "n_distinct_vectors_full_precision": 6,
+      "n_distinct_vectors_one_decimal": 6,
+      "identical_vector_groups": [
+        [
+          "r0:Q0_static",
+          "r1:Q0_static",
+          "r2:Q0_static"
+        ],
+        [
+          "r0:Q1_static",
+          "r1:Q1_static"
+        ],
+        [
+          "r0:Q2_static",
+          "r0:Q3_static",
+          "r0:Q4_static"
+        ],
+        [
+          "r1:Q2_static",
+          "r1:Q3_static",
+          "r1:Q4_static"
+        ],
+        [
+          "r2:Q2_static",
+          "r2:Q3_static",
+          "r2:Q4_static"
+        ]
+      ],
+      "n_ingredients": 9,
+      "n_ingredients_nonzero_in_released_vectors": 8,
+      "ingredients_never_used_in_released_vectors": [
+        "canola_meal_solvent"
+      ],
+      "numpy_matrix_rank_one_decimal": 6,
+      "numpy_matrix_rank_full_precision": 6,
+      "rank_full_precision_solver_tolerance": 6,
+      "rank_robust_to_rounding": 4,
+      "rank_full_precision_solver_tolerance_rule": "singular values above 1e-8 x largest; numpy default tolerance (~1e-14 relative) counts solver-tolerance residuals of the planned-DM equality as rank",
+      "rank_robust_to_rounding_rule": "number of singular values of the one-decimal matrix exceeding 0.05*sqrt(rows*cols), the Weyl bound on the spectral norm of the rounding perturbation; directions below it cannot be distinguished from zero after rounding",
+      "full_column_rank_one_decimal": false,
+      "homogeneous_rank_one_decimal_Q_minus_1": 6,
+      "homogeneous_rank_full_precision_Q_minus_1": 6,
+      "homogeneous_rank_full_precision_solver_tolerance": 6,
+      "homogeneous_rank_robust_to_rounding": 4
+    }
+  },
+  "pooled_all_cases": {
+    "n_vectors": 36,
+    "n_columns": 9,
+    "note": "All cases stacked on the 9-ingredient axis; cottonseed set to 0 for R0/A (not in inventory). Relevant only if the decision-time DM fractions d_hat are common to all cases and the planned-DM supply of each case is known; planned DM differs between R0/B and A/C, so the stacked system is Q d_hat = D_case (case-specific right-hand side).",
+    "numpy_matrix_rank_one_decimal": 9,
+    "numpy_matrix_rank_full_precision": 9,
+    "rank_full_precision_solver_tolerance": 9,
+    "rank_robust_to_rounding": 6,
+    "homogeneous_known_1.1_ratio": {
+      "columns": 10,
+      "numpy_matrix_rank_one_decimal": 10,
+      "numpy_matrix_rank_full_precision": 10,
+      "rank_full_precision_solver_tolerance": 9,
+      "rank_robust_to_rounding": 6,
+      "identified_up_to_scale_if_rank_equals": 9
+    },
+    "homogeneous_two_unknown_D": {
+      "columns": 11,
+      "numpy_matrix_rank_one_decimal": 11,
+      "numpy_matrix_rank_full_precision": 10,
+      "rank_full_precision_solver_tolerance": 10,
+      "rank_robust_to_rounding": 6,
+      "identified_up_to_scale_if_rank_equals": 10
+    }
+  },
+  "dm_fraction_identifiability": {
+    "equation": "Every released vector satisfies the structural planned-DM equality SH-DM-PLAN exactly (to solver tolerance): sum_i q_i * d_hat_i = D_case, where d_hat_i are the decision-time ingredient DM fractions and D_case the planned DM supply.",
+    "rule": "If D_case is known, each vector gives one linear equation in the unknown d_hat. d_hat of the ingredients that appear is uniquely identified only when the q matrix restricted to those ingredients has full column rank, i.e. at least as many linearly independent vectors as ingredients used: 8 for R0/A and 9 for B/C when every ingredient appears. With D_case unknown, the homogeneous system [Q, -1][d_hat; D]=0 identifies d_hat only up to scale (ratios d_hat_i/D) when rank([Q,-1]) = n_used; one externally known d_hat_i (e.g. a mineral near 1.0) would then fix the scale.",
+    "rounding_caveat": "The one-decimal matrix does not satisfy the equality exactly, so even at full column rank only an approximate (least-squares) d_hat is recoverable; its accuracy is governed by the rounding perturbation and the conditioning of Q. numpy_matrix_rank on rounded data can overstate information (rounding breaks exact linear dependence, e.g. of physical blends), hence rank_robust_to_rounding is also reported.",
+    "conclusion_per_case": {
+      "R0": "rank(one-decimal)=3, rank(full)=3, robust rank=2 vs 8 ingredients (7 nonzero): rank below number of used ingredients -> d_hat not uniquely identifiable from these vectors alone",
+      "A": "rank(one-decimal)=4, rank(full)=4, robust rank=4 vs 8 ingredients (8 nonzero): rank below number of used ingredients -> d_hat not uniquely identifiable from these vectors alone",
+      "B": "rank(one-decimal)=3, rank(full)=3, robust rank=2 vs 9 ingredients (8 nonzero): rank below number of used ingredients -> d_hat not uniquely identifiable from these vectors alone",
+      "C": "rank(one-decimal)=6, rank(full)=6, robust rank=4 vs 9 ingredients (8 nonzero): rank below number of used ingredients -> d_hat not uniquely identifiable from these vectors alone"
+    },
+    "conclusion_pooled": "Per case, no released set reaches full column rank among the ingredients it uses, so d_hat is not identified case by case. Stacked across all four cases (36 vectors, 16 distinct), the full-precision matrix has full column rank 9 and the homogeneous system with two unknown planned-DM values has a one-dimensional null space at solver tolerance, i.e. the vectors are numerically consistent with one d_hat common to all cases. At full precision they would therefore identify d_hat up to scale without D, and exactly once D_case is known. Planned DM itself is not released, but it is reconstructable from retained rows of derived_requirements_released.csv (see identifiability_interval_check.json). After one-decimal rounding only 6 of the 9 directions exceed the worst-case rounding perturbation, so exact recovery is not possible, but approximate or interval recovery under plausibility bounds (the LP-interval check of README_S21_DECISION.md section 4, route 1) is reported in identifiability_interval_check.json.",
+    "lp_interval_conclusion": "An LP-interval check bracketed every ingredient DM fraction implied by the 16 distinct one-decimal fixed rations. It allowed each fraction to lie anywhere between 0.05 and 1, treated planned DM supply as unknown between 20 and 35 kg/d with only the public relations (A equals C, R0 equals B, and A is 1.10 times R0), and allowed each released ration a worst-case one-decimal rounding error. No ingredient's DM fraction is bracketed more tightly than 2 percentage points: the intervals range from about 42 percentage points wide (corn silage) to the full 95-point prior range, and canola meal and both minerals are not constrained at all beyond that prior range. Even if planned DM were known almost exactly (it can be reconstructed to within about 0.2 kg/d from the retained calcium and phosphorus rows), the narrowest interval would still be about 25 points wide. Releasing these one-decimal fixed rations therefore does not reveal any ingredient DM fraction to within 2 percentage points through the planned-DM equality, so the smaller A/C Q0 and Q2 release set is not needed for this purpose; other inference routes and any further released rations are outside this check."
+  },
+  "sources": [
+    {
+      "case": "A",
+      "replicate": 0,
+      "file": "work/revision_round3_20261002/ablation_formal/dev_case_v3a/SD-H0/C0/root0/restricted/frozen_policies.json",
+      "sha256": "2e38b6491c5b9b49d547a7bfdfaf65e167fa9803c90c5cf96fbe0a4c424b12b5",
+      "size_bytes": 226979,
+      "field": "q[baselines[Qk]] for k=0..4 (policy Qk_static)"
+    },
+    {
+      "case": "A",
+      "replicate": 1,
+      "file": "work/revision_round3_20261002/ablation_formal/dev_case_v3a/SD-H0/C0/root1/restricted/frozen_policies.json",
+      "sha256": "3e8dece06504a134ef5b1e0f63a95e2069f7893d70f15b7837b96c40047928ed",
+      "size_bytes": 225091,
+      "field": "q[baselines[Qk]] for k=0..4 (policy Qk_static)"
+    },
+    {
+      "case": "A",
+      "replicate": 2,
+      "file": "work/revision_round3_20261002/ablation_formal/dev_case_v3a/SD-H0/C0/root2/restricted/frozen_policies.json",
+      "sha256": "61de14609b8b45ed93a77fe48845f0c62db2bca562722c877426f69cf96c64cd",
+      "size_bytes": 223846,
+      "field": "q[baselines[Qk]] for k=0..4 (policy Qk_static)"
+    },
+    {
+      "case": "C",
+      "replicate": 0,
+      "file": "work/revision_round3_20261002/ablation_formal/dev_case_v3c/SD-H0/C0/root0/restricted/frozen_policies.json",
+      "sha256": "1c46290eeb397c1cf5da2a2dd06e76be4d85939bdf3b0ce39e520355ea363b76",
+      "size_bytes": 357640,
+      "field": "q[baselines[Qk]] for k=0..4 (policy Qk_static)"
+    },
+    {
+      "case": "C",
+      "replicate": 1,
+      "file": "work/revision_round3_20261002/ablation_formal/dev_case_v3c/SD-H0/C0/root1/restricted/frozen_policies.json",
+      "sha256": "faeb0065797c45a85fa5bf022bfef408fc8fcb404184621e19d2db505f02b609",
+      "size_bytes": 359684,
+      "field": "q[baselines[Qk]] for k=0..4 (policy Qk_static)"
+    },
+    {
+      "case": "C",
+      "replicate": 2,
+      "file": "work/revision_round3_20261002/ablation_formal/dev_case_v3c/SD-H0/C0/root2/restricted/frozen_policies.json",
+      "sha256": "3e133a2270ba59f820047e3c454be1cbddb4900d10fc32fd90679c419d1f5681",
+      "size_bytes": 355951,
+      "field": "q[baselines[Qk]] for k=0..4 (policy Qk_static)"
+    },
+    {
+      "case": "R0",
+      "replicate": 0,
+      "file": "work/revision_round3_20261002/continuous_formal/dev_case_v1/SD-H0/C0/trainroot0/restricted/frozen_repair_policies.json",
+      "sha256": "93c57003331222bee7f3b572437db7f603d6e6282e312db2cae60e2eebca4e75",
+      "size_bytes": 13857,
+      "field": "parent.new_q[parent.new_static] (policy new_trainingbest_static)"
+    },
+    {
+      "case": "R0",
+      "replicate": 1,
+      "file": "work/revision_round3_20261002/continuous_formal/dev_case_v1/SD-H0/C0/trainroot1/restricted/frozen_repair_policies.json",
+      "sha256": "014ff7479cb2656ffee087599eb4db146668a2205ef1cc37481ff3649e5cebb2",
+      "size_bytes": 13735,
+      "field": "parent.new_q[parent.new_static] (policy new_trainingbest_static)"
+    },
+    {
+      "case": "R0",
+      "replicate": 2,
+      "file": "work/revision_round3_20261002/continuous_formal/dev_case_v1/SD-H0/C0/trainroot2/restricted/frozen_repair_policies.json",
+      "sha256": "3800ae39502424253e415e410afca0e378fd77c8110f84773460710cc62277ed",
+      "size_bytes": 15211,
+      "field": "parent.new_q[parent.new_static] (policy new_trainingbest_static)"
+    },
+    {
+      "case": "B",
+      "replicate": 0,
+      "file": "work/revision_round3_20261002/continuous_formal/dev_case_v3b/SD-H0/C0/trainroot0/restricted/frozen_repair_policies.json",
+      "sha256": "1ed6cffe6bd3a56a5da8a1e729e6915cee53b187155722b7cc2aa031a95303cf",
+      "size_bytes": 13702,
+      "field": "parent.new_q[parent.new_static] (policy new_trainingbest_static)"
+    },
+    {
+      "case": "B",
+      "replicate": 1,
+      "file": "work/revision_round3_20261002/continuous_formal/dev_case_v3b/SD-H0/C0/trainroot1/restricted/frozen_repair_policies.json",
+      "sha256": "34ecc54392fcba8d0b506d2b5fbbc79f44b12847a6636c01514018eb0f8e2946",
+      "size_bytes": 13742,
+      "field": "parent.new_q[parent.new_static] (policy new_trainingbest_static)"
+    },
+    {
+      "case": "B",
+      "replicate": 2,
+      "file": "work/revision_round3_20261002/continuous_formal/dev_case_v3b/SD-H0/C0/trainroot2/restricted/frozen_repair_policies.json",
+      "sha256": "afa3124c47565871748729fae16122606b884a6fabfbafd812b6444f0d07f94f",
+      "size_bytes": 13692,
+      "field": "parent.new_q[parent.new_static] (policy new_trainingbest_static)"
+    }
+  ],
+  "sources_path_root": "paths in sources are relative to the study workspace root (2026-10-01/jie/)",
+  "identifiability_interval_check_file": "identifiability_interval_check.json"
+}

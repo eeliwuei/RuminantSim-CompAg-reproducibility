@@ -21,6 +21,8 @@ ingredient is hidden from every selection rule and enters only the evaluation.
 | Readback scripts that produced the aggregate tables from the saved test cells of the later protocols | `extensions/readback_from_saved_cells/` | yes (the controlled study archive) |
 | Saved-state readers for the shortage reanalysis and the fixed-action coefficient sensitivity | `extensions/saved_state_readers/` | yes (the controlled study archive) |
 | SHA-256 digests of the six frozen protocols of the later experiments | `extensions/protocols/PROTOCOL_SHA256.txt` | — |
+| Observed-composition LP re-solve control (exploratory, development streams) | `experiments/E4_resolve_lp_control/`, results in `data/aggregate_results/resolve_lp_control/` | yes to rerun (the reference problem); results provided |
+| Released as-fed rations of every fixed rule (one decimal) and equation-derived requirement amounts, with the identifiability check | `data/aggregate_results/released_rations_and_requirements/` | no |
 
 ## Layout
 
@@ -33,6 +35,8 @@ configs/                     study configuration (restricted numbers are null + 
 data/aggregate_results/      the aggregate tables behind every number in the article
    supplementary_tables/     Supplementary Data tables (S6–S15, R6_* families, v3/ per-case per-root tables)
    derived_tables/           shortage, denominator and coefficient-sensitivity tables (R7_*)
+   released_rations_and_requirements/  fixed-rule rations, derived requirement amounts, identifiability check
+   resolve_lp_control/       results of the observed-composition LP re-solve control
 data/synthetic_test_only/    invented data for the software demo
 docs/                        reference problem, uncertainty layers, decision timing and units, engine API
 extensions/                  analysis, figures, readback and saved-state scripts of the later protocols

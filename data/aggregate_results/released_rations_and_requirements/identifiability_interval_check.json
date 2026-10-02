@@ -1,0 +1,126 @@
+{
+  "file": "identifiability_interval_check.json",
+  "purpose": "Bracket each ingredient decision-time DM fraction d_i implied by the released one-decimal fixed rations through the structural planned-DM equality sum_i q_i d_i = D_case. Only interval widths are stored; no bounds or point values.",
+  "inputs": {
+    "rations": "fixed_rations_released.csv (one-decimal q, kg as-fed/head/d)",
+    "requirements_for_sensitivity": "derived_requirements_released.csv (11 retained rows)"
+  },
+  "formulation": {
+    "unknowns": "d_i for the 9 ingredients on the B/C axis; planned DM supply D_case, one per case",
+    "bounds": "d_i in [0.05, 1]; D_case in [20, 35] kg DM/d",
+    "public_equalities": "D_A = D_C, D_R0 = D_B, D_A = 1.10 * D_R0 (single scale variable D_R0; the [20, 35] box applies to every case present, so D_R0 in [20, 35/1.1] when A or C is included)",
+    "constraints": "for every released distinct vector v of case c: |sum_i qtilde_vi d_i - D_c| <= 0.05 * sum_{i in inventory of c} d_i (worst-case one-decimal rounding; for R0/A the cottonseed term is absent)",
+    "solver": "scipy.optimize.linprog, method highs; minimise and maximise each d_i; all LPs feasible (status 0)",
+    "width": "(max d_i - min d_i) x 100, in DM percentage points; 95.0 = the full prior box, i.e. not constrained beyond the prior bounds"
+  },
+  "variants": {
+    "all_released_D_unknown": {
+      "description": "Primary check as specified: all 16 distinct one-decimal vectors of fixed_rations_released.csv (R0 3, A 4, B 3, C 6); planned DM unknown.",
+      "n_distinct_vectors": 16,
+      "n_inequalities": 32,
+      "cases": [
+        "A",
+        "B",
+        "C",
+        "R0"
+      ],
+      "width_pp": {
+        "corn_silage_typical": 42.19,
+        "legume_hay_mid": 59.67,
+        "corn_grain_dry_ground_medium": 75.74,
+        "soybean_meal_solvent_48cp": 56.75,
+        "canola_meal_solvent": 95.0,
+        "soybean_hulls": 53.79,
+        "limestone_ground": 95.0,
+        "dicalcium_phosphate": 95.0,
+        "cottonseed_whole_linted": 65.04
+      },
+      "narrowest_width_pp": 42.19
+    },
+    "AC_Q0Q2_D_unknown": {
+      "description": "Smaller release set: only the A and C fixed rations of Q0 and Q2 (6 + 6 released rows; 8 distinct vectors); one unknown planned DM (D_A = D_C).",
+      "n_distinct_vectors": 8,
+      "n_inequalities": 16,
+      "cases": [
+        "A",
+        "C"
+      ],
+      "width_pp": {
+        "corn_silage_typical": 47.22,
+        "legume_hay_mid": 68.24,
+        "corn_grain_dry_ground_medium": 95.0,
+        "soybean_meal_solvent_48cp": 95.0,
+        "canola_meal_solvent": 95.0,
+        "soybean_hulls": 69.33,
+        "limestone_ground": 95.0,
+        "dicalcium_phosphate": 95.0,
+        "cottonseed_whole_linted": 93.0
+      },
+      "narrowest_width_pp": 47.22
+    },
+    "all_released_D_from_retained_requirement_rows": {
+      "description": "Sensitivity: as the primary check, but D restricted to the interval implied by the retained requirement rows (see planned_DM_reconstructable_from_retained_rows).",
+      "n_distinct_vectors": 16,
+      "n_inequalities": 32,
+      "cases": [
+        "A",
+        "B",
+        "C",
+        "R0"
+      ],
+      "width_pp": {
+        "corn_silage_typical": 24.61,
+        "legume_hay_mid": 24.87,
+        "corn_grain_dry_ground_medium": 62.07,
+        "soybean_meal_solvent_48cp": 39.47,
+        "canola_meal_solvent": 95.0,
+        "soybean_hulls": 28.38,
+        "limestone_ground": 95.0,
+        "dicalcium_phosphate": 95.0,
+        "cottonseed_whole_linted": 40.29
+      },
+      "narrowest_width_pp": 24.61
+    },
+    "AC_Q0Q2_D_from_retained_requirement_rows": {
+      "description": "Sensitivity: smaller release set with D restricted as above.",
+      "n_distinct_vectors": 8,
+      "n_inequalities": 16,
+      "cases": [
+        "A",
+        "C"
+      ],
+      "width_pp": {
+        "corn_silage_typical": 25.7,
+        "legume_hay_mid": 26.28,
+        "corn_grain_dry_ground_medium": 82.86,
+        "soybean_meal_solvent_48cp": 95.0,
+        "canola_meal_solvent": 95.0,
+        "soybean_hulls": 28.82,
+        "limestone_ground": 95.0,
+        "dicalcium_phosphate": 95.0,
+        "cottonseed_whole_linted": 50.72
+      },
+      "narrowest_width_pp": 25.7
+    }
+  },
+  "planned_DM_reconstructable_from_retained_rows": {
+    "finding": "The retained rows still determine planned DM: |absorbed requirement - actual-D row bound| / row DM coefficient equals D_case for both Ca and P (row-bound sign convention handled by the absolute value). With +/-0.05 g/d rounding on the two released g/d rows and the released coefficient taken as exact, the implied interval is narrow and contains the restricted source value in every case.",
+    "per_case_interval_width_kg": {
+      "R0": 0.133,
+      "A": 0.167,
+      "B": 0.133,
+      "C": 0.167
+    },
+    "pooled_interval_width_kg_for_D_R0": 0.133,
+    "restricted_source_value_inside_interval": {
+      "R0": true,
+      "A": true,
+      "B": true,
+      "C": true
+    },
+    "midpoint_reconstruction_abs_error_kg_max": 0.033,
+    "implication": "Removing planned_dm_supply_kg_d and dmi_eq2_1_kg_d_build_report does not withhold planned DM; withholding it would also require dropping, for both Ca and P, the absorbed requirement, the actual-D row bound or the row DM coefficient. The NEL linear intercept C0 also depends on planned DM; whether it is invertible was not checked."
+  },
+  "any_ingredient_width_below_2pp": false,
+  "scope_limits": "Only the planned-DM-equality route is assessed. Other routes, e.g. relative cost premiums combined with public prices (README_S21_DECISION.md section 4, route 5), and any additional released rations (e.g. S21 draft tables) are not included; adding them requires rerunning this check."
+}

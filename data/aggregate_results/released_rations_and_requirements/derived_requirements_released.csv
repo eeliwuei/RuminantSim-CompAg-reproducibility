@@ -1,0 +1,12 @@
+quantity,provenance_class,provenance,R0,A,B,C
+nel_requirement_mcal_d,equation-derived,"NASEM Ch. 3 requirement chain (maintenance, activity, lactation, gestation, frame gain, reserves) with Table 21-1 inputs; energy_linearisation.json requirement.total",47.24,47.24,47.24,47.24
+nel_requirement_mj_d,equation-derived,"as above, x4.184",197.63,197.63,197.63,197.63
+nel_reference_chain_requirement_mj_d,equation-derived,EnergyReferenceSpec.requirement = linear-row bound + C0 (identical to the requirement by construction; checked),197.63,197.63,197.63,197.63
+nel_linear_intercept_C0_mj_d,equation-derived,constant of the fixed-DMI linearisation at the planned DMI (Ch. 3 Eq. 3-5a/3-9/3-10a terms); arms A/C re-linearised,9.62,9.62,9.62,9.62
+nel_linear_row_bound_mj_d,equation-derived,PN-NEL-FIXEDDMI bound = requirement - C0,188.01,188.01,188.01,188.01
+ca_absorbed_requirement_g_d,equation-derived,"NASEM Ch. 7 absorbed-Ca requirement (maintenance faecal + lactation + growth + gestation) with Table 21-1 inputs, maintenance at planned DMI",73.5,75.9,73.5,75.9
+ca_row_bound_actualD_g_d,equation-derived,row bound on actual-D basis: maintenance faecal Ca moved to the supply side on realised DM (row DM coefficient),49.4,49.4,49.4,49.4
+ca_row_dm_coefficient_g_per_kg_dm,equation constant,NASEM Ch. 7 maintenance faecal Ca per kg DM (supply-side DM term of PN-CA-ABS),-0.9,-0.9,-0.9,-0.9
+p_absorbed_requirement_g_d,equation-derived,"NASEM Ch. 7 absorbed-P requirement (urinary + maintenance faecal + lactation + growth + gestation) with Table 21-1 inputs, maintenance at planned DMI",68.0,70.7,68.0,70.7
+p_row_bound_actualD_g_d,equation-derived,row bound on actual-D basis: maintenance faecal P moved to the supply side on realised DM,41.3,41.3,41.3,41.3
+p_row_dm_coefficient_g_per_kg_dm,equation constant,NASEM Ch. 7 maintenance faecal P per kg DM (supply-side DM term of PN-P-ABS),-1.0,-1.0,-1.0,-1.0

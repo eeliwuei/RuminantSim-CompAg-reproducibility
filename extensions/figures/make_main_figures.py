@@ -60,11 +60,11 @@ def fig_decision_structure(out: Path) -> dict:
     ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.axis("off")
     blue, green, ink, grey = "#21576B", "#376849", "#1F3039", "#707C82"
 
-    def box(x, y, w, h, title, body, edge=blue, fill="#F1F5F6"):
+    def box(x, y, w, h, title, body, edge=blue, fill="#F1F5F6", body_size=8.5):
         ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.007,rounding_size=0.012",
                                     linewidth=1.4, edgecolor=edge, facecolor=fill))
-        ax.text(x + w / 2, y + h - 0.018, title, ha="center", va="top", fontsize=9.2, fontweight="bold", color=edge)
-        ax.text(x + w / 2, y + h - 0.052, body, ha="center", va="top", fontsize=8.5, color=ink, linespacing=1.23)
+        ax.text(x + w / 2, y + h - 0.018, title, ha="center", va="top", fontsize=9.0 if len(title) < 30 else 8.4, fontweight="bold", color=edge)
+        ax.text(x + w / 2, y + h - 0.052, body, ha="center", va="top", fontsize=body_size, color=ink, linespacing=1.23)
 
     def arrow(x1, y1, x2, y2, color=blue, style="-"):
         ax.add_patch(FancyArrowPatch((x1, y1), (x2, y2), arrowstyle="-|>", mutation_scale=10,
@@ -82,8 +82,8 @@ def fig_decision_structure(out: Path) -> dict:
     box(0.045, 0.56, 0.91, 0.088, "Test state from the declared model",
         "Nutrient concentrations θ and actual ingredient DM d", edge=grey)
     arrow(0.5, 0.674, 0.5, 0.655, green)
-    box(0.045, 0.39, 0.41, 0.12, "Fixed choice from Q", "No nutrient observation\nFeed the frozen fixed ration")
-    box(0.545, 0.39, 0.41, 0.12, "Nutrient-informed choice from Q", "Ideal non-DM nutrients observed\nFrozen score; DM hidden")
+    box(0.045, 0.39, 0.41, 0.12, "Fixed choice from Q", "No nutrient observation\nFeed the frozen fixed ration", body_size=7.6)
+    box(0.545, 0.39, 0.41, 0.12, "Nutrient-informed choice", "Observe non-DM nutrients\nChoose from Q by the frozen score", body_size=7.6)
     arrow(0.25, 0.552, 0.25, 0.518); arrow(0.75, 0.552, 0.75, 0.518)
     box(0.045, 0.257, 0.41, 0.082, "Fixed as-fed ration", "Same q in every test state")
     box(0.545, 0.257, 0.41, 0.082, "Selected as-fed ration", "One ration q(θ) from Q")
@@ -92,11 +92,10 @@ def fig_decision_structure(out: Path) -> dict:
         "Chosen q with realised nutrients and DM; original domain\nFailure = known violation or unresolved verdict", edge=grey)
     arrow(0.25, 0.249, 0.25, 0.223); arrow(0.75, 0.249, 0.75, 0.223)
     arrow(0.5, 0.552, 0.5, 0.223, grey, (0, (3, 3)))
-    ax.text(0.5, 0.388, "Actual DM: evaluator only", ha="center", va="center", rotation=90, fontsize=8.5, color=grey,
-            bbox={"facecolor": "white", "edgecolor": "none", "pad": 0.7})
+    ax.text(0.478, 0.39, "Actual DM: evaluator only", ha="center", va="center", rotation=90, fontsize=7.5, color=grey)
     box(0.045, 0.012, 0.91, 0.079, "Report per case, dependence structure and training replicate",
         "Failure rates; paired comparisons; descriptive costs", edge=grey, fill="#FAFBFB")
-    arrow(0.5, 0.107, 0.5, 0.098, grey)
+    arrow(0.5, 0.113, 0.5, 0.093, grey)
     return {"name": "Fig1_decision_structure", "records": [], **save(fig, out, "Fig1_decision_structure")}
 
 
@@ -229,9 +228,9 @@ def fig_failure_vs_shortage(data: Path, out: Path) -> dict:
         ("b  Full pool: measurement", "measurement_formal", [("Q2_ideal_delta", "Q3_ideal_delta", "o", "Ideal"),
                                                             ("Q2_postUA_0p1", "Q3_postUA_0p1", "s", "Noise 0.1"),
                                                             ("Q2_postUA_0p5", "Q3_postUA_0p5", "^", "Noise 0.5")]),
-        ("c  Uncertainty-aware score: noise 0.1", "measurement_formal", [("Q3_postUA_0p1", "Q3_raw_noise_0p1", "o", "UA − raw"),
+        ("c  UA score, noise 0.1", "measurement_formal", [("Q3_postUA_0p1", "Q3_raw_noise_0p1", "o", "UA − raw"),
                                                                        ("Q3_postUA_0p1", "Q3_postmean_0p1", "s", "UA − mean")]),
-        ("d  Uncertainty-aware score: noise 0.5", "measurement_formal", [("Q3_postUA_0p5", "Q3_raw_noise_0p5", "o", "UA − raw"),
+        ("d  UA score, noise 0.5", "measurement_formal", [("Q3_postUA_0p5", "Q3_raw_noise_0p5", "o", "UA − raw"),
                                                                        ("Q3_postUA_0p5", "Q3_postmean_0p5", "s", "UA − mean")]),
     ]
     plt.rcParams.update({"font.size": 8.5, "axes.labelsize": 8.5, "axes.titlesize": 8.5, "xtick.labelsize": 8, "ytick.labelsize": 8,
@@ -242,15 +241,15 @@ def fig_failure_vs_shortage(data: Path, out: Path) -> dict:
         for pol, comp, marker, lab in groups:
             for z in [z for z in a if z["family"] == fam and z["policy"] == pol and z["comparator"] == comp]:
                 kp = key(z); kc = kp[:-1] + (comp,)
-                x = 100 * (risk[kp] - risk[kc]); y = 100 * float(z["normalized_top_ceil5pct_mean_delta"])
+                x = 100 * (risk[kp] - risk[kc]); y = 100 * float(z["normalized_mean_delta"])
                 ax.scatter(x, y, s=27, c=colors[z["case"]], marker=marker, linewidths=1.0, edgecolors="white", alpha=0.9, zorder=3)
                 points.append({**{k: z[k] for k in ["family", "case", "scenario", "training_rep_id", "policy", "comparator"]},
-                               "risk_difference_percentage_points": x, "NEL_tail_difference_percent_of_target": y, "panel": title[0]})
+                               "risk_difference_percentage_points": x, "NEL_mean_shortage_difference_percent_of_target": y, "panel": title[0]})
         ax.axhline(0, color="#555555", lw=1); ax.axvline(0, color="#777777", lw=1)
         ax.set_title(title, loc="left", pad=8)
         ax.set_xlabel("Joint failure difference (pp)", labelpad=5)
         ax.xaxis.set_major_locator(MaxNLocator(nbins=4))
-        ax.set_ylabel("NEL top-5% mean shortage difference\n(% of target)", labelpad=2)
+        ax.set_ylabel("Mean NEL shortage difference\n(% of target, all defined states)", labelpad=2)
         ax.grid(color="#DDDDDD", linewidth=1, alpha=0.6); ax.set_axisbelow(True)
         handles = [Line2D([], [], color="#555555", marker=m, ls="", markersize=4.5, label=lab) for _, _, m, lab in groups]
         if title[0] != "a":

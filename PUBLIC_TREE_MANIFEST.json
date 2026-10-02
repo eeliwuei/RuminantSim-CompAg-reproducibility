@@ -892,8 +892,8 @@
   },
   {
    "path": "extensions/figures/make_main_figures.py",
-   "bytes": 18850,
-   "sha256": "5cf1fae774cdc217ca527d2b77e7a8a8a6d1fef086e29282591c65c9745e32cf"
+   "bytes": 18827,
+   "sha256": "6e1a7d50070afe6f2248ce41d60ce56e03bab7d6fc545a81c6dcc3a93d1974a3"
   },
   {
    "path": "extensions/protocols/PROTOCOL_SHA256.txt",
@@ -1083,7 +1083,7 @@
   {
    "path": "paper/figures/Fig1_decision_structure.pdf",
    "bytes": 26033,
-   "sha256": "9fb7ad1887780640797629d33a27dccf83aa5e64e596a2a569056015e0a5be65"
+   "sha256": "d285e3bcbd306d5bbabf08439dc14e21384aa4b20ab6c6351b6bca615b78373c"
   },
   {
    "path": "paper/figures/Fig1_decision_structure.png",
@@ -1093,7 +1093,7 @@
   {
    "path": "paper/figures/Fig2_candidate_pools.pdf",
    "bytes": 31326,
-   "sha256": "c44d478bb5e4addc0bfe9400e0f047e4f9149f3211a729fd4e6b7b952deaf986"
+   "sha256": "273830736a958136f7ee0fa54dbf41ef472edc6ac2cb2eca1b948d8a04f2e4d5"
   },
   {
    "path": "paper/figures/Fig2_candidate_pools.png",
@@ -1102,18 +1102,18 @@
   },
   {
    "path": "paper/figures/Fig3_coverage_measurement.pdf",
-   "bytes": 35926,
-   "sha256": "c64edf3263775fd4f4fc12704099996c10f94ed67192acc284b9131132108ee6"
+   "bytes": 35461,
+   "sha256": "2c6210e27151511386794786d0538465b6e884c659999a4bd7314497f49e116e"
   },
   {
    "path": "paper/figures/Fig3_coverage_measurement.png",
-   "bytes": 161611,
-   "sha256": "640e76ef2e1504e7131fbc5b64dc16202d945bd575d4f8e9283d0cc5317422f3"
+   "bytes": 161189,
+   "sha256": "19049f59928d92c7abed416fcba930c30365277dcffd5156483b92ca0548a9a6"
   },
   {
    "path": "paper/figures/Fig4_failure_vs_shortage.pdf",
    "bytes": 24178,
-   "sha256": "2a26ab9afb20197ad5c55c27c3011b74d6dbaca46a7e78f3d863f86887d78e93"
+   "sha256": "370861ed53b4e8adcce6966d1d19d7eff1059bea44f8d6faf060a85b03204c0d"
   },
   {
    "path": "paper/figures/Fig4_failure_vs_shortage.png",
@@ -1123,7 +1123,7 @@
   {
    "path": "paper/figures/figure_bindings.json",
    "bytes": 46691,
-   "sha256": "3b3d4f2c174ee05fd7d1c68a1fccdf8476b9529ec93ca010b7e2d28fd0503301"
+   "sha256": "69d24814e57626c530850ed257e32348c14c0a6d00fb485af77ce6e2bcd96e77"
   },
   {
    "path": "pytest.ini",

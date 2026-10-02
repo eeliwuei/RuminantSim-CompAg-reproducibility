@@ -181,7 +181,7 @@ def fig_coverage_measurement(data: Path, out: Path) -> dict:
         ax.set_yticks(ys, labels=labels if col == 0 else [""] * len(labels)); ax.set_ylim(5.5, -0.5)
         ax.set_xlim(0, 4 if case == "A" else 2.2)
         ax.axvline(1 if case == "C" else 5, color="#666666", linestyle="--", linewidth=1.25)
-        ax.set_title(f"({chr(97 + col)}) Full versus compressed pool, {case}", loc="left", fontweight="bold", fontsize=9.5, pad=8)
+        ax.set_title(f"({chr(97 + col)}) Pool coverage, {case}", loc="left", fontweight="bold", fontsize=9.5, pad=8)
         ax.set_xlabel("Failure probability (%)")
         for y in [1.5, 3.5]:
             ax.axhline(y, color="#DCDCDC", linewidth=1.1, zorder=0)
@@ -206,7 +206,7 @@ def fig_coverage_measurement(data: Path, out: Path) -> dict:
         ax.set_xlim(0, 12 if case == "A" else 10)
         ax.axvline(5 if case == "A" else 2, color="#666666", linestyle="--", linewidth=1.25)
         ax.set_xlabel("Failure probability (%)")
-        ax.set_title(f"({chr(99 + col)}) Nutrient noise 0.5 SD, {case}", loc="left", fontweight="bold", fontsize=9.5, pad=8)
+        ax.set_title(f"({chr(99 + col)}) Noise 0.5 SD, {case}", loc="left", fontweight="bold", fontsize=9.5, pad=8)
         ax.grid(axis="x", color="#E5E5E5", linewidth=1.1, zorder=0); ax.spines[["top", "right"]].set_visible(False)
     handles = [Line2D([], [], color=c, marker="o", linewidth=1.35, label=f"Replicate {i}", markersize=4.5) for i, c in enumerate(COLORS)]
     fig.legend(handles=handles, ncol=3, loc="lower center", bbox_to_anchor=(0.55, 0.014), frameon=False,

@@ -261,6 +261,16 @@
    "sha256": "665b6dbb94086c5fdddb85f59086402c19f44833bc8e01b52a8040eb385f9122"
   },
   {
+   "path": "data/aggregate_results/released_rations_and_requirements/attribution_cost_ratios_README.md",
+   "bytes": 3122,
+   "sha256": "c7d962fec5cc5f3a876301922c61404904bc09f9270aa5c25148437db2cb9dc6"
+  },
+  {
+   "path": "data/aggregate_results/released_rations_and_requirements/attribution_cost_ratios_to_M0.csv",
+   "bytes": 2846,
+   "sha256": "c1fc2dd0e76d18c0415d2e595a929c81df28a9f272fe0bca1f21891caa4d3b00"
+  },
+  {
    "path": "data/aggregate_results/released_rations_and_requirements/derived_requirements_released.csv",
    "bytes": 1911,
    "sha256": "cef2649ef166297c60575bd257fd71d140e8722780b862779ba2a470ac0581aa"
@@ -282,13 +292,13 @@
   },
   {
    "path": "data/aggregate_results/resolve_lp_control/RESULT_20261003.md",
-   "bytes": 10500,
-   "sha256": "2f19e4fe9bcff55e8a68dd2c3b72a7e1aa141ccc7e04529fbbd3819f64eb0e67"
+   "bytes": 42770,
+   "sha256": "04ff088e3d439de93e8c86df374b352b6e6072b8fa7a6778e1b83ac03d445dc3"
   },
   {
    "path": "data/aggregate_results/resolve_lp_control/results_public.csv",
-   "bytes": 2172,
-   "sha256": "a97c46a9f3eee3130e80e98de9ecc73cd5d68222890db2289e2617bb901a9216"
+   "bytes": 10359,
+   "sha256": "db4a6d737a9a08495096d39c253001881df650afa917e53888bf32406c13644a"
   },
   {
    "path": "data/aggregate_results/supplementary_tables/R6_M0_candidate_normalized_severity.csv",
@@ -897,13 +907,13 @@
   },
   {
    "path": "experiments/E4_resolve_lp_control/README.md",
-   "bytes": 6538,
-   "sha256": "0813a6af50292f6f7585f9cf09108ef7b4ed5e7e7d9881558d52c1a4174ee617"
+   "bytes": 11900,
+   "sha256": "a8f446860a577aaf4e5aab8d954f4c94ec3e07055783fa9751454c281e5727a2"
   },
   {
    "path": "experiments/E4_resolve_lp_control/resolve_lp_control.py",
-   "bytes": 46346,
-   "sha256": "135c0421f581f68bb0eaff05060bfd563a34df433efaa81c6cf1f78dec915927"
+   "bytes": 84393,
+   "sha256": "7c3729bad53a7665c391d09caf3929a4239b2640e1ff609784bf1525a67fb563"
   },
   {
    "path": "extensions/analysis/check_exact_and_algebra.py",
@@ -1821,5 +1831,5 @@
    "sha256": "6cf2f007ab3ccdf2126c6df3f5677734ddf3013a8e41566e72b8a511e83cdcf3"
   }
  ],
- "n_files": 364
+ "n_files": 366
 }

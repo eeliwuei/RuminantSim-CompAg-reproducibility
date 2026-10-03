@@ -89,7 +89,8 @@ from the corresponding author.
 
 ## Citation
 
-See `CITATION.cff`. Until the article appears, cite the repository release.
+See `CITATION.cff`: cite the article (submitted to *Scientific Reports*); to refer to the code and tables
+themselves, cite release v1.0.0 of this repository.
 
 ## Licence
 

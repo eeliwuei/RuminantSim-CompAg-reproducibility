@@ -2,6 +2,10 @@
 
 * `synthetic_test_only/` — invented inputs for the tests and the synthetic demo. They are marked
   `is_synthetic: true`, are rejected by the validator in `pilot` / `official` mode and say nothing about real feeds.
+* `aggregate_results/` — the released tables: counts, rates, bounds, paired outcomes, cost ratios and shortage
+  summaries behind every number in the article, the as-fed rations of every fixed rule (one decimal) and the
+  equation-derived requirement amounts, with an identifiability check (see *Data policy* in the top-level
+  `README.md`).
 * `data_dictionary.md` — fields, units and keys of every holder-side table the code reads.
 * `restricted_local/` — **not distributed.** The code expects the licensed inputs here (NASEM 2021 Table 19-1/19-3
   transcriptions, the NASEM feed-library extract, Table 5-1 / Table 21-3 values, build constants and the build

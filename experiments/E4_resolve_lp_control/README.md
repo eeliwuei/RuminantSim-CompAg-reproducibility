@@ -11,8 +11,8 @@ How reliable would a policy be that could see the realised composition of every 
 formulating, but still formulated by the nominal least-cost LP (no safety margin, no chance constraint)? The
 control separates "the nominal LP lacks information" from "the nominal LP sits on its constraint boundaries".
 
-A reviewer called the zero-margin re-solve a straw man. The `--dm-margin KAPPA` option answers with a fair version:
-the same LP re-solved at the observed composition, with a safety margin against the DM fractions, which stay hidden.
+The zero-margin re-solve carries no protection against the DM fractions, which stay hidden. The `--dm-margin KAPPA`
+option re-solves the same LP at the observed composition with a safety margin against them.
 The margin is the original study's M1 coefficient-shift margin with its DM margin switched on (see "DM-margin
 re-solves" below). KAPPA = 0, the default, is the zero-margin policy, unchanged.
 

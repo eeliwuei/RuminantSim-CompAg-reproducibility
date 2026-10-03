@@ -45,7 +45,8 @@ PUBLIC_TREE_MANIFEST.json    sha256 of every file of this tree
 ```
 
 Most specification documents and configuration comments are written in Chinese; code, identifiers, data
-tables and this README are in English.
+tables and this README are in English. `docs/OVERVIEW_EN.md` gives an English overview of the specification
+documents with a glossary.
 
 ## Quick start
 
@@ -69,14 +70,22 @@ plotted value.
 
 The numerical inputs taken from NASEM (2021) *Nutrient Requirements of Dairy Cattle* (8th rev. ed.,
 doi:10.17226/25806) are not redistributed, nor are journal table values whose redistribution licence is
-undecided, the frozen ration vectors (from which those values could be recovered), fitted composition
-models, saved simulation states or random-stream seeds. Configuration files therefore carry `null` plus a
-`value_ref` pointer where a restricted number belongs. The engine, the tests and the synthetic demo run
+undecided, the fitted composition models, the saved simulation states, the per-state choices of the
+nutrient-informed rules or the reserved random-stream seeds. Configuration files therefore carry `null` plus
+a `value_ref` pointer where a restricted number belongs. The engine, the tests and the synthetic demo run
 without them; the reference problem itself runs only after the inputs have been rebuilt from a licensed copy
-(`docs/` and `data/README.md`). The aggregate tables contain counts, rates, bounds, paired outcomes and
-normalised shortage summaries only. Readback and saved-state scripts are provided for provenance and run
-only against the controlled study archive, which is available to editors and reviewers from the
-corresponding author.
+(`docs/` and `data/README.md`).
+
+What is released: the aggregate tables (counts, rates, bounds, paired outcomes, cost ratios and normalised
+shortage summaries), the as-fed rations of every fixed rule (36 vectors, one decimal) and the requirement
+amounts that the evaluator computes from the NASEM equations for the reference cow
+(`data/aggregate_results/released_rations_and_requirements/`). An identifiability check in the same folder
+shows that the released rations do not allow any source composition value to be recovered: every ingredient
+dry-matter fraction stays free within an interval wider than 24 percentage points. The full-precision
+ration vectors of the complete candidate pools are not released, because a large set of rations together
+with the planned supply would constrain those fractions. Readback and saved-state scripts are provided for
+provenance and run only against the controlled study archive, which is available to editors and reviewers
+from the corresponding author.
 
 ## Citation
 
